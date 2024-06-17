@@ -1,4 +1,4 @@
-
+<?php
 // Aggiungere una pagina delle impostazioni per selezionare il caricamento degli script
 function ri_wth_add_settings_page() {
     add_options_page(

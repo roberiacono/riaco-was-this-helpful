@@ -1,0 +1,25 @@
+<?php 
+// Aggiungere la colonna nella schermata admin dei post
+function ri_wth_add_feedback_column($columns) {
+    $columns['helpful_feedback'] = __('Was this helpful?', 'ri-wth-feedback');
+    return $columns;
+}
+add_filter('manage_posts_columns', 'ri_wth_add_feedback_column');
+
+function ri_wth_display_feedback_column($column, $post_id) {
+    if ($column == 'helpful_feedback') {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'helpful_feedback';
+
+        $total_feedback = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE post_id = %d", $post_id));
+        $positive_feedback = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE post_id = %d AND helpful = 1", $post_id));
+
+        if ($total_feedback > 0) {
+            $percentage = ($positive_feedback / $total_feedback) * 100;
+            echo round($percentage, 2) . '% ' . __('positive', 'ri-wth-feedback') . ' ('. $positive_feedback .'/' . $total_feedback . ')';
+        } else {
+            echo __('No feedback yet', 'ri-wth-feedback');
+        }
+    }
+}
+add_action('manage_posts_custom_column', 'ri_wth_display_feedback_column', 10, 2);

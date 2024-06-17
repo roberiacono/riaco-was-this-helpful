@@ -1,5 +1,5 @@
 === Helpful Feedback ===
-Contributors: yourusername
+Contributors: prototipo88
 Tags: feedback, user interaction, comments
 Requires at least: 5.0
 Tested up to: 6.2
