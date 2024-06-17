@@ -7,7 +7,7 @@
 .ri-wth-helpful-feedback button {
   background-color: transparent;
   border-radius: 0.25rem;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 .ri-wth-thank-you {
@@ -19,9 +19,15 @@ button {
 .flex {
   display: flex;
 }
+.gap-2 {
+  gap: 0.5rem;
+}
 .gap-4 {
   gap: 1rem;
 }
 .items-center {
   align-items: center;
+}
+.justify-center {
+  justify-content: center;
 }

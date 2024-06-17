@@ -2,8 +2,8 @@
 // Aggiungere una pagina delle impostazioni per selezionare il caricamento degli script
 function ri_wth_add_settings_page() {
     add_options_page(
-        __('Helpful Feedback Settings', 'ri-wth-feedback'),
-        __('Helpful Feedback', 'ri-wth-feedback'),
+        __('Helpful Feedback Settings', 'ri-was-this-helpful'),
+        __('Helpful Feedback', 'ri-was-this-helpful'),
         'manage_options',
         'ri-wth-settings',
         'ri_wth_render_settings_page'
@@ -14,7 +14,7 @@ add_action('admin_menu', 'ri_wth_add_settings_page');
 function ri_wth_render_settings_page() {
     ?>
     <div class="wrap">
-        <h1><?php _e('Helpful Feedback Settings', 'ri-wth-feedback'); ?></h1>
+        <h1><?php _e('Helpful Feedback Settings', 'ri-was-this-helpful'); ?></h1>
         <form method="post" action="options.php">
             <?php
             settings_fields('ri-wth-settings-group');
@@ -32,14 +32,14 @@ function ri_wth_register_settings() {
 
     add_settings_section(
         'ri-wth-settings-section',
-        __('Load Settings', 'ri-wth-feedback'),
+        __('Load Settings', 'ri-was-this-helpful'),
         'ri_wth_settings_section_callback',
         'ri-wth-settings'
     );
 
     add_settings_field(
         'ri_wth_load_styles',
-        __('Load Styles', 'ri-wth-feedback'),
+        __('Load Styles', 'ri-was-this-helpful'),
         'ri_wth_load_styles_callback',
         'ri-wth-settings',
         'ri-wth-settings-section'
@@ -47,7 +47,7 @@ function ri_wth_register_settings() {
 
     add_settings_field(
         'ri_wth_load_scripts',
-        __('Load Scripts', 'ri-wth-feedback'),
+        __('Load Scripts', 'ri-was-this-helpful'),
         'ri_wth_load_scripts_callback',
         'ri-wth-settings',
         'ri-wth-settings-section'
@@ -56,7 +56,7 @@ function ri_wth_register_settings() {
 add_action('admin_init', 'ri_wth_register_settings');
 
 function ri_wth_settings_section_callback() {
-    echo __('Select whether to load the plugin styles and scripts.', 'ri-wth-feedback');
+    echo __('Select whether to load the plugin styles and scripts.', 'ri-was-this-helpful');
 }
 
 function ri_wth_load_styles_callback() {

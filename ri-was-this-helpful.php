@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: Helpful Feedback
+Plugin Name: Was This Helpful
 Description: Adds a "Was this helpful?" box at the end of posts with thumb-up/thumb-down buttons for feedback.
 Version: 1.2.1
 Author: Roberto Iacono
-Text Domain: ri-wth-feedback
+Text Domain: ri-was-this-helpful
 Domain Path: /languages
 */
 
@@ -16,9 +16,10 @@ require_once plugin_dir_path(__FILE__) . 'includes/admin-columns.php';
 require_once plugin_dir_path(__FILE__) . 'includes/wth-box.php';
 require_once plugin_dir_path(__FILE__) . 'includes/ajax-functions.php';
 
+
 // Caricamento dei file di localizzazione
 function ri_wth_load_textdomain() {
-    load_plugin_textdomain( 'ri-wth-feedback', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+    load_plugin_textdomain( 'ri-was-this-helpful', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 }
 add_action( 'plugins_loaded', 'ri_wth_load_textdomain' );
 
@@ -26,7 +27,7 @@ add_action( 'plugins_loaded', 'ri_wth_load_textdomain' );
 // Creare la tabella nel database per salvare i feedback
 function ri_wth_create_feedback_table() {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'helpful_feedback';
+    $table_name = $wpdb->prefix . 'ri_helpful_feedback';
     $charset_collate = $wpdb->get_charset_collate();
 
     $sql = "CREATE TABLE $table_name (
@@ -60,8 +61,8 @@ function ri_wth_enqueue_scripts() {
     wp_enqueue_script('ri-wth-script', plugin_dir_url(__FILE__) . 'js/ri-wth-script.js', array(), false, true);
     wp_localize_script('ri-wth-script', 'ri_wth_scripts', array(
         'ajax_url' => admin_url('admin-ajax.php'),
-        'thank_you' => __('Thank you for your feedback!', 'ri-wth-feedback'),
-        'submitting' => __('Submitting...', 'ri-wth-feedback')
+        'thank_you' => __('Thank you for your feedback!', 'ri-was-this-helpful'),
+        'submitting' => __('Submitting...', 'ri-was-this-helpful')
     ));
 }
 add_action('wp_enqueue_scripts', 'ri_wth_enqueue_scripts');
