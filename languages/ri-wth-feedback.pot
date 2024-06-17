@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Project-Id-Version: Helpful Feedback 1.0\n"
+
+msgid "Was this helpful?"
+msgstr ""
+
+
+msgid "Thank you for your feedback!"
+msgstr ""
+
+
+msgid "Submitting..."
+msgstr ""
+
+
+msgid "Was this helpful?"
+msgstr ""
+
+
+msgid "positive"
+msgstr ""
+
+
+msgid "No feedback yet"
+msgstr ""
