@@ -7,7 +7,7 @@ class RI_WTH_Box {
 	}
 
 	public function add_feedback_box( $content ) {
-		if ( is_main_query() && RI_WTH_Functions::should_display_box() ) {
+		if ( RI_WTH_Functions::should_display_box() ) {
 			$nonce    = wp_create_nonce( 'ri_was_this_helpful_nonce' );
 			$content .= '
                 <div id="ri-wth-helpful-feedback" class="ri-wth-helpful-feedback">

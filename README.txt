@@ -32,6 +32,9 @@ Yes, you can disable the loading of styles or scripts from the plugin settings p
 
 == Changelog ==
 
+= 1.4.1 =
+* Added support to choose to display feedback box on post and page
+
 = 1.4 =
 * Added quick stats on admin bar
 

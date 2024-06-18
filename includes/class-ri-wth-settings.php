@@ -98,16 +98,27 @@ class RI_WTH_Settings {
 	public function display_on_callback() {
 		$options = get_option( 'ri_wth_display_on', array() );
 		$options = is_array( $options ) ? $options : array();
-		?>
-		<label>
-			<input type="checkbox" name="ri_wth_display_on[]" value="post" <?php checked( in_array( 'post', $options ) ); ?>>
-			<?php esc_html_e( 'Posts', 'ri-was-this-helpful' ); ?>
-		</label><br>
-		<label>
-			<input type="checkbox" name="ri_wth_display_on[]" value="page" <?php checked( in_array( 'page', $options ) ); ?>>
-			<?php esc_html_e( 'Pages', 'ri-was-this-helpful' ); ?>
-		</label>
-		<?php
+		$fields  = array(
+			array(
+				'value' => 'post',
+				'label' => __( 'Posts', 'ri-was-this-helpful' ),
+			),
+			array(
+				'value' => 'page',
+				'label' => __( 'Pages', 'ri-was-this-helpful' ),
+			),
+		);
+
+		$fields = apply_filters( 'ri_wth_display_on_fields', $fields );
+
+		foreach ( $fields as $field ) {
+			?>
+			<label>
+				<input type="checkbox" name="ri_wth_display_on[]" value="<?php echo esc_attr( $field['value'] ); ?>" <?php checked( in_array( $field['value'], $options ) ); ?>>
+				<?php echo esc_html( $field['label'] ); ?>
+			</label><br>
+			<?php
+		}
 	}
 
 

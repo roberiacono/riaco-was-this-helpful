@@ -67,7 +67,7 @@ class RI_Was_This_Helpful {
 	}
 
 	public function maybe_enqueue_scripts() {
-		if ( is_single() && is_main_query() ) {
+		if ( RI_WTH_Functions::should_display_box() ) {
 			if ( get_option( 'ri_wth_load_styles' ) ) {
 				wp_enqueue_style( 'ri-wth-style', plugin_dir_url( __FILE__ ) . 'css/style.css' );
 			}

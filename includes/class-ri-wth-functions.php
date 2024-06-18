@@ -34,11 +34,7 @@ class RI_WTH_Functions {
 		$options = get_option( 'ri_wth_display_on', array() );
 		$options = is_array( $options ) ? $options : array();
 
-		if ( is_single() && in_array( 'post', $options ) ) {
-			return true;
-		}
-
-		if ( is_page() && in_array( 'page', $options ) ) {
+		if ( is_main_query() && is_singular() && in_array( get_post_type(), $options ) ) {
 			return true;
 		}
 
