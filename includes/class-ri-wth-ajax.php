@@ -18,8 +18,9 @@ class RI_WTH_Ajax {
 		$wpdb->insert(
 			$table_name,
 			array(
-				'post_id' => $post_id,
-				'helpful' => $helpful,
+				'post_id'       => $post_id,
+				'helpful'       => $helpful,
+				'feedback_date' => $current_time,
 			)
 		);
 
