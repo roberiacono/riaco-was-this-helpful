@@ -31,6 +31,19 @@ class RI_WTH_Functions {
 	}
 
 	public static function should_display_box() {
+		global $post;
+
+		// If we don't have a post object, return false
+		if ( ! $post ) {
+			return false;
+		}
+
+		// Check if the box is disabled for the current post
+		$disable_box = get_post_meta( $post->ID, '_ri_wth_disable_box', true );
+		if ( '1' === $disable_box ) {
+			return false;
+		}
+
 		$options = get_option( 'ri_wth_display_on', array() );
 		$options = is_array( $options ) ? $options : array();
 

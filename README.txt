@@ -4,7 +4,7 @@ Tags: feedback, user interaction, comments
 Requires at least: 5.0
 Tested up to: 6.2
 Requires PHP: 7.0
-Stable tag: 1.2
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,17 @@ Adds a "Was this helpful?" box at the end of posts with thumb-up/thumb-down butt
 
 == Description ==
 
-This plugin adds a simple "Was this helpful?" feedback box at the end of your posts, allowing users to give a quick thumbs-up or thumbs-down. The feedback is stored in the database and can be viewed in the admin post list.
+This plugin adds a simple "Was this helpful?" feedback box at the end of your posts/pages, allowing users to provide feedback on whether they found a post or page helpful. It includes the following features:
+
+- Display a "Was This Helpful" box on posts and pages.
+- Select which post types (posts and pages) the feedback box should appear on.
+- Option to disable the feedback box on specific posts or pages.
+- Sort posts and pages by percentage of positive feedback
+
+**PRO Version Features:**
+
+- Display the "Was This Helpful" box on custom post types.
+- Additional settings for advanced customization.
 
 == Installation ==
 
@@ -22,18 +32,28 @@ This plugin adds a simple "Was this helpful?" feedback box at the end of your po
 
 == Frequently Asked Questions ==
 
-= How do I view the feedback? =
+= Can I choose where the feedback box appears? =
+Yes, you can choose to display the feedback box on the bottom of posts and pages. In the PRO version, you can choose to display the feedback box on the bottom of custom post types.
 
-You can view the feedback in the admin post list. A new column "Was This Helpful" will show the percentage of positive feedback and the total number of feedback entries.
+= Can I disable the feedback box on specific posts? =
+Yes, you can disable the feedback box on individual posts or pages using the settings in the post editor.
+
+= How do I view the feedback? =
+You can view the percentage of positive feedback in the admin posts/pages list. A new column "Was This Helpful" will show the percentage of positive feedback and the total number of feedback entries.
 
 = Can I disable the loading of styles or scripts? =
-
 Yes, you can disable the loading of styles or scripts from the plugin settings page.
 
 == Changelog ==
 
+= 1.4.3 =
+* Added option to disable the feedback box on individual posts or pages
+
+= 1.4.2 =
+* Refactor RI_WTH_Functions::should_display_box to include posts and pages
+
 = 1.4.1 =
-* Added support to choose to display feedback box on post and page
+* Added support to choose to display feedback box on posts and pages
 
 = 1.4 =
 * Added quick stats on admin bar
@@ -58,6 +78,15 @@ Yes, you can disable the loading of styles or scripts from the plugin settings p
 
 = 1.2 =
 Enhancements and new features. Please update for better functionality.
+
+== Settings ==
+
+1. **Show On Post Types:** Choose which post types (posts, pages) the feedback box should appear on.
+2. **Disable On Specific Posts:** Option to disable the feedback box on individual posts or pages.
+
+**PRO Version Settings:**
+
+1. **Show On Custom Post Types:** Choose which custom post types the feedback box should appear on.
 
 == License ==
 
