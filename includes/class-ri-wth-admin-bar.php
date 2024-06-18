@@ -3,7 +3,11 @@
 class RI_WTH_Admin_Bar {
 
 	public function __construct() {
-		add_action( 'admin_bar_menu', array( $this, 'add_feedback_count_to_admin_bar' ), 999 );
+		$show_admin_bar_content = get_option( 'ri_wth_show_admin_bar_content' );
+
+		if ( $show_admin_bar_content ) {
+			add_action( 'admin_bar_menu', array( $this, 'add_feedback_count_to_admin_bar' ), 999 );
+		}
 	}
 
 	public function add_feedback_count_to_admin_bar( $wp_admin_bar ) {

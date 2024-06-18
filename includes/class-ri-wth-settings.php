@@ -35,6 +35,21 @@ class RI_WTH_Settings {
 	public function register_settings() {
 		register_setting( 'ri-wth-settings-group', 'ri_wth_load_styles' );
 		register_setting( 'ri-wth-settings-group', 'ri_wth_load_scripts' );
+		register_setting( 'ri-wth-settings-group', 'ri_wth_show_admin_bar_content' );
+
+		add_settings_section(
+			'ri-wth-plugin-settings-section',
+			__( 'Plugin Settings', 'ri-was-this-helpful' ),
+			array( $this, 'plugin_settings_section_callback' ),
+			'ri-wth-settings'
+		);
+		add_settings_field(
+			'ri_wth_show_admin_bar_content',
+			__( 'Show Admin Bar Content', 'ri-was-this-helpful' ),
+			array( $this, 'show_admin_bar_content_callback' ),
+			'ri-wth-settings',
+			'ri-wth-plugin-settings-section'
+		);
 
 		add_settings_section(
 			'ri-wth-settings-section',
@@ -59,6 +74,17 @@ class RI_WTH_Settings {
 			'ri-wth-settings-section'
 		);
 	}
+
+	public function plugin_settings_section_callback() {
+		echo esc_html( __( 'Select whether to show the content in the admin bar.', 'ri-was-this-helpful' ) );
+	}
+
+	public function show_admin_bar_content_callback() {
+		$option = get_option( 'ri_wth_show_admin_bar_content' );
+		echo '<input type="checkbox" name="ri_wth_show_admin_bar_content" value="1" ' . checked( 1, $option, false ) . '>';
+	}
+
+
 
 	public function settings_section_callback() {
 		echo esc_html( __( 'Select whether to load the plugin styles and scripts.', 'ri-was-this-helpful' ) );
