@@ -19,21 +19,13 @@ class RI_WTH_Admin_Columns {
 			global $wpdb;
 			$table_name = $wpdb->prefix . 'ri_helpful_feedback';
 
-			$total_feedback = wp_cache_get( 'ri_wth_total_feedback_' . $post_id );
-			if ( false === $total_feedback ) {
-				$total_feedback = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $table_name WHERE post_id = %d", $post_id ) );
-				wp_cache_set( 'ri_wth_total_feedback_' . $post_id, $total_feedback, '', 24 * 60 * 60 );
-			}
+			$total_feedback = RI_WTH_Functions::get_total_feedback_count( $post_id );
 
-			$positive_feedback = wp_cache_get( 'ri_wth_positive_feedback_' . $post_id );
-			if ( false === $positive_feedback ) {
-				$positive_feedback = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $table_name WHERE post_id = %d AND helpful = 1", $post_id ) );
-				wp_cache_set( 'ri_wth_positive_feedback_' . $post_id, $positive_feedback, '', 24 * 60 * 60 );
-			}
+			$positive_feedback_count = RI_WTH_Functions::get_positive_feedback_count( $post_id );
 
 			if ( $total_feedback > 0 ) {
-				$percentage = ( $positive_feedback / $total_feedback ) * 100;
-				echo esc_html( round( $percentage, 2 ) . '% ' . __( 'positive', 'ri-was-this-helpful' ) . ' (' . $positive_feedback . '/' . $total_feedback . ')' );
+				$percentage = ( $positive_feedback_count / $total_feedback ) * 100;
+				echo esc_html( round( $percentage, 2 ) . '% ' . __( 'positive', 'ri-was-this-helpful' ) . ' (' . $positive_feedback_count . '/' . $total_feedback . ')' );
 			} else {
 				echo esc_html( __( 'No feedback yet', 'ri-was-this-helpful' ) );
 			}

@@ -22,6 +22,8 @@ class RI_Was_This_Helpful {
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-admin-columns.php';
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-box.php';
 		require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-ajax.php';
+		require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-admin-bar.php';
+		require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-functions.php';
 	}
 
 	private function init_hooks() {
