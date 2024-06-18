@@ -32,6 +32,10 @@ Yes, you can disable the loading of styles or scripts from the plugin settings p
 
 == Changelog ==
 
+= 1.3 =
+* Refactor code in OOP.
+* Added sorting by positive feedback in posts dashboard
+
 = 1.2 =
 * Added localization support.
 * Separated scripts and styles into their own files.
