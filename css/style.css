@@ -1,10 +1,14 @@
 /* feedback box */
 
 .ri-wth-helpful-feedback {
-  transition: opacity 0.5s ease-in-out;
+  align-items: center;
   background-color: rgb(248 250 252);
   border-radius: 0.25rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
   padding: 1rem;
+  transition: opacity 0.5s ease-in-out;
 }
 .ri-wth-helpful-feedback button {
   background-color: transparent;
@@ -21,25 +25,14 @@
 .ri-wth-helpful-feedback button.helpful-no:hover {
   background-color: #ff0000;
 }
+.ri-wth-buttons-container{
+  display: flex;
+  gap: 0.5rem;
+}
 
 .ri-wth-thank-you {
   transition: opacity 0.5s ease-in-out;
 }
 button {
   font-size: 24px;
-}
-.flex {
-  display: flex;
-}
-.gap-2 {
-  gap: 0.5rem;
-}
-.gap-4 {
-  gap: 1rem;
-}
-.items-center {
-  align-items: center;
-}
-.justify-center {
-  justify-content: center;
 }

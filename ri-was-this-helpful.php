@@ -29,7 +29,7 @@ class RI_Was_This_Helpful {
 	private function init_hooks() {
 		register_activation_hook( __FILE__, array( $this, 'activate_plugin' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_scripts' ), 20 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_scripts' ) );
 	}
 
 	public function load_textdomain() {
@@ -62,10 +62,10 @@ class RI_Was_This_Helpful {
 	public function maybe_enqueue_scripts() {
 		if ( is_single() && is_main_query() ) {
 			if ( get_option( 'ri_wth_load_styles' ) ) {
-				wp_enqueue_style( 'ri-wth-style', plugin_dir_url( __FILE__ ) . 'css/ri-wth-style.css' );
+				wp_enqueue_style( 'ri-wth-style', plugin_dir_url( __FILE__ ) . 'css/style.css' );
 			}
 			if ( get_option( 'ri_wth_load_scripts' ) ) {
-				wp_enqueue_script( 'ri-wth-script', plugin_dir_url( __FILE__ ) . 'js/ri-wth-script.js', array( 'jquery' ), false, true );
+				wp_enqueue_script( 'ri-wth-script', plugin_dir_url( __FILE__ ) . 'js/script.js', array( 'jquery' ), false, true );
 				wp_localize_script(
 					'ri-wth-script',
 					'ri_wth_scripts',
