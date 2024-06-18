@@ -44,6 +44,9 @@ You can view the percentage of positive feedback in the admin posts/pages list. 
 = Can I disable the loading of styles or scripts? =
 Yes, you can disable the loading of styles or scripts from the plugin settings page.
 
+= How do I enable feedback on custom post types? =
+With the PRO version installed, the custom post types will automatically be available in the settings page. Simply select the desired custom post types to enable feedback.
+
 == Changelog ==
 
 = 1.4.3 =

@@ -2,10 +2,24 @@
 
 class RI_WTH_Admin_Columns {
 
+	private $post_types;
+
 	public function __construct() {
-		add_filter( 'manage_posts_columns', array( $this, 'add_feedback_column' ) );
-		add_action( 'manage_posts_custom_column', array( $this, 'display_feedback_column' ), 10, 2 );
-		add_filter( 'manage_edit-post_sortable_columns', array( $this, 'make_feedback_column_sortable' ) );
+		add_action( 'admin_init', array( $this, 'add_filters_and_actions' ) );
+	}
+
+	public function add_filters_and_actions() {
+
+		$this->post_types = apply_filters( 'ri_wth_custom_columns_post_types', array( 'post', 'page' ) );
+
+		error_log( print_r( $this->post_types, true ) );
+
+		foreach ( $this->post_types as $post_type ) {
+			add_filter( "manage_{$post_type}_posts_columns", array( $this, 'add_feedback_column' ) );
+			add_action( "manage_{$post_type}_posts_custom_column", array( $this, 'display_feedback_column' ), 10, 2 );
+			add_filter( "manage_edit-{$post_type}_sortable_columns", array( $this, 'make_feedback_column_sortable' ) );
+		}
+
 		add_action( 'pre_get_posts', array( $this, 'order_by_feedback' ) );
 	}
 
