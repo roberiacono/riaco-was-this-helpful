@@ -1,9 +1,9 @@
 <?php
-// Aggiungere una pagina delle impostazioni per selezionare il caricamento degli script
+
 function ri_wth_add_settings_page() {
     add_options_page(
-        __('Helpful Feedback Settings', 'ri-was-this-helpful'),
-        __('Helpful Feedback', 'ri-was-this-helpful'),
+        __('Was This Helpful Settings', 'ri-was-this-helpful'),
+        __('Was This Helpful', 'ri-was-this-helpful'),
         'manage_options',
         'ri-wth-settings',
         'ri_wth_render_settings_page'
@@ -14,7 +14,7 @@ add_action('admin_menu', 'ri_wth_add_settings_page');
 function ri_wth_render_settings_page() {
     ?>
     <div class="wrap">
-        <h1><?php _e('Helpful Feedback Settings', 'ri-was-this-helpful'); ?></h1>
+        <h1><?php esc_html_e('Was This Helpful Settings', 'ri-was-this-helpful'); ?></h1>
         <form method="post" action="options.php">
             <?php
             settings_fields('ri-wth-settings-group');
@@ -56,7 +56,7 @@ function ri_wth_register_settings() {
 add_action('admin_init', 'ri_wth_register_settings');
 
 function ri_wth_settings_section_callback() {
-    echo __('Select whether to load the plugin styles and scripts.', 'ri-was-this-helpful');
+    echo esc_html(__('Select whether to load the plugin styles and scripts.', 'ri-was-this-helpful'));
 }
 
 function ri_wth_load_styles_callback() {

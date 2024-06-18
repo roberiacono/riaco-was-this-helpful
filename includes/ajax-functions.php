@@ -1,5 +1,5 @@
 <?php 
-// Gestione della richiesta AJAX per il salvataggio del feedback
+
 function ri_wth_save_feedback() {
 
     check_ajax_referer('ri_was_this_helpful_nonce', 'nonce');
@@ -16,6 +16,9 @@ function ri_wth_save_feedback() {
             'helpful' => $helpful
         )
     );
+
+    wp_cache_delete('ri_wth_total_feedback_'. $post_id);
+    wp_cache_delete('ri_wth_positive_feedback_'. $post_id);
     
     wp_die();
 }

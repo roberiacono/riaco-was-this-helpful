@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Was This Helpful
+Plugin Name: RI Was This Helpful
 Description: Adds a "Was this helpful?" box at the end of posts with thumb-up/thumb-down buttons for feedback.
 Version: 1.2.1
 Author: Roberto Iacono
@@ -10,21 +10,20 @@ Domain Path: /languages
 
 defined( 'ABSPATH' ) || exit;
 
-// Includi il file delle impostazioni
 require_once plugin_dir_path(__FILE__) . 'includes/settings.php';
 require_once plugin_dir_path(__FILE__) . 'includes/admin-columns.php';
 require_once plugin_dir_path(__FILE__) . 'includes/wth-box.php';
 require_once plugin_dir_path(__FILE__) . 'includes/ajax-functions.php';
 
 
-// Caricamento dei file di localizzazione
+
 function ri_wth_load_textdomain() {
     load_plugin_textdomain( 'ri-was-this-helpful', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 }
 add_action( 'plugins_loaded', 'ri_wth_load_textdomain' );
 
 
-// Creare la tabella nel database per salvare i feedback
+
 function ri_wth_create_feedback_table() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'ri_helpful_feedback';
@@ -42,7 +41,7 @@ function ri_wth_create_feedback_table() {
 }
 register_activation_hook(__FILE__, 'ri_wth_create_feedback_table');
 
-// Funzione di attivazione per impostare le opzioni di caricamento su true
+
 function ri_wth_activate_plugin() {
     if (false === get_option('ri_wth_load_styles')) {
         add_option('ri_wth_load_styles', 1);
@@ -54,8 +53,6 @@ function ri_wth_activate_plugin() {
 register_activation_hook(__FILE__, 'ri_wth_activate_plugin');
 
 
-
-// Enqueue scripts e stili
 function ri_wth_enqueue_scripts() {
     wp_enqueue_style('ri-wth-style', plugin_dir_url(__FILE__) . 'css/ri-wth-style.css');
     wp_enqueue_script('ri-wth-script', plugin_dir_url(__FILE__) . 'js/ri-wth-script.js', array(), false, true);
@@ -69,11 +66,13 @@ add_action('wp_enqueue_scripts', 'ri_wth_enqueue_scripts');
 
 
 function ri_wth_maybe_enqueue_scripts() {
-    if (get_option('ri_wth_load_styles')) {
-        wp_enqueue_style('ri-wth-style');
-    }
-    if (get_option('ri_wth_load_scripts')) {
-        wp_enqueue_script('ri-wth-script');
+    if ( is_single() && is_main_query() ) {
+        if (get_option('ri_wth_load_styles')) {
+            wp_enqueue_style('ri-wth-style');
+        }
+        if (get_option('ri_wth_load_scripts')) {
+            wp_enqueue_script('ri-wth-script');
+        }
     }
 }
 add_action('wp_enqueue_scripts', 'ri_wth_maybe_enqueue_scripts', 20);

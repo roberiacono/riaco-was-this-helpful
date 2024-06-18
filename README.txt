@@ -16,15 +16,15 @@ This plugin adds a simple "Was this helpful?" feedback box at the end of your po
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/helpful-feedback` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/ri-was-this-helpful` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress.
-3. Use the Settings->Helpful Feedback screen to configure the plugin.
+3. Use the Settings->Was This Helpful screen to configure the plugin.
 
 == Frequently Asked Questions ==
 
 = How do I view the feedback? =
 
-You can view the feedback in the admin post list. A new column "Helpful Feedback" will show the percentage of positive feedback and the total number of feedback entries.
+You can view the feedback in the admin post list. A new column "Was This Helpful" will show the percentage of positive feedback and the total number of feedback entries.
 
 = Can I disable the loading of styles or scripts? =
 

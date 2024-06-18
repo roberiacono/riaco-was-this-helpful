@@ -8,6 +8,16 @@
   background-color: transparent;
   border-radius: 0.25rem;
   padding: 0.5rem;
+  border: none;
+}
+.ri-wth-helpful-feedback button:hover {
+  cursor: pointer;
+}
+.ri-wth-helpful-feedback button.helpful-yes:hover {
+  background-color: springgreen;
+}
+.ri-wth-helpful-feedback button.helpful-no:hover {
+  background-color: #ff0000;
 }
 
 .ri-wth-thank-you {

@@ -5,7 +5,6 @@ jQuery(document).ready(function ($) {
     var helpful = button.attr("id") === "ri-wth-helpful-yes" ? 1 : 0;
     var nonce = button.data("nonce");
 
-    // Mostra il loader
     $("#ri-wth-helpful-feedback").html(
       '<div class="ri-wth-loader">⏳ ' + ri_wth_scripts.submitting + "</div>"
     );
@@ -16,8 +15,6 @@ jQuery(document).ready(function ($) {
       helpful: helpful,
       nonce: nonce,
     };
-
-    console.log("data", data);
 
     $.ajax({
       type: "POST",
