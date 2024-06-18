@@ -2,13 +2,16 @@
 /*
 Plugin Name: RI Was This Helpful
 Description: Adds a "Was this helpful?" box at the end of posts with thumb-up/thumb-down buttons for feedback.
-Version: 1.3.0
+Version: 1.4.1
 Author: Roberto Iacono
 Text Domain: ri-was-this-helpful
 Domain Path: /languages
 */
 
 defined( 'ABSPATH' ) || exit;
+
+define( 'RI_WTH_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'RI_WTH_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 class RI_Was_This_Helpful {
 
@@ -51,6 +54,10 @@ class RI_Was_This_Helpful {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( $sql );
 
+		// set default initial settings
+		if ( false === get_option( 'ri_wth_display_on' ) ) {
+			add_option( 'ri_wth_display_on', array( 'post' ) );
+		}
 		if ( false === get_option( 'ri_wth_load_styles' ) ) {
 			add_option( 'ri_wth_load_styles', 1 );
 		}

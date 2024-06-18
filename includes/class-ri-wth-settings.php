@@ -33,28 +33,30 @@ class RI_WTH_Settings {
 	}
 
 	public function register_settings() {
+		register_setting( 'ri-wth-settings-group', 'ri_wth_display_on' );
 		register_setting( 'ri-wth-settings-group', 'ri_wth_load_styles' );
 		register_setting( 'ri-wth-settings-group', 'ri_wth_load_scripts' );
 		register_setting( 'ri-wth-settings-group', 'ri_wth_show_admin_bar_content' );
 
 		add_settings_section(
-			'ri-wth-plugin-settings-section',
-			__( 'Plugin Settings', 'ri-was-this-helpful' ),
-			array( $this, 'plugin_settings_section_callback' ),
+			'ri-wth-settings-section',
+			__( 'RI Was This Helpful Settings', 'ri-was-this-helpful' ),
+			array( $this, 'settings_section_callback' ),
 			'ri-wth-settings'
 		);
+
 		add_settings_field(
-			'ri_wth_show_admin_bar_content',
-			__( 'Show Admin Bar Content', 'ri-was-this-helpful' ),
-			array( $this, 'show_admin_bar_content_callback' ),
+			'ri_wth_display_on',
+			__( 'Display on', 'ri-was-this-helpful' ),
+			array( $this, 'display_on_callback' ),
 			'ri-wth-settings',
-			'ri-wth-plugin-settings-section'
+			'ri-wth-settings-section'
 		);
 
 		add_settings_section(
-			'ri-wth-settings-section',
+			'ri-wth-load-settings-section',
 			__( 'Load Settings', 'ri-was-this-helpful' ),
-			array( $this, 'settings_section_callback' ),
+			array( $this, 'load_settings_section_callback' ),
 			'ri-wth-settings'
 		);
 
@@ -63,7 +65,7 @@ class RI_WTH_Settings {
 			__( 'Load Styles', 'ri-was-this-helpful' ),
 			array( $this, 'load_styles_callback' ),
 			'ri-wth-settings',
-			'ri-wth-settings-section'
+			'ri-wth-load-settings-section'
 		);
 
 		add_settings_field(
@@ -71,22 +73,48 @@ class RI_WTH_Settings {
 			__( 'Load Scripts', 'ri-was-this-helpful' ),
 			array( $this, 'load_scripts_callback' ),
 			'ri-wth-settings',
-			'ri-wth-settings-section'
+			'ri-wth-load-settings-section'
+		);
+
+		add_settings_section(
+			'ri-wth-admin-bar-settings-section',
+			__( 'Plugin Settings', 'ri-was-this-helpful' ),
+			array( $this, 'admin_bar_settings_section_callback' ),
+			'ri-wth-settings'
+		);
+		add_settings_field(
+			'ri_wth_show_admin_bar_content',
+			__( 'Show Admin Bar Content', 'ri-was-this-helpful' ),
+			array( $this, 'show_admin_bar_content_callback' ),
+			'ri-wth-settings',
+			'ri-wth-admin-bar-settings-section'
 		);
 	}
 
-	public function plugin_settings_section_callback() {
-		echo esc_html( __( 'Select whether to show the content in the admin bar.', 'ri-was-this-helpful' ) );
-	}
-
-	public function show_admin_bar_content_callback() {
-		$option = get_option( 'ri_wth_show_admin_bar_content' );
-		echo '<input type="checkbox" name="ri_wth_show_admin_bar_content" value="1" ' . checked( 1, $option, false ) . '>';
-	}
-
-
-
 	public function settings_section_callback() {
+		echo '<p>' . esc_html__( 'Where do you want to show your Was this helpful box?', 'ri-was-this-helpful' ) . '</p>';
+	}
+
+	public function display_on_callback() {
+		$options = get_option( 'ri_wth_display_on', array() );
+		$options = is_array( $options ) ? $options : array();
+		?>
+		<label>
+			<input type="checkbox" name="ri_wth_display_on[]" value="post" <?php checked( in_array( 'post', $options ) ); ?>>
+			<?php esc_html_e( 'Posts', 'ri-was-this-helpful' ); ?>
+		</label><br>
+		<label>
+			<input type="checkbox" name="ri_wth_display_on[]" value="page" <?php checked( in_array( 'page', $options ) ); ?>>
+			<?php esc_html_e( 'Pages', 'ri-was-this-helpful' ); ?>
+		</label>
+		<?php
+	}
+
+
+
+
+
+	public function load_settings_section_callback() {
 		echo esc_html( __( 'Select whether to load the plugin styles and scripts.', 'ri-was-this-helpful' ) );
 	}
 
@@ -98,6 +126,15 @@ class RI_WTH_Settings {
 	public function load_scripts_callback() {
 		$option = get_option( 'ri_wth_load_scripts' );
 		echo '<input type="checkbox" name="ri_wth_load_scripts" value="1"' . checked( 1, $option, false ) . '>';
+	}
+
+	public function admin_bar_settings_section_callback() {
+		echo esc_html( __( 'Select whether to show the content in the admin bar.', 'ri-was-this-helpful' ) );
+	}
+
+	public function show_admin_bar_content_callback() {
+		$option = get_option( 'ri_wth_show_admin_bar_content' );
+		echo '<input type="checkbox" name="ri_wth_show_admin_bar_content" value="1" ' . checked( 1, $option, false ) . '>';
 	}
 }
 
