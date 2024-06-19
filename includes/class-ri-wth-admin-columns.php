@@ -31,7 +31,7 @@ class RI_WTH_Admin_Columns {
 	public function display_feedback_column( $column, $post_id ) {
 		if ( $column == 'helpful_feedback' ) {
 			global $wpdb;
-			$table_name = $wpdb->prefix . 'ri_helpful_feedback';
+			$table_name = $wpdb->prefix . RI_WTH_DB_NAME;
 
 			$total_feedback = RI_WTH_Functions::get_total_feedback_count( $post_id );
 
@@ -62,7 +62,7 @@ class RI_WTH_Admin_Columns {
 			$order = strtoupper( $query->get( 'order' ) );
 
 			global $wpdb;
-			$table_name = $wpdb->prefix . 'ri_helpful_feedback';
+			$table_name = $wpdb->prefix . RI_WTH_DB_NAME;
 
 			// Adding the join to the feedback table
 			add_filter(
@@ -87,5 +87,3 @@ class RI_WTH_Admin_Columns {
 		}
 	}
 }
-
-new RI_WTH_Admin_Columns();

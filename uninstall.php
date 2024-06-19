@@ -10,6 +10,7 @@ delete_option( 'ri_wth_load_styles' );
 delete_option( 'ri_wth_load_scripts' );
 
 // Delete custom table
+/*
 global $wpdb;
-$table_name = $wpdb->prefix . 'ri_helpful_feedback';
-$wpdb->query( "DROP TABLE IF EXISTS $table_name" );
+$table_name = $wpdb->prefix . RI_WTH_DB_NAME;
+$wpdb->query( "DROP TABLE IF EXISTS $table_name" ); */

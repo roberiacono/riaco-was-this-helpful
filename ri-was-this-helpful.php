@@ -13,6 +13,8 @@ defined( 'ABSPATH' ) || exit;
 define( 'RI_WTH_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'RI_WTH_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
+define( 'RI_WTH_DB_NAME', 'ri_wth_helpful_feedback' );
+
 class RI_Was_This_Helpful {
 
 	public function __construct() {
@@ -42,13 +44,14 @@ class RI_Was_This_Helpful {
 
 	public function activate_plugin() {
 		global $wpdb;
-		$table_name      = $wpdb->prefix . 'ri_helpful_feedback';
+		$table_name      = $wpdb->prefix . RI_WTH_DB_NAME;
 		$charset_collate = $wpdb->get_charset_collate();
 
 		$sql = "CREATE TABLE $table_name (
             id mediumint(9) NOT NULL AUTO_INCREMENT,
             post_id bigint(20) NOT NULL,
             helpful tinyint(1) NOT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (id)
         ) $charset_collate;";
 

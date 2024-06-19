@@ -14,13 +14,13 @@ class RI_WTH_Ajax {
 		$post_id = intval( $_POST['post_id'] );
 		$helpful = intval( $_POST['helpful'] ) ? 1 : 0;
 
-		$table_name = $wpdb->prefix . 'ri_helpful_feedback';
+		$table_name = $wpdb->prefix . RI_WTH_DB_NAME;
 		$wpdb->insert(
 			$table_name,
 			array(
-				'post_id'       => $post_id,
-				'helpful'       => $helpful,
-				'feedback_date' => $current_time,
+				'post_id'    => $post_id,
+				'helpful'    => $helpful,
+				'created_at' => current_time( 'mysql' ),
 			)
 		);
 

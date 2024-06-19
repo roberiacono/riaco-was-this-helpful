@@ -5,7 +5,7 @@ class RI_WTH_Functions {
 	// Function to get the positive feedback count for a post
 	public static function get_positive_feedback_count( $post_id ) {
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'ri_helpful_feedback';
+		$table_name = $wpdb->prefix . RI_WTH_DB_NAME;
 
 		$positive_feedback = wp_cache_get( 'ri_wth_positive_feedback_' . $post_id );
 		if ( false === $positive_feedback ) {
@@ -19,7 +19,7 @@ class RI_WTH_Functions {
 	// Function to get the positive feedback count for a post
 	public static function get_total_feedback_count( $post_id ) {
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'ri_helpful_feedback';
+		$table_name = $wpdb->prefix . RI_WTH_DB_NAME;
 
 		$total_feedback = wp_cache_get( 'ri_wth_total_feedback_' . $post_id );
 		if ( false === $total_feedback ) {
