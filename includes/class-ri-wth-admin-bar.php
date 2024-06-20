@@ -11,7 +11,7 @@ class RI_WTH_Admin_Bar {
 	}
 
 	public function add_feedback_count_to_admin_bar( $wp_admin_bar ) {
-		if ( ! current_user_can( 'edit_posts' ) || ! is_single() ) {
+		if ( ! current_user_can( 'edit_posts' ) || ! RI_WTH_Functions::could_display_box() ) {
 			return;
 		}
 
@@ -31,14 +31,14 @@ class RI_WTH_Admin_Bar {
 			$args = array(
 				'id'    => 'ri-wth-feedback-count',
 				'title' => sprintf(
-					__( '<span class="ab-icon dashicons dashicons-smiley"></span> %s', 'ri-was-this-helpful' ),
+					__( '<span class="ab-icon dashicons dashicons-thumbs-up"></span> %s', 'ri-was-this-helpful' ),
 					$title
 				),
 				'href'  => get_edit_post_link( $post->ID ),
 				'meta'  => array(
 					'class' => 'ri-wth-feedback-count',
 				),
-				'icon'  => 'dashicons-smiley',
+				'icon'  => 'dashicons-thumbs-up',
 			);
 			$wp_admin_bar->add_node( $args );
 	}

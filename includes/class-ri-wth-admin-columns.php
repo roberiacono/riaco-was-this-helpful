@@ -12,8 +12,6 @@ class RI_WTH_Admin_Columns {
 
 		$this->post_types = apply_filters( 'ri_wth_custom_columns_post_types', array( 'post', 'page' ) );
 
-		error_log( print_r( $this->post_types, true ) );
-
 		foreach ( $this->post_types as $post_type ) {
 			add_filter( "manage_{$post_type}_posts_columns", array( $this, 'add_feedback_column' ) );
 			add_action( "manage_{$post_type}_posts_custom_column", array( $this, 'display_feedback_column' ), 10, 2 );

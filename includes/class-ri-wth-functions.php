@@ -44,6 +44,17 @@ class RI_WTH_Functions {
 			return false;
 		}
 
+		return self::could_display_box();
+	}
+
+	public static function could_display_box() {
+		global $post;
+
+		// If we don't have a post object, return false
+		if ( ! $post ) {
+			return false;
+		}
+
 		$options = get_option( 'ri_wth_display_on', array() );
 		$options = is_array( $options ) ? $options : array();
 
