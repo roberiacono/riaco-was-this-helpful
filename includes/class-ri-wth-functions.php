@@ -23,7 +23,14 @@ class RI_WTH_Functions {
 
 		$total_feedback = wp_cache_get( 'ri_wth_total_feedback_' . $post_id );
 		if ( false === $total_feedback ) {
-			$total_feedback = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $table_name WHERE post_id = %d", $post_id ) );
+			$base_query = "SELECT COUNT(*) FROM $table_name WHERE post_id = %d";
+
+			// Apply a filter to allow the Pro plugin to modify the query
+			$reset_date_condition = apply_filters( 'ri_wth_reset_date_condition', '', $post_id );
+
+			$query = $wpdb->prepare( "$base_query $reset_date_condition", $post_id );
+
+			$total_feedback = $wpdb->get_var( $query );
 			wp_cache_set( 'ri_wth_total_feedback_' . $post_id, $total_feedback, '', 24 * 60 * 60 );
 		}
 
@@ -57,6 +64,12 @@ class RI_WTH_Functions {
 
 		$options = get_option( 'ri_wth_display_on', array() );
 		$options = is_array( $options ) ? $options : array();
+
+		$screen = get_current_screen();
+
+		if ( is_admin() && is_main_query() && in_array( $screen->base, $options ) && in_array( get_post_type(), $options ) ) {
+			return true;
+		}
 
 		if ( is_main_query() && is_singular() && in_array( get_post_type(), $options ) ) {
 			return true;
