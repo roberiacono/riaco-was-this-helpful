@@ -11,6 +11,7 @@ Domain Path: /languages
 defined( 'ABSPATH' ) || exit;
 
 define( 'RI_WTH_DB_NAME', 'ri_wth_helpful_feedback' );
+define( 'RI_WTH_PLUGIN_VERSION', '1.4.4' );
 
 if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 	class RI_Was_This_Helpful {
@@ -55,8 +56,8 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_settings_link' ) );
 
-			new RI_WTH_Settings();
 			$user_role = new RI_WTH_User_Role();
+			new RI_WTH_Settings();
 			new RI_WTH_Box();
 			new RI_WTH_Ajax();
 
@@ -103,10 +104,10 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 		public function maybe_enqueue_scripts() {
 			if ( RI_WTH_Functions::should_display_box() ) {
 				if ( get_option( 'ri_wth_load_styles' ) ) {
-					wp_enqueue_style( 'ri-wth-style', plugin_dir_url( __FILE__ ) . 'public/css/style.css' );
+					wp_enqueue_style( 'ri-wth-style', plugin_dir_url( __FILE__ ) . 'public/css/style.css', array(), RI_WTH_PLUGIN_VERSION );
 				}
 				if ( get_option( 'ri_wth_load_scripts' ) ) {
-					wp_enqueue_script( 'ri-wth-script', plugin_dir_url( __FILE__ ) . 'public/js/script.js', array( 'jquery' ), false, true );
+					wp_enqueue_script( 'ri-wth-script', plugin_dir_url( __FILE__ ) . 'public/js/script.js', array( 'jquery' ), RI_WTH_PLUGIN_VERSION, true );
 					wp_localize_script(
 						'ri-wth-script',
 						'ri_wth_scripts',

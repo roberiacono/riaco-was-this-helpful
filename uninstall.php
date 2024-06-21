@@ -14,4 +14,4 @@ delete_option( 'ri_wth_load_scripts' );
 
 global $wpdb;
 $table_name = $wpdb->prefix . RI_WTH_DB_NAME;
-$wpdb->query( "DROP TABLE IF EXISTS $table_name" );
+$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $table_name ) );

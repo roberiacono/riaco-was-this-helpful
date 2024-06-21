@@ -1,7 +1,7 @@
 === Helpful Feedback ===
 Contributors: prototipo88
 Tags: feedback, user interaction, comments
-Requires at least: 5.0
+Requires at least: 6.2
 Tested up to: 6.5.4
 Requires PHP: 7.0
 Stable tag: 1.4.4

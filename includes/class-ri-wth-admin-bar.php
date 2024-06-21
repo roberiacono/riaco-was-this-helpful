@@ -33,7 +33,7 @@ if ( ! class_exists( 'RI_WTH_Admin_Bar' ) ) {
 			$args = array(
 				'id'    => 'ri-wth-feedback-count',
 				'title' => sprintf(
-					__( '<span class="ab-icon dashicons dashicons-thumbs-up"></span> %s', 'ri-was-this-helpful' ),
+					'<span class="ab-icon dashicons dashicons-thumbs-up"></span> %s',
 					$title
 				),
 				'href'  => get_edit_post_link( $post->ID ),
