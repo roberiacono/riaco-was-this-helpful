@@ -1,5 +1,7 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+if ( ! class_exists( 'RI_WTH_Ajax' ) ) {
 class RI_WTH_Ajax {
 
 	public function __construct() {
@@ -30,5 +32,4 @@ class RI_WTH_Ajax {
 		wp_die();
 	}
 }
-
-new RI_WTH_Ajax();
+}

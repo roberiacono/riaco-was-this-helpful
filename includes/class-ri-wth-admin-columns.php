@@ -1,5 +1,7 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+if ( ! class_exists( 'RI_WTH_Admin_Columns' ) ) {
 class RI_WTH_Admin_Columns {
 
 	private $post_types;
@@ -84,4 +86,5 @@ class RI_WTH_Admin_Columns {
 			);
 		}
 	}
+}
 }

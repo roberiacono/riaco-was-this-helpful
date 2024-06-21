@@ -6,11 +6,12 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 // Delete plugin options
+delete_option( 'ri_wth_display_on' );
 delete_option( 'ri_wth_load_styles' );
 delete_option( 'ri_wth_load_scripts' );
 
 // Delete custom table
-/*
+
 global $wpdb;
 $table_name = $wpdb->prefix . RI_WTH_DB_NAME;
-$wpdb->query( "DROP TABLE IF EXISTS $table_name" ); */
+$wpdb->query( "DROP TABLE IF EXISTS $table_name" );

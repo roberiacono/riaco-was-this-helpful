@@ -1,5 +1,7 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+if ( ! class_exists( 'RI_WTH_Metabox' ) ) {
 class RI_WTH_Metabox {
 	public function __construct() {
 		add_action( 'add_meta_boxes', array( $this, 'add_metabox' ) );
@@ -55,5 +57,4 @@ class RI_WTH_Metabox {
 		}
 	}
 }
-
-new RI_WTH_Metabox();
+}

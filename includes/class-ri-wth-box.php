@@ -1,5 +1,7 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+if ( ! class_exists( 'RI_WTH_Box' ) ) {
 class RI_WTH_Box {
 
 	public function __construct() {
@@ -24,4 +26,5 @@ class RI_WTH_Box {
 
 }
 
-new RI_WTH_Box();
+
+}

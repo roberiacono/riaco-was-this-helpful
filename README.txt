@@ -2,9 +2,9 @@
 Contributors: prototipo88
 Tags: feedback, user interaction, comments
 Requires at least: 5.0
-Tested up to: 6.2
+Tested up to: 6.5.4
 Requires PHP: 7.0
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,6 +49,9 @@ With the PRO version installed, the custom post types will automatically be avai
 
 == Changelog ==
 
+= 1.4.4 =
+* Added filters to retrieve feedback with conditional
+
 = 1.4.3 =
 * Added option to disable the feedback box on individual posts or pages
 
@@ -76,11 +79,6 @@ With the PRO version installed, the custom post types will automatically be avai
 
 = 1.0 =
 * Initial release.
-
-== Upgrade Notice ==
-
-= 1.2 =
-Enhancements and new features. Please update for better functionality.
 
 == Settings ==
 
