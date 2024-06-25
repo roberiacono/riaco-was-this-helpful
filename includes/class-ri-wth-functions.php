@@ -55,6 +55,7 @@ if ( ! class_exists( 'RI_WTH_Functions' ) ) {
 			global $post;
 
 			// If we don't have a post object, return false
+			
 			if ( ! $post ) {
 				return false;
 			}
@@ -73,7 +74,6 @@ if ( ! class_exists( 'RI_WTH_Functions' ) ) {
 			if ( is_main_query() && is_singular() && in_array( get_post_type(), $options ) ) {
 				return true;
 			}
-
 			return false;
 		}
 	}

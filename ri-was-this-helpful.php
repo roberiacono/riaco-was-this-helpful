@@ -10,8 +10,13 @@ Domain Path: /languages
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'RI_WTH_DB_NAME', 'ri_wth_helpful_feedback' );
-define( 'RI_WTH_PLUGIN_VERSION', '1.4.4' );
+if ( ! defined( 'RI_WTH_DB_NAME' ) ) {
+	define( 'RI_WTH_DB_NAME', 'ri_wth_helpful_feedback' );
+}
+
+if ( ! defined( 'RI_WTH_PLUGIN_VERSION' ) ) {
+	define( 'RI_WTH_PLUGIN_VERSION', '1.4.4' );
+}
 
 if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 	class RI_Was_This_Helpful {
@@ -46,6 +51,7 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 			require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-metabox.php';
 			require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-box.php';
 			require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-user-role.php';
+			require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-shortcode.php';
 		}
 
 		private function init_hooks() {
@@ -59,6 +65,8 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 			$user_role = new RI_WTH_User_Role();
 			new RI_WTH_Settings();
 			new RI_WTH_Box();
+			new RI_WTH_Functions();
+			new RI_WTH_Shortcode();
 			new RI_WTH_Ajax();
 
 			if ( $user_role->can_user_see_stats() ) {
