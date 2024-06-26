@@ -101,6 +101,9 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 			if ( false === get_option( 'ri_wth_display_on' ) ) {
 				add_option( 'ri_wth_display_on', array( 'post' ) );
 			}
+			if ( false === get_option( 'ri_wth_display_by_user_role' ) ) {
+				add_option( 'ri_wth_display_by_user_role', array( 'administrator', 'editor' ) );
+			}
 			if ( false === get_option( 'ri_wth_load_styles' ) ) {
 				add_option( 'ri_wth_load_styles', 1 );
 			}

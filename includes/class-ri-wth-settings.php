@@ -36,6 +36,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 
 		public function register_settings() {
 			register_setting( 'ri-wth-settings-group', 'ri_wth_display_on' );
+			register_setting( 'ri-wth-settings-group', 'ri_wth_display_by_user_role' );
 			register_setting( 'ri-wth-settings-group', 'ri_wth_load_styles' );
 			register_setting( 'ri-wth-settings-group', 'ri_wth_load_scripts' );
 			register_setting( 'ri-wth-settings-group', 'ri_wth_show_admin_bar_content' );
@@ -51,6 +52,14 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 				'ri_wth_display_on',
 				__( 'Display on', 'ri-was-this-helpful' ),
 				array( $this, 'display_on_callback' ),
+				'ri-wth-settings',
+				'ri-wth-settings-section'
+			);
+
+			add_settings_field(
+				'ri_wth_display_by_user_role',
+				__( 'Display Stats and Functionalities by User Role', 'ri-was-this-helpful' ),
+				array( $this, 'display_by_user_role_callback' ),
 				'ri-wth-settings',
 				'ri-wth-settings-section'
 			);
@@ -123,7 +132,22 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 			}
 		}
 
+		public function display_by_user_role_callback() {
+			global $wp_roles;
+			$options = get_option( 'ri_wth_display_by_user_role', array() );
+			$options = is_array( $options ) ? $options : array();
 
+			$all_roles = $wp_roles->roles;
+
+			foreach ( $all_roles as $key => $value ) {
+				?>
+			<label>
+				<input type="checkbox" name="ri_wth_display_by_user_role[]" value="<?php echo esc_attr( $key ); ?>" <?php checked( in_array( $key, $options ) ); ?>>
+				<?php echo esc_html( $value['name'] ); ?>
+			</label><br>
+				<?php
+			}
+		}
 
 
 
