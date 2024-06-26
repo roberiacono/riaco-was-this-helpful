@@ -134,7 +134,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 
 		public function display_by_user_role_callback() {
 			global $wp_roles;
-			$options = get_option( 'ri_wth_display_by_user_role', array() );
+			$options = get_option( 'ri_wth_display_by_user_role' );
 			$options = is_array( $options ) ? $options : array();
 
 			$all_roles = $wp_roles->roles;
