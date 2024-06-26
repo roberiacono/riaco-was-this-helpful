@@ -16,13 +16,16 @@ if ( ! class_exists( 'RI_WTH_Box' ) ) {
 		}
 
 		public function feedback_box_code() {
-			$nonce = wp_create_nonce( 'ri_was_this_helpful_nonce' );
-			$code  = '
+			$nonce                             = wp_create_nonce( 'ri_was_this_helpful_nonce' );
+			$feedback_box_text                 = get_option( 'ri_wth_feedback_box_text' );
+			$feedback_box_positive_button_text = get_option( 'ri_wth_feedback_box_positive_button_text' );
+			$feedback_box_negative_button_text = get_option( 'ri_wth_feedback_box_negative_button_text' );
+			$code                              = '
                 <div id="ri-wth-helpful-feedback" class="ri-wth-helpful-feedback">
-                    <div class="ri-wth-text">' . __( 'Was this helpful?', 'ri-was-this-helpful' ) . '</div>
+                    <div class="ri-wth-text">' . esc_html( $feedback_box_text ) . '</div>
                     <div class="ri-wth-buttons-container">
-                    <button id="ri-wth-helpful-yes" class="helpful-yes" data-post_id="' . get_the_ID() . '" data-nonce="' . $nonce . '">👍</button>
-                    <button id="ri-wth-helpful-no" class="helpful-no" data-post_id="' . get_the_ID() . '" data-nonce="' . $nonce . '">👎</button>
+                    	<button id="ri-wth-helpful-yes" class="helpful-yes" data-post_id="' . get_the_ID() . '" data-nonce="' . $nonce . '">' . $feedback_box_positive_button_text . ' 👍</button>
+                    	<button id="ri-wth-helpful-no" class="helpful-no" data-post_id="' . get_the_ID() . '" data-nonce="' . $nonce . '">' . $feedback_box_negative_button_text . '👎</button>
                     </div>
                 </div>
             ';

@@ -20,39 +20,31 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 		}
 
 		public function render_settings_page() {
-			?>
-		<div class="wrap">
-			<h1><?php esc_html_e( 'Was This Helpful Settings', 'ri-was-this-helpful' ); ?></h1>
-			<form method="post" action="options.php">
-				<?php
-				settings_fields( 'ri-wth-settings-group' );
-				do_settings_sections( 'ri-wth-settings' );
-				submit_button();
-				?>
-			</form>
-		</div>
-			<?php
+			require_once RI_WTH_PLUGIN_DIR . 'templates/page-settings.php';
 		}
 
 		public function register_settings() {
-			register_setting( 'ri-wth-settings-group', 'ri_wth_display_on' );
-			register_setting( 'ri-wth-settings-group', 'ri_wth_display_by_user_role' );
-			register_setting( 'ri-wth-settings-group', 'ri_wth_load_styles' );
-			register_setting( 'ri-wth-settings-group', 'ri_wth_load_scripts' );
-			register_setting( 'ri-wth-settings-group', 'ri_wth_show_admin_bar_content' );
+			register_setting( 'ri-wth-tab-general-settings-group', 'ri_wth_display_on' );
+			register_setting( 'ri-wth-tab-general-settings-group', 'ri_wth_display_by_user_role' );
+			register_setting( 'ri-wth-tab-general-settings-group', 'ri_wth_load_styles' );
+			register_setting( 'ri-wth-tab-general-settings-group', 'ri_wth_load_scripts' );
+			register_setting( 'ri-wth-tab-general-settings-group', 'ri_wth_show_admin_bar_content' );
+			register_setting( 'ri-wth-tab-feedback-box-settings-group', 'ri_wth_feedback_box_text' );
+			register_setting( 'ri-wth-tab-feedback-box-settings-group', 'ri_wth_feedback_box_positive_button_text' );
+			register_setting( 'ri-wth-tab-feedback-box-settings-group', 'ri_wth_feedback_box_negative_button_text' );
 
 			add_settings_section(
 				'ri-wth-settings-section',
-				__( 'RI Was This Helpful Settings', 'ri-was-this-helpful' ),
+				__( 'Display on', 'ri-was-this-helpful' ),
 				array( $this, 'settings_section_callback' ),
-				'ri-wth-settings'
+				'ri-wth-settings-tab-general'
 			);
 
 			add_settings_field(
 				'ri_wth_display_on',
 				__( 'Display on', 'ri-was-this-helpful' ),
 				array( $this, 'display_on_callback' ),
-				'ri-wth-settings',
+				'ri-wth-settings-tab-general',
 				'ri-wth-settings-section'
 			);
 
@@ -60,22 +52,22 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 				'ri_wth_display_by_user_role',
 				__( 'Display Stats and Functionalities by User Role', 'ri-was-this-helpful' ),
 				array( $this, 'display_by_user_role_callback' ),
-				'ri-wth-settings',
+				'ri-wth-settings-tab-general',
 				'ri-wth-settings-section'
 			);
 
 			add_settings_section(
 				'ri-wth-load-settings-section',
-				__( 'Load Settings', 'ri-was-this-helpful' ),
+				__( 'Assets Loading', 'ri-was-this-helpful' ),
 				array( $this, 'load_settings_section_callback' ),
-				'ri-wth-settings'
+				'ri-wth-settings-tab-general'
 			);
 
 			add_settings_field(
 				'ri_wth_load_styles',
 				__( 'Load Styles', 'ri-was-this-helpful' ),
 				array( $this, 'load_styles_callback' ),
-				'ri-wth-settings',
+				'ri-wth-settings-tab-general',
 				'ri-wth-load-settings-section'
 			);
 
@@ -83,22 +75,50 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 				'ri_wth_load_scripts',
 				__( 'Load Scripts', 'ri-was-this-helpful' ),
 				array( $this, 'load_scripts_callback' ),
-				'ri-wth-settings',
+				'ri-wth-settings-tab-general',
 				'ri-wth-load-settings-section'
 			);
 
 			add_settings_section(
 				'ri-wth-admin-bar-settings-section',
-				__( 'Plugin Settings', 'ri-was-this-helpful' ),
+				__( 'Admin Bar', 'ri-was-this-helpful' ),
 				array( $this, 'admin_bar_settings_section_callback' ),
-				'ri-wth-settings'
+				'ri-wth-settings-tab-general'
 			);
 			add_settings_field(
 				'ri_wth_show_admin_bar_content',
 				__( 'Show Admin Bar Content', 'ri-was-this-helpful' ),
 				array( $this, 'show_admin_bar_content_callback' ),
-				'ri-wth-settings',
+				'ri-wth-settings-tab-general',
 				'ri-wth-admin-bar-settings-section'
+			);
+
+			add_settings_section(
+				'ri-wth-feedback-box-settings-section',
+				__( 'Feedback Box', 'ri-was-this-helpful' ),
+				array( $this, 'feedback_box_settings_section_callback' ),
+				'ri-wth-settings-tab-feedback-box'
+			);
+			add_settings_field(
+				'ri_wth_feedback_box_text',
+				__( 'Feedback Box Text', 'ri-was-this-helpful' ),
+				array( $this, 'feedback_box_text_callback' ),
+				'ri-wth-settings-tab-feedback-box',
+				'ri-wth-feedback-box-settings-section'
+			);
+			add_settings_field(
+				'ri_wth_feedback_box_positive_button_text',
+				__( 'Positive Button Text', 'ri-was-this-helpful' ),
+				array( $this, 'feedback_box_positive_button_text_callback' ),
+				'ri-wth-settings-tab-feedback-box',
+				'ri-wth-feedback-box-settings-section'
+			);
+			add_settings_field(
+				'ri_wth_feedback_box_negative_button_text',
+				__( 'Negative Button Text', 'ri-was-this-helpful' ),
+				array( $this, 'feedback_box_negative_button_text_callback' ),
+				'ri-wth-settings-tab-feedback-box',
+				'ri-wth-feedback-box-settings-section'
 			);
 		}
 
@@ -172,6 +192,23 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 		public function show_admin_bar_content_callback() {
 			$option = get_option( 'ri_wth_show_admin_bar_content' );
 			echo '<input type="checkbox" name="ri_wth_show_admin_bar_content" value="1" ' . checked( 1, $option, false ) . '>';
+		}
+
+		public function feedback_box_settings_section_callback() {
+			echo esc_html( __( 'Style and change content on your feedback box.', 'ri-was-this-helpful' ) );
+		}
+
+		public function feedback_box_text_callback() {
+			$option = get_option( 'ri_wth_feedback_box_text' );
+			echo '<input type="text" name="ri_wth_feedback_box_text" value="' . esc_attr( $option ) . '">';
+		}
+		public function feedback_box_positive_button_text_callback() {
+			$option = get_option( 'ri_wth_feedback_box_positive_button_text' );
+			echo '<input type="text" name="ri_wth_feedback_box_positive_button_text" value="' . esc_attr( $option ) . '">';
+		}
+		public function feedback_box_negative_button_text_callback() {
+			$option = get_option( 'ri_wth_feedback_box_negative_button_text' );
+			echo '<input type="text" name="ri_wth_feedback_box_negative_button_text" value="' . esc_attr( $option ) . '">';
 		}
 	}
 }

@@ -18,6 +18,10 @@ if ( ! defined( 'RI_WTH_PLUGIN_VERSION' ) ) {
 	define( 'RI_WTH_PLUGIN_VERSION', '1.4.5' );
 }
 
+if ( ! defined( 'RI_WTH_PLUGIN_DIR' ) ) {
+	define( 'RI_WTH_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+}
+
 if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 	class RI_Was_This_Helpful {
 
