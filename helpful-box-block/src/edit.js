@@ -29,39 +29,19 @@ import "./editor.scss";
  *
  * @return {Element} Element to render.
  */
+
+import { RawHTML } from "@wordpress/element";
+
 export default function Edit({ attributes, setAttributes }) {
-	//console.log("attributes", attributes);
+	console.log("attributes", attributes);
 
 	//attributes.helpfulBox;
 
 	return (
 		<>
-			{/* <div dangerouslySetInnerHTML={{ __html: attributes.helpfulBox }} /> */}
-			{/* <div {...useBlockProps()}>
-				
-				<div id="ri-wth-helpful-feedback" class="ri-wth-helpful-feedback">
-					<div class="ri-wth-text">Was this ueful?</div>
-					<div class="ri-wth-buttons-container">
-						<button
-							id="ri-wth-helpful-yes"
-							class="helpful-yes"
-							data-post_id="' . get_the_ID() . '"
-							data-nonce="' . $nonce . '"
-						>
-							Si
-						</button>
-						<button
-							id="ri-wth-helpful-no"
-							class="helpful-no"
-							data-post_id="' . get_the_ID() . '"
-							data-nonce="' . $nonce . '"
-						>
-							no
-						</button>
-					</div>
-				</div>
-			</div> */}
-			<p>DEBUG</p>
+			<div {...useBlockProps()}>
+				<RawHTML>{attributes.helpfulBox}</RawHTML>
+			</div>
 		</>
 	);
 }

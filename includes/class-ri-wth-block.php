@@ -18,33 +18,54 @@ if ( ! class_exists( 'RI_WTH_Block' ) ) {
 			register_block_type(
 				RI_WTH_PLUGIN_DIR . 'helpful-box-block/build',
 				array(
-					'render_callback' => array( $this, 'ri_wth_render_feedback_block' ),
-					/*
+					'render_callback' => array( $this, 'render_feedback_block' ),
+
 					'attributes'      => array(
+
 						'helpfulBox' => array(
-							'default' => $this->ri_wth_render_feedback_block_editor(),
+							'default' => $this->get_feedback_block_for_editor(),
 							'type'    => 'string',
 						),
-					), */
+						/*
+						'nonce'              => array(
+							'default' => RI_WTH_Box::get_feedback_box_nonce(),
+							'type'    => 'string',
+						),
+						'feedbackBoxText'    => array(
+							'default' => RI_WTH_Box::get_feedback_box_text(),
+							'type'    => 'string',
+						),
+						'positiveButtonText' => array(
+							'default' => RI_WTH_Box::get_feedback_box_button_text( 'positive' ),
+							'type'    => 'string',
+						),
+						'positiveButtonIcon' => array(
+							'default' => RI_WTH_Box::get_feedback_box_button_icon( 'positive' ),
+							'type'    => 'string',
+						),
+						'negativeButtonText' => array(
+							'default' => RI_WTH_Box::get_feedback_box_button_text( 'negative' ),
+							'type'    => 'string',
+						),
+						'negativeButtonIcon' => array(
+							'default' => RI_WTH_Box::get_feedback_box_button_icon( 'negative' ),
+							'type'    => 'string',
+						), */
+					),
 				)
 			);
 		}
 
 
-		public function ri_wth_render_feedback_block() {
-			// return 'Wholesome Plugin - hello from the editor! <div style="background-color: #fff;">Qualcosa</div>';
-
-			/*
-			if ( RI_WTH_Functions::should_display_box() ) {
-				$helpful_box = new RI_WTH_Box();
-				return $helpful_box->feedback_box_code();
-			}
-			return false; */
-
+		public function render_feedback_block() {
 			if ( RI_WTH_Functions::should_display_box() ) {
 				return RI_WTH_Box::feedback_box_code();
 			}
 			return false;
+		}
+		public function get_feedback_block_for_editor() {
+
+				return RI_WTH_Box::feedback_box_code();
 		}
 	}
 }

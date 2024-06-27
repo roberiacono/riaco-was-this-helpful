@@ -32,7 +32,7 @@ if ( ! class_exists( 'RI_WTH_Metabox' ) ) {
 			?>
 		<label for="ri_wth_disable_box">
 			<input type="checkbox" name="ri_wth_disable_box" id="ri_wth_disable_box" value="1" <?php checked( $value, '1' ); ?>>
-			<?php esc_attr_e( 'Disable Was This Helpful box on this post', 'ri-was-this-helpful' ); ?>
+			<?php esc_attr_e( 'Disable automatic Helpful box at the bottom of this post.', 'ri-was-this-helpful' ); ?>
 		</label>
 			<?php
 		}

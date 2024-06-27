@@ -16,34 +16,15 @@ if ( ! class_exists( 'RI_WTH_Box' ) ) {
 		}
 
 		public static function feedback_box_code() {
-			$nonce              = wp_create_nonce( 'ri_was_this_helpful_nonce' );
-			$svg_positive_icons = RI_WTH_SVG_Icons::get_svg_positive_icons();
-			$svg_negative_icons = RI_WTH_SVG_Icons::get_svg_negative_icons();
-			$feedback_box_text  = get_option( 'ri_wth_feedback_box_text' );
+			$nonce = self::get_feedback_box_nonce();
 
-			$positive_button_text = get_option( 'ri_wth_feedback_box_positive_button_text' );
-			if ( $positive_button_text ) {
-				$positive_button_text = '<span> ' . $positive_button_text . '</span>';
-			}
+			$feedback_box_text = self::get_feedback_box_text();
 
-			$positive_button_icon = get_option( 'ri_wth_feedback_box_positive_button_icon' );
-			if ( ! $positive_button_icon || $positive_button_icon === 'empty' ) {
-				$positive_button_icon = '';
-			} else {
-				$positive_button_icon = $svg_positive_icons[ $positive_button_icon ];
-			}
+			$positive_button_text = self::get_feedback_box_button_text( 'positive' );
+			$positive_button_icon = self::get_feedback_box_button_icon( 'positive' );
 
-			$negative_button_text = get_option( 'ri_wth_feedback_box_negative_button_text' );
-			if ( $negative_button_text ) {
-				$negative_button_text = '<span> ' . $negative_button_text . '</span>';
-			}
-
-			$negative_button_icon = get_option( 'ri_wth_feedback_box_negative_button_icon' );
-			if ( ! $negative_button_icon || $negative_button_icon === 'empty' ) {
-				$negative_button_icon = '';
-			} else {
-				$negative_button_icon = $svg_negative_icons[ $negative_button_icon ];
-			}
+			$negative_button_text = self::get_feedback_box_button_text( 'negative' );
+			$negative_button_icon = self::get_feedback_box_button_icon( 'negative' );
 
 			$code = '
                 <div id="ri-wth-helpful-feedback" class="ri-wth-helpful-feedback">
@@ -62,6 +43,39 @@ if ( ! class_exists( 'RI_WTH_Box' ) ) {
             ';
 			return $code;
 		}
-	}
 
+		public static function get_feedback_box_nonce() {
+			return wp_create_nonce( 'ri_was_this_helpful_nonce' );
+		}
+		public static function get_feedback_box_text() {
+			return get_option( 'ri_wth_feedback_box_text' );
+		}
+		public static function get_feedback_box_button_icon( $type ) {
+			if ( ! in_array( $type, array( 'positive', 'negative' ) ) ) {
+				return;
+			}
+
+			$svg_icons = $type === 'positive' ? RI_WTH_SVG_Icons::get_svg_positive_icons() : RI_WTH_SVG_Icons::get_svg_negative_icons();
+
+			$button_icon = get_option( 'ri_wth_feedback_box_' . $type . '_button_icon' );
+			if ( ! $button_icon || $button_icon === 'empty' ) {
+				$button_icon = '';
+			} else {
+				$button_icon = $svg_icons[ $button_icon ];
+			}
+			return $button_icon;
+		}
+
+		public static function get_feedback_box_button_text( $type ) {
+			if ( ! in_array( $type, array( 'positive', 'negative' ) ) ) {
+				return;
+			}
+
+			$button_text = get_option( 'ri_wth_feedback_box_' . $type . '_button_text' );
+			if ( $button_text ) {
+				$button_text = '<span> ' . $button_text . '</span>';
+			}
+			return $button_text;
+		}
+	}
 }

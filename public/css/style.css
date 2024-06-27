@@ -31,10 +31,12 @@
   cursor: pointer;
 }
 .ri-wth-helpful-feedback button.helpful-yes:hover {
-  background-color: springgreen;
+  background-color: #00a96e;
+  color: #fff;
 }
 .ri-wth-helpful-feedback button.helpful-no:hover {
-  background-color: #ff0000;
+  background-color: #ff5861;
+  color: #fff;
 }
 .ri-wth-helpful-feedback button svg{
   width: 20px;
