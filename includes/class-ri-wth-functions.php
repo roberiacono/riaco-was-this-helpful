@@ -55,7 +55,7 @@ if ( ! class_exists( 'RI_WTH_Functions' ) ) {
 			global $post;
 
 			// If we don't have a post object, return false
-			
+
 			if ( ! $post ) {
 				return false;
 			}
@@ -75,6 +75,30 @@ if ( ! class_exists( 'RI_WTH_Functions' ) ) {
 				return true;
 			}
 			return false;
+		}
+
+		public static function GreenYellowRed( $number ) {
+			--$number; // working with 0-99 will be easier
+			if ( $number < 0 ) {
+				$number = 0;
+			}
+
+			// invert color scale
+			$number = 99 - $number;
+
+			if ( $number < 50 ) {
+				// green to yellow
+				$r = floor( 255 * ( $number / 50 ) );
+				$g = 255;
+
+			} else {
+				// yellow to red
+				$r = 255;
+				$g = floor( 255 * ( ( 50 - $number % 50 ) / 50 ) );
+			}
+			$b = 0;
+
+			return "$r,$g,$b";
 		}
 	}
 }
