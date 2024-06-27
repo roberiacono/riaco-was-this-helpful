@@ -10,9 +10,12 @@ delete_option( 'ri_wth_display_on' );
 delete_option( 'ri_wth_display_by_user_role' );
 delete_option( 'ri_wth_load_styles' );
 delete_option( 'ri_wth_load_scripts' );
+delete_option( 'ri_wth_show_admin_bar_content' );
 delete_option( 'ri_wth_feedback_box_text' );
 delete_option( 'ri_wth_feedback_box_positive_button_text' );
+delete_option( 'ri_wth_feedback_box_positive_button_icon' );
 delete_option( 'ri_wth_feedback_box_negative_button_text' );
+delete_option( 'ri_wth_feedback_box_negative_button_icon' );
 
 // Delete custom table
 

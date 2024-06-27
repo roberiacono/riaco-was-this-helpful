@@ -3,18 +3,28 @@
 .ri-wth-helpful-feedback {
   align-items: center;
   background-color: #f4f4f5;
+  border: 1px solid #e7eaf0;
   border-radius: 0.25rem;
+  color: #444;
   display: flex;
+  flex-direction: column;
   gap: 1rem;
   justify-content: center;
-  padding: 1rem;
+  padding: 2rem;
   transition: opacity 0.5s ease-in-out;
 }
 .ri-wth-helpful-feedback button {
-  background-color: transparent;
+  align-items: center;
+  background-color: #fff;
+  border-width: 1px;
+  border-color: #444;
+  border-style: solid;
   border-radius: 0.25rem;
+  color: #444;
+  display: flex;
+  font-weight: normal;
+  gap: 5px;
   padding: 0.5rem;
-  border: none;
 }
 .ri-wth-helpful-feedback button:hover {
   cursor: pointer;
@@ -24,6 +34,9 @@
 }
 .ri-wth-helpful-feedback button.helpful-no:hover {
   background-color: #ff0000;
+}
+.ri-wth-helpful-feedback button svg{
+  width: 20px;
 }
 .ri-wth-buttons-container{
   display: flex;

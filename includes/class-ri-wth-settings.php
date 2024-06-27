@@ -23,6 +23,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 			require_once RI_WTH_PLUGIN_DIR . 'templates/page-settings.php';
 		}
 
+
 		public function register_settings() {
 			register_setting( 'ri-wth-tab-general-settings-group', 'ri_wth_display_on' );
 			register_setting( 'ri-wth-tab-general-settings-group', 'ri_wth_display_by_user_role' );
@@ -31,7 +32,9 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 			register_setting( 'ri-wth-tab-general-settings-group', 'ri_wth_show_admin_bar_content' );
 			register_setting( 'ri-wth-tab-feedback-box-settings-group', 'ri_wth_feedback_box_text' );
 			register_setting( 'ri-wth-tab-feedback-box-settings-group', 'ri_wth_feedback_box_positive_button_text' );
+			register_setting( 'ri-wth-tab-feedback-box-settings-group', 'ri_wth_feedback_box_positive_button_icon' );
 			register_setting( 'ri-wth-tab-feedback-box-settings-group', 'ri_wth_feedback_box_negative_button_text' );
+			register_setting( 'ri-wth-tab-feedback-box-settings-group', 'ri_wth_feedback_box_negative_button_icon' );
 
 			add_settings_section(
 				'ri-wth-settings-section',
@@ -114,11 +117,28 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 				'ri-wth-feedback-box-settings-section'
 			);
 			add_settings_field(
+				'ri_wth_feedback_box_positive_button_icon',
+				__( 'Positive Button Icon', 'ri-was-this-helpful' ),
+				array( $this, 'feedback_box_positive_button_icon_callback' ),
+				'ri-wth-settings-tab-feedback-box',
+				'ri-wth-feedback-box-settings-section',
+				array( 'class' => 'radio' )
+			);
+			add_settings_field(
 				'ri_wth_feedback_box_negative_button_text',
 				__( 'Negative Button Text', 'ri-was-this-helpful' ),
 				array( $this, 'feedback_box_negative_button_text_callback' ),
 				'ri-wth-settings-tab-feedback-box',
 				'ri-wth-feedback-box-settings-section'
+			);
+
+			add_settings_field(
+				'ri_wth_feedback_box_negative_button_icon',
+				__( 'Negative Button Icon', 'ri-was-this-helpful' ),
+				array( $this, 'feedback_box_negative_button_icon_callback' ),
+				'ri-wth-settings-tab-feedback-box',
+				'ri-wth-feedback-box-settings-section',
+				array( 'class' => 'radio' )
 			);
 		}
 
@@ -202,13 +222,47 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 			$option = get_option( 'ri_wth_feedback_box_text' );
 			echo '<input type="text" name="ri_wth_feedback_box_text" value="' . esc_attr( $option ) . '">';
 		}
+
 		public function feedback_box_positive_button_text_callback() {
 			$option = get_option( 'ri_wth_feedback_box_positive_button_text' );
 			echo '<input type="text" name="ri_wth_feedback_box_positive_button_text" value="' . esc_attr( $option ) . '">';
+			echo '<p class=""description"">' . esc_html( __( 'Leave empty if you don\'t want to display text', 'ri-was-this-helpful' ) ) . '</p>';
 		}
+
+		public function feedback_box_positive_button_icon_callback() {
+			$option    = get_option( 'ri_wth_feedback_box_positive_button_icon' );
+			$svg_icons = RI_WTH_SVG_Icons::get_svg_positive_icons();
+			$svg_icons = array_merge( $svg_icons, array( 'empty' => esc_attr( __( 'Leave Empty', 'ri-was-this-helpful' ) ) ) );
+
+			foreach ( $svg_icons as $key => $icon ) {
+				?>
+				<label>
+					<input type="radio" name="ri_wth_feedback_box_positive_button_icon" value="<?php esc_attr_e( $key ); ?>" <?php checked( $key, $option ); ?>>
+					<?php echo $icon; ?>	
+				</label>
+				<?php
+			}
+		}
+
+		public function feedback_box_negative_button_icon_callback() {
+			$option    = get_option( 'ri_wth_feedback_box_negative_button_icon' );
+			$svg_icons = RI_WTH_SVG_Icons::get_svg_negative_icons();
+			$svg_icons = array_merge( $svg_icons, array( 'empty' => esc_attr( __( 'Leave Empty', 'ri-was-this-helpful' ) ) ) );
+
+			foreach ( $svg_icons as $key => $icon ) {
+				?>
+				<label>
+					<input type="radio" name="ri_wth_feedback_box_negative_button_icon" value="<?php esc_attr_e( $key ); ?>" <?php checked( $key, $option ); ?>>
+					<?php echo $icon; ?>	
+				</label>
+				<?php
+			}
+		}
+
 		public function feedback_box_negative_button_text_callback() {
 			$option = get_option( 'ri_wth_feedback_box_negative_button_text' );
 			echo '<input type="text" name="ri_wth_feedback_box_negative_button_text" value="' . esc_attr( $option ) . '">';
+			echo '<p class=""description"">' . esc_html( __( 'Leave empty if you don\'t want to display text', 'ri-was-this-helpful' ) ) . '</p>';
 		}
 	}
 }

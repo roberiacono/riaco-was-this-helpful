@@ -1,0 +1,18 @@
+.radio td {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.radio td label{
+    display: flex;
+    align-items: center;
+}
+
+svg {
+    width: 24px;
+}
+
+.radio svg:hover {
+    cursor: pointer;
+}

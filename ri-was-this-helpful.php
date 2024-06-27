@@ -57,10 +57,12 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 			require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-box.php';
 			require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-user-role.php';
 			require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-shortcode.php';
+			require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-svg-icons.php';
 		}
 
 		private function init_hooks() {
 			add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_scripts' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_settings_link' ) );
@@ -78,6 +80,8 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 				new RI_WTH_Metabox();
 			}
 		}
+
+
 
 
 		public function load_textdomain() {
@@ -100,18 +104,61 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 			dbDelta( $sql );
 
+			$initial_settings = array(
+				array(
+					'id'    => 'ri_wth_display_on',
+					'value' => array( 'post' ),
+				),
+				array(
+					'id'    => 'ri_wth_display_by_user_role',
+					'value' => array( 'administrator', 'editor' ),
+				),
+				array(
+					'id'    => 'ri_wth_load_styles',
+					'value' => 1,
+				),
+				array(
+					'id'    => 'ri_wth_load_scripts',
+					'value' => 1,
+				),
+				array(
+					'id'    => 'ri_wth_show_admin_bar_content',
+					'value' => 1,
+				),
+				array(
+					'id'    => 'ri_wth_feedback_box_text',
+					'value' => __( 'Was This Helpful?', 'ri-was-this-helpful' ),
+				),
+				array(
+					'id'    => 'ri_wth_feedback_box_positive_button_text',
+					'value' => __( 'Yes', 'ri-was-this-helpful' ),
+				),
+				array(
+					'id'    => 'ri_wth_feedback_box_positive_button_icon',
+					'value' => 'thumbs-up',
+				),
+				array(
+					'id'    => 'ri_wth_feedback_box_negative_button_text',
+					'value' => __( 'No', 'ri-was-this-helpful' ),
+				),
+				array(
+					'id'    => 'ri_wth_feedback_box_negative_button_icon',
+					'value' => 'thumbs-down',
+				),
+
+			);
+
 			// set default initial settings
-			if ( false === get_option( 'ri_wth_display_on' ) ) {
-				add_option( 'ri_wth_display_on', array( 'post' ) );
+			foreach ( $initial_settings as $setting ) {
+				if ( false === get_option( $setting['id'] ) ) {
+					add_option( $setting['id'], $setting['value'] );
+				}
 			}
-			if ( false === get_option( 'ri_wth_display_by_user_role' ) ) {
-				add_option( 'ri_wth_display_by_user_role', array( 'administrator', 'editor' ) );
-			}
-			if ( false === get_option( 'ri_wth_load_styles' ) ) {
-				add_option( 'ri_wth_load_styles', 1 );
-			}
-			if ( false === get_option( 'ri_wth_load_scripts' ) ) {
-				add_option( 'ri_wth_load_scripts', 1 );
+		}
+
+		public function enqueue_scripts() {
+			if ( is_admin() && isset( $_GET['page'] ) && $_GET['page'] == 'ri-wth-settings' ) {
+				wp_enqueue_style( 'ri-wth-admin-style', plugin_dir_url( __FILE__ ) . 'admin/css/style.css' );
 			}
 		}
 
