@@ -59,9 +59,7 @@ function Edit({
   attributes,
   setAttributes
 }) {
-  console.log("attributes", attributes);
-
-  //attributes.helpfulBox;
+  //console.log("attributes", attributes);
 
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()

@@ -171,21 +171,27 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 		}
 
 		public function maybe_enqueue_scripts() {
+			if ( get_option( 'ri_wth_load_styles' ) ) {
+				wp_register_style( 'ri-wth-style', plugin_dir_url( __FILE__ ) . 'public/css/style.css', array(), RI_WTH_PLUGIN_VERSION );
+			}
+			if ( get_option( 'ri_wth_load_scripts' ) ) {
+				wp_register_script( 'ri-wth-script', plugin_dir_url( __FILE__ ) . 'public/js/script.js', array( 'jquery' ), RI_WTH_PLUGIN_VERSION, true );
+				wp_localize_script(
+					'ri-wth-script',
+					'ri_wth_scripts',
+					array(
+						'ajax_url'   => admin_url( 'admin-ajax.php' ),
+						'thank_you'  => __( 'Thank you for your feedback!', 'ri-was-this-helpful' ),
+						'submitting' => __( 'Submitting...', 'ri-was-this-helpful' ),
+					)
+				);
+			}
 			if ( RI_WTH_Functions::should_display_box() ) {
 				if ( get_option( 'ri_wth_load_styles' ) ) {
-					wp_enqueue_style( 'ri-wth-style', plugin_dir_url( __FILE__ ) . 'public/css/style.css', array(), RI_WTH_PLUGIN_VERSION );
+					wp_enqueue_style( 'ri-wth-style' );
 				}
 				if ( get_option( 'ri_wth_load_scripts' ) ) {
-					wp_enqueue_script( 'ri-wth-script', plugin_dir_url( __FILE__ ) . 'public/js/script.js', array( 'jquery' ), RI_WTH_PLUGIN_VERSION, true );
-					wp_localize_script(
-						'ri-wth-script',
-						'ri_wth_scripts',
-						array(
-							'ajax_url'   => admin_url( 'admin-ajax.php' ),
-							'thank_you'  => __( 'Thank you for your feedback!', 'ri-was-this-helpful' ),
-							'submitting' => __( 'Submitting...', 'ri-was-this-helpful' ),
-						)
-					);
+					wp_enqueue_script( 'ri-wth-script' );
 				}
 			}
 		}

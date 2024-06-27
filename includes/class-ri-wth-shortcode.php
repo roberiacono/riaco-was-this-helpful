@@ -9,7 +9,13 @@ if ( ! class_exists( 'RI_WTH_Shortcode' ) ) {
 		}
 
 		public function shortcode_func( $atts ) {
-			if ( RI_WTH_Functions::should_display_box() ) {
+			if ( RI_WTH_Functions::could_display_box() ) {
+				if ( get_option( 'ri_wth_load_styles' ) ) {
+					wp_enqueue_style( 'ri-wth-style' );
+				}
+				if ( get_option( 'ri_wth_load_scripts' ) ) {
+					wp_enqueue_script( 'ri-wth-script' );
+				}
 				$helpful_box = new RI_WTH_Box();
 				return $helpful_box->feedback_box_code();
 			}
