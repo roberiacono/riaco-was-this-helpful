@@ -6,7 +6,8 @@ if ( ! class_exists( 'RI_WTH_Block' ) ) {
 
 		public function __construct() {
 			add_action( 'init', array( $this, 'ri_wth_register_feedback_block' ) );
-			add_action( 'enqueue_block_assets', array( $this, 'myplugin_enqueue_if_block_is_present' ) ); // Can only be loaded in the footer
+			add_action( 'enqueue_block_assets', array( $this, 'enqueue_if_block_is_present' ) ); // Can only be loaded in the footer
+			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_assets' ) );
 		}
 
 		public function ri_wth_register_feedback_block() {
@@ -58,8 +59,8 @@ if ( ! class_exists( 'RI_WTH_Block' ) ) {
 		}
 
 
-		// add_action( 'wp_enqueue_scripts', 'myplugin_enqueue_if_block_is_present' ); // Can be loaded in the both in head and footer
-		public function myplugin_enqueue_if_block_is_present() {
+		// enqueue assets on frontend if a block is there
+		public function enqueue_if_block_is_present() {
 
 			if ( has_block( 'ri-was-this-helpful/helpful-box-block' ) ) {
 				if ( get_option( 'ri_wth_load_styles' ) ) {
@@ -71,6 +72,14 @@ if ( ! class_exists( 'RI_WTH_Block' ) ) {
 			}
 		}
 
+		/**
+		 * Enqueue Editor assets.
+		 */
+		function enqueue_editor_assets() {
+			if ( get_option( 'ri_wth_load_styles' ) ) {
+				wp_enqueue_style( 'ri-wth-style', RI_WTH_PLUGIN_URL . 'public/css/style.css', array(), RI_WTH_PLUGIN_VERSION );
+			}
+		}
 
 		public function render_feedback_block() {
 			if ( RI_WTH_Functions::could_display_box() ) {

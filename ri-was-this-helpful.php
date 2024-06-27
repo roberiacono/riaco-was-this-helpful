@@ -22,6 +22,10 @@ if ( ! defined( 'RI_WTH_PLUGIN_DIR' ) ) {
 	define( 'RI_WTH_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 }
 
+if ( ! defined( 'RI_WTH_PLUGIN_URL' ) ) {
+	define( 'RI_WTH_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+}
+
 if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 	class RI_Was_This_Helpful {
 
@@ -165,9 +169,10 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 				wp_enqueue_style( 'ri-wth-admin-style', plugin_dir_url( __FILE__ ) . 'admin/css/style.css' );
 			}
 			// add styles for gutenberg block
+			/*
 			if ( get_option( 'ri_wth_load_styles' ) && RI_WTH_Functions::could_display_box() ) {
 				wp_enqueue_style( 'ri-wth-style', plugin_dir_url( __FILE__ ) . 'public/css/style.css', array(), RI_WTH_PLUGIN_VERSION );
-			}
+			} */
 		}
 
 		public function maybe_enqueue_scripts() {
