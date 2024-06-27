@@ -49,6 +49,10 @@ With the PRO version installed, the custom post types will automatically be avai
 
 == Changelog ==
 
+= 1.4.6 =
+* Added button manager (text and icon) for feedback box in settings page. 
+* Added stats metabox
+
 = 1.4.5 =
 * Added display stats and functionalities by user role
 

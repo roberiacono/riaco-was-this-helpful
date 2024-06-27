@@ -9,11 +9,15 @@ if ( ! class_exists( 'RI_WTH_Metabox' ) ) {
 		}
 
 		public function add_metabox() {
+			if ( ! current_user_can( 'edit_posts' ) || ! RI_WTH_Functions::could_display_box() ) {
+				return;
+			}
+
 			$post_types = get_post_types( array( 'public' => true ) );
 			foreach ( $post_types as $post_type ) {
 				add_meta_box(
 					'ri_wth_metabox',
-					__( 'Was This Helpful Settings', 'ri-was-this-helpful' ),
+					__( 'Helpful Settings', 'ri-was-this-helpful' ),
 					array( $this, 'render_metabox' ),
 					$post_type,
 					'side',

@@ -2,7 +2,7 @@
 /*
 Plugin Name: RI Was This Helpful
 Description: Adds a "Was this helpful?" box at the end of posts with thumb-up/thumb-down buttons for feedback.
-Version: 1.4.5
+Version: 1.4.6
 Author: Roberto Iacono
 Text Domain: ri-was-this-helpful
 Domain Path: /languages
@@ -15,7 +15,7 @@ if ( ! defined( 'RI_WTH_DB_NAME' ) ) {
 }
 
 if ( ! defined( 'RI_WTH_PLUGIN_VERSION' ) ) {
-	define( 'RI_WTH_PLUGIN_VERSION', '1.4.5' );
+	define( 'RI_WTH_PLUGIN_VERSION', '1.4.6' );
 }
 
 if ( ! defined( 'RI_WTH_PLUGIN_DIR' ) ) {
@@ -54,6 +54,7 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 			require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-ajax.php';
 			require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-admin-bar.php';
 			require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-metabox.php';
+			require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-metabox-stats.php';
 			require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-box.php';
 			require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-user-role.php';
 			require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-shortcode.php';
@@ -78,6 +79,7 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 				new RI_WTH_Admin_Columns();
 				new RI_WTH_Admin_Bar();
 				new RI_WTH_Metabox();
+				new RI_WTH_Metabox_Stats();
 			}
 		}
 

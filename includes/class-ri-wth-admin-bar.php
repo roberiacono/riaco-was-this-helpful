@@ -17,8 +17,7 @@ if ( ! class_exists( 'RI_WTH_Admin_Bar' ) ) {
 				return;
 			}
 
-			global $post, $wpdb;
-			$table_name = $wpdb->prefix . RI_WTH_DB_NAME;
+			global $post;
 
 			$positive_feedback_count = RI_WTH_Functions::get_positive_feedback_count( $post->ID );
 			$total_feedback_count    = RI_WTH_Functions::get_total_feedback_count( $post->ID );
