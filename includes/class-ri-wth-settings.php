@@ -206,7 +206,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 		}
 
 		public function admin_bar_settings_section_callback() {
-			echo esc_html( __( 'Select whether to show the content in the admin bar.', 'ri-was-this-helpful' ) );
+			echo __( 'Select whether to show the content in the admin bar.', 'ri-was-this-helpful' );
 		}
 
 		public function show_admin_bar_content_callback() {
@@ -215,7 +215,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 		}
 
 		public function feedback_box_settings_section_callback() {
-			echo esc_html( __( 'Style and change content on your feedback box.', 'ri-was-this-helpful' ) );
+			echo __( 'Style and change content on your feedback box.', 'ri-was-this-helpful' );
 		}
 
 		public function feedback_box_text_callback() {
@@ -226,13 +226,13 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 		public function feedback_box_positive_button_text_callback() {
 			$option = get_option( 'ri_wth_feedback_box_positive_button_text' );
 			echo '<input type="text" name="ri_wth_feedback_box_positive_button_text" value="' . esc_attr( $option ) . '">';
-			echo '<p class=""description"">' . esc_html( __( 'Leave empty if you don\'t want to display text', 'ri-was-this-helpful' ) ) . '</p>';
+			echo '<p class=""description"">' . __( 'Leave empty if you don\'t want to display text', 'ri-was-this-helpful' ) . '</p>';
 		}
 
 		public function feedback_box_positive_button_icon_callback() {
 			$option    = get_option( 'ri_wth_feedback_box_positive_button_icon' );
 			$svg_icons = RI_WTH_SVG_Icons::get_svg_positive_icons();
-			$svg_icons = array_merge( $svg_icons, array( 'empty' => esc_attr( __( 'Leave Empty', 'ri-was-this-helpful' ) ) ) );
+			$svg_icons = array_merge( $svg_icons, array( 'empty' => __( 'Leave Empty', 'ri-was-this-helpful' ) ) );
 
 			foreach ( $svg_icons as $key => $icon ) {
 				?>
@@ -247,7 +247,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 		public function feedback_box_negative_button_icon_callback() {
 			$option    = get_option( 'ri_wth_feedback_box_negative_button_icon' );
 			$svg_icons = RI_WTH_SVG_Icons::get_svg_negative_icons();
-			$svg_icons = array_merge( $svg_icons, array( 'empty' => esc_attr( __( 'Leave Empty', 'ri-was-this-helpful' ) ) ) );
+			$svg_icons = array_merge( $svg_icons, array( 'empty' => __( 'Leave Empty', 'ri-was-this-helpful' ) ) );
 
 			foreach ( $svg_icons as $key => $icon ) {
 				?>

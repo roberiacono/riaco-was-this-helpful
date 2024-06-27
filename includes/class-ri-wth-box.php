@@ -15,7 +15,7 @@ if ( ! class_exists( 'RI_WTH_Box' ) ) {
 			return $content;
 		}
 
-		public function feedback_box_code() {
+		public static function feedback_box_code() {
 			$nonce              = wp_create_nonce( 'ri_was_this_helpful_nonce' );
 			$svg_positive_icons = RI_WTH_SVG_Icons::get_svg_positive_icons();
 			$svg_negative_icons = RI_WTH_SVG_Icons::get_svg_negative_icons();

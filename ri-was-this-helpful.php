@@ -59,11 +59,12 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 			require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-user-role.php';
 			require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-shortcode.php';
 			require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-svg-icons.php';
+			require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-block.php';
 		}
 
 		private function init_hooks() {
 			add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_scripts' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 			add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_settings_link' ) );
@@ -74,6 +75,7 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 			new RI_WTH_Functions();
 			new RI_WTH_Shortcode();
 			new RI_WTH_Ajax();
+			new RI_WTH_Block();
 
 			if ( $user_role->can_user_see_stats() ) {
 				new RI_WTH_Admin_Columns();
@@ -158,9 +160,13 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 			}
 		}
 
-		public function enqueue_scripts() {
+		public function admin_enqueue_scripts() {
 			if ( is_admin() && isset( $_GET['page'] ) && $_GET['page'] == 'ri-wth-settings' ) {
 				wp_enqueue_style( 'ri-wth-admin-style', plugin_dir_url( __FILE__ ) . 'admin/css/style.css' );
+			}
+			// add styles for gutenberg block
+			if ( get_option( 'ri_wth_load_styles' ) && RI_WTH_Functions::could_display_box() ) {
+				wp_enqueue_style( 'ri-wth-style', plugin_dir_url( __FILE__ ) . 'public/css/style.css', array(), RI_WTH_PLUGIN_VERSION );
 			}
 		}
 
