@@ -41,7 +41,6 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 			register_setting( 'ri-wth-tab-general-settings-group', 'ri_wth_load_styles' );
 			register_setting( 'ri-wth-tab-general-settings-group', 'ri_wth_load_scripts' );
 			register_setting( 'ri-wth-tab-general-settings-group', 'ri_wth_show_admin_bar_content' );
-			// register_setting( 'ri-wth-tab-feedback-box-settings-group', 'ri_wth_feedback_box_template' );
 			register_setting( 'ri-wth-tab-feedback-box-settings-group', 'ri_wth_feedback_box_text' );
 			register_setting( 'ri-wth-tab-feedback-box-settings-group', 'ri_wth_feedback_box_positive_button_text' );
 			register_setting( 'ri-wth-tab-feedback-box-settings-group', 'ri_wth_feedback_box_positive_button_icon' );
@@ -56,14 +55,14 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 
 			add_settings_section(
 				'ri-wth-settings-section',
-				__( 'Display on', 'ri-was-this-helpful' ),
+				esc_html( __( 'Display on', 'ri-was-this-helpful' ) ),
 				array( $this, 'settings_section_callback' ),
 				'ri-wth-settings-tab-general'
 			);
 
 			add_settings_field(
 				'ri_wth_display_on',
-				__( 'Display on', 'ri-was-this-helpful' ),
+				esc_html( __( 'Display on', 'ri-was-this-helpful' ) ),
 				array( $this, 'display_on_callback' ),
 				'ri-wth-settings-tab-general',
 				'ri-wth-settings-section'
@@ -71,7 +70,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 
 			add_settings_field(
 				'ri_wth_display_by_user_role',
-				__( 'Display Stats and Functionalities by User Role', 'ri-was-this-helpful' ),
+				esc_html( __( 'Display Stats and Functionalities by User Role', 'ri-was-this-helpful' ) ),
 				array( $this, 'display_by_user_role_callback' ),
 				'ri-wth-settings-tab-general',
 				'ri-wth-settings-section'
@@ -79,14 +78,14 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 
 			add_settings_section(
 				'ri-wth-load-settings-section',
-				__( 'Assets Loading', 'ri-was-this-helpful' ),
+				esc_html( __( 'Assets Loading', 'ri-was-this-helpful' ) ),
 				array( $this, 'load_settings_section_callback' ),
 				'ri-wth-settings-tab-general'
 			);
 
 			add_settings_field(
 				'ri_wth_load_styles',
-				__( 'Load Styles', 'ri-was-this-helpful' ),
+				esc_html( __( 'Load Styles', 'ri-was-this-helpful' ) ),
 				array( $this, 'load_styles_callback' ),
 				'ri-wth-settings-tab-general',
 				'ri-wth-load-settings-section'
@@ -94,7 +93,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 
 			add_settings_field(
 				'ri_wth_load_scripts',
-				__( 'Load Scripts', 'ri-was-this-helpful' ),
+				esc_html( __( 'Load Scripts', 'ri-was-this-helpful' ) ),
 				array( $this, 'load_scripts_callback' ),
 				'ri-wth-settings-tab-general',
 				'ri-wth-load-settings-section'
@@ -102,57 +101,41 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 
 			add_settings_section(
 				'ri-wth-admin-bar-settings-section',
-				__( 'Admin Bar', 'ri-was-this-helpful' ),
+				esc_html( __( 'Admin Bar', 'ri-was-this-helpful' ) ),
 				array( $this, 'admin_bar_settings_section_callback' ),
 				'ri-wth-settings-tab-general'
 			);
 			add_settings_field(
 				'ri_wth_show_admin_bar_content',
-				__( 'Show Admin Bar Content', 'ri-was-this-helpful' ),
+				esc_html( __( 'Show Admin Bar Content', 'ri-was-this-helpful' ) ),
 				array( $this, 'show_admin_bar_content_callback' ),
 				'ri-wth-settings-tab-general',
 				'ri-wth-admin-bar-settings-section'
 			);
 
-			/*
-			add_settings_section(
-				'ri-wth-feedback-box-templates-settings-section',
-				__( 'Template', 'ri-was-this-helpful' ),
-				array( $this, 'feedback_box_templates_settings_section_callback' ),
-				'ri-wth-settings-tab-feedback-box'
-			);
-
-			add_settings_field(
-				'ri_wth_feedback_box_template',
-				esc_html( __( 'Template', 'ri-was-this-helpful' ) ),
-				array( $this, 'feedback_box_template_callback' ),
-				'ri-wth-settings-tab-feedback-box',
-				'ri-wth-feedback-box-templates-settings-section',
-			);
-			*/
 			add_settings_section(
 				'ri-wth-feedback-box-settings-section',
-				__( 'Content', 'ri-was-this-helpful' ),
+				esc_html( __( 'Content', 'ri-was-this-helpful' ) ),
 				array( $this, 'feedback_box_settings_section_callback' ),
 				'ri-wth-settings-tab-feedback-box'
 			);
 			add_settings_field(
 				'ri_wth_feedback_box_text',
-				__( 'Feedback Box Text', 'ri-was-this-helpful' ),
+				esc_html( __( 'Feedback Box Text', 'ri-was-this-helpful' ) ),
 				array( $this, 'feedback_box_text_callback' ),
 				'ri-wth-settings-tab-feedback-box',
 				'ri-wth-feedback-box-settings-section'
 			);
 			add_settings_field(
 				'ri_wth_feedback_box_positive_button_text',
-				__( 'Positive Button Text', 'ri-was-this-helpful' ),
+				esc_html( __( 'Positive Button Text', 'ri-was-this-helpful' ) ),
 				array( $this, 'feedback_box_positive_button_text_callback' ),
 				'ri-wth-settings-tab-feedback-box',
 				'ri-wth-feedback-box-settings-section'
 			);
 			add_settings_field(
 				'ri_wth_feedback_box_positive_button_icon',
-				__( 'Positive Button Icon', 'ri-was-this-helpful' ),
+				esc_html( __( 'Positive Button Icon', 'ri-was-this-helpful' ) ),
 				array( $this, 'feedback_box_positive_button_icon_callback' ),
 				'ri-wth-settings-tab-feedback-box',
 				'ri-wth-feedback-box-settings-section',
@@ -160,7 +143,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 			);
 			add_settings_field(
 				'ri_wth_feedback_box_negative_button_text',
-				__( 'Negative Button Text', 'ri-was-this-helpful' ),
+				esc_html( __( 'Negative Button Text', 'ri-was-this-helpful' ) ),
 				array( $this, 'feedback_box_negative_button_text_callback' ),
 				'ri-wth-settings-tab-feedback-box',
 				'ri-wth-feedback-box-settings-section'
@@ -168,7 +151,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 
 			add_settings_field(
 				'ri_wth_feedback_box_negative_button_icon',
-				__( 'Negative Button Icon', 'ri-was-this-helpful' ),
+				esc_html( __( 'Negative Button Icon', 'ri-was-this-helpful' ) ),
 				array( $this, 'feedback_box_negative_button_icon_callback' ),
 				'ri-wth-settings-tab-feedback-box',
 				'ri-wth-feedback-box-settings-section',
@@ -177,7 +160,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 
 			add_settings_section(
 				'ri-wth-feedback-box-colors-settings-section',
-				__( 'Colors', 'ri-was-this-helpful' ),
+				esc_html( __( 'Colors', 'ri-was-this-helpful' ) ),
 				array( $this, 'feedback_box_colors_settings_section_callback' ),
 				'ri-wth-settings-tab-feedback-box'
 			);
@@ -229,14 +212,14 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 
 			add_settings_section(
 				'ri-wth-feedback-box-styles-settings-section',
-				__( 'Styles', 'ri-was-this-helpful' ),
-				array( $this, 'feedback_box_styles_settings_section_callback' ),
+				esc_html( __( 'Styles', 'ri-was-this-helpful' ) ),
+				null,
 				'ri-wth-settings-tab-feedback-box'
 			);
 
 			add_settings_field(
 				'ri_wth_feedback_box_border_button_rounded',
-				__( 'Button Border Radius', 'ri-was-this-helpful' ),
+				esc_html( __( 'Button Border Radius', 'ri-was-this-helpful' ) ),
 				array( $this, 'feedback_box_border_button_rounded_callback' ),
 				'ri-wth-settings-tab-feedback-box',
 				'ri-wth-feedback-box-styles-settings-section'
@@ -254,11 +237,11 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 			$fields  = array(
 				array(
 					'value' => 'post',
-					'label' => __( 'Posts', 'ri-was-this-helpful' ),
+					'label' => esc_html__( 'Posts', 'ri-was-this-helpful' ),
 				),
 				array(
 					'value' => 'page',
-					'label' => __( 'Pages', 'ri-was-this-helpful' ),
+					'label' => esc_html__( 'Pages', 'ri-was-this-helpful' ),
 				),
 			);
 
@@ -308,29 +291,13 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 
 
 		public function admin_bar_settings_section_callback() {
-			echo __( 'Select whether to show the content in the admin bar.', 'ri-was-this-helpful' );
+			esc_html_e( 'Select whether to show the content in the admin bar.', 'ri-was-this-helpful' );
 		}
 
 		public function show_admin_bar_content_callback() {
 			$option = get_option( 'ri_wth_show_admin_bar_content' );
 			echo '<input type="checkbox" name="ri_wth_show_admin_bar_content" value="1" ' . checked( 1, $option, false ) . '>';
 		}
-
-
-		/*
-		public function feedback_box_templates_settings_section_callback() {
-			echo __( 'Choose a predefined template.', 'ri-was-this-helpful' );
-		}
-
-		public function feedback_box_template_callback() {
-			$option = get_option( 'ri_wth_feedback_box_template' );
-			?>
-			<select name="ri_wth_feedback_box_template">
-				<option value="default" <?php selected( $option, 'default' ); ?>><?php _e( 'Default', 'ri-was-this-helpful' ); ?></option>
-				<option value="rounded-button" <?php selected( $option, 'rounded-button' ); ?>><?php _e( 'Rounded Button', 'ri-was-this-helpful' ); ?></option>
-			</select>
-			<?php
-		} */
 
 
 		public function feedback_box_settings_section_callback() {
@@ -345,19 +312,19 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 		public function feedback_box_positive_button_text_callback() {
 			$option = get_option( 'ri_wth_feedback_box_positive_button_text' );
 			echo '<input type="text" name="ri_wth_feedback_box_positive_button_text" value="' . esc_attr( $option ) . '">';
-			echo '<p class=""description"">' . __( 'Leave empty if you don\'t want to display text', 'ri-was-this-helpful' ) . '</p>';
+			echo '<p class=""description"">' . esc_html__( 'Leave empty if you don\'t want to display text', 'ri-was-this-helpful' ) . '</p>';
 		}
 
 		public function feedback_box_positive_button_icon_callback() {
 			$option    = get_option( 'ri_wth_feedback_box_positive_button_icon' );
 			$svg_icons = RI_WTH_SVG_Icons::get_svg_positive_icons();
-			$svg_icons = array_merge( $svg_icons, array( 'empty' => __( 'Leave Empty', 'ri-was-this-helpful' ) ) );
+			$svg_icons = array_merge( $svg_icons, array( 'empty' => esc_html__( 'Leave Empty', 'ri-was-this-helpful' ) ) );
 
 			foreach ( $svg_icons as $key => $icon ) {
 				?>
 				<label>
 					<input type="radio" name="ri_wth_feedback_box_positive_button_icon" value="<?php esc_attr_e( $key ); ?>" <?php checked( $key, $option ); ?>>
-					<?php echo $icon; ?>	
+					<?php echo RI_WTH_Functions::sanitize_svg( $icon ); ?>	
 				</label>
 				<?php
 			}
@@ -366,13 +333,13 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 		public function feedback_box_negative_button_icon_callback() {
 			$option    = get_option( 'ri_wth_feedback_box_negative_button_icon' );
 			$svg_icons = RI_WTH_SVG_Icons::get_svg_negative_icons();
-			$svg_icons = array_merge( $svg_icons, array( 'empty' => __( 'Leave Empty', 'ri-was-this-helpful' ) ) );
+			$svg_icons = array_merge( $svg_icons, array( 'empty' => esc_html__( 'Leave Empty', 'ri-was-this-helpful' ) ) );
 
 			foreach ( $svg_icons as $key => $icon ) {
 				?>
 				<label>
 					<input type="radio" name="ri_wth_feedback_box_negative_button_icon" value="<?php esc_attr_e( $key ); ?>" <?php checked( $key, $option ); ?>>
-					<?php echo $icon; ?>	
+					<?php echo RI_WTH_Functions::sanitize_svg( $icon ); ?>	
 				</label>
 				<?php
 			}
@@ -386,7 +353,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 
 
 		public function feedback_box_colors_settings_section_callback() {
-			echo __( 'Style your feedback box.', 'ri-was-this-helpful' );
+			echo esc_html__( 'Style your feedback box.', 'ri-was-this-helpful' );
 		}
 
 		public function feedback_box_color_background_callback() {
@@ -419,14 +386,13 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 			echo '<input type="text" id="ri_wth_feedback_box_color_negative_text" name="ri_wth_feedback_box_color_negative_text" value="' . esc_attr( $option ) . '" class="ri-wth-color-field" data-default-color="' . esc_attr( $initial_settings['ri_wth_feedback_box_color_negative_text'] ) . '" />';
 		}
 
-		public function feedback_box_styles_settings_section_callback() {
-		}
 
 		public function feedback_box_border_button_rounded_callback() {
 			$option           = get_option( 'ri_wth_feedback_box_border_button_rounded' );
 			$initial_settings = self::get_intial_settings();
-			echo '<input type="number" id="ri_wth_feedback_box_border_button_rounded" name="ri_wth_feedback_box_border_button_rounded" value="' . esc_attr( $option ) . '" />%';
+			echo '<input type="number" min="0" max="100" id="ri_wth_feedback_box_border_button_rounded" name="ri_wth_feedback_box_border_button_rounded" value="' . esc_attr( $option ) . '" />%';
 		}
+
 
 
 
@@ -438,8 +404,8 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 				'ri_wth_load_scripts'                      => 1,
 				'ri_wth_show_admin_bar_content'            => 1,
 				'ri_wth_feedback_box_template'             => 'default',
-				'ri_wth_feedback_box_text'                 => __( 'Was This Helpful?', 'ri-was-this-helpful' ),
-				'ri_wth_feedback_box_positive_button_text' => __( 'Yes', 'ri-was-this-helpful' ),
+				'ri_wth_feedback_box_text'                 => esc_html__( 'Was This Helpful?', 'ri-was-this-helpful' ),
+				'ri_wth_feedback_box_positive_button_text' => esc_html__( 'Yes', 'ri-was-this-helpful' ),
 				'ri_wth_feedback_box_positive_button_icon' => 'thumbs-up',
 				'ri_wth_feedback_box_negative_button_text' => esc_html( __( 'No', 'ri-was-this-helpful' ) ),
 				'ri_wth_feedback_box_negative_button_icon' => 'thumbs-down',
@@ -448,7 +414,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 				'ri_wth_feedback_box_color_positive_text'  => '#444444',
 				'ri_wth_feedback_box_color_negative_button' => '#ffffff',
 				'ri_wth_feedback_box_color_negative_text'  => '#444444',
-				'ri_wth_feedback_box_border_button_rounded' => '0.25rem',
+				'ri_wth_feedback_box_border_button_rounded' => '8',
 			);
 			return $initial_settings;
 		}

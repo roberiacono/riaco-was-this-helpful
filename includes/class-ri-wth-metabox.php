@@ -17,9 +17,9 @@ if ( ! class_exists( 'RI_WTH_Metabox' ) ) {
 			foreach ( $post_types as $post_type ) {
 				add_meta_box(
 					'ri_wth_metabox',
-					__( 'Helpful Settings', 'ri-was-this-helpful' ),
+					esc_html__( 'Helpful Settings', 'ri-was-this-helpful' ),
 					array( $this, 'render_metabox' ),
-					$post_type,
+					esc_html( $post_type ),
 					'side',
 					'default'
 				);

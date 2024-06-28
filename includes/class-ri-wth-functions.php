@@ -100,5 +100,49 @@ if ( ! class_exists( 'RI_WTH_Functions' ) ) {
 
 			return "$r,$g,$b";
 		}
+
+		/**
+		 * Sanitize SVG markup for front-end display.
+		 *
+		 * @param  string $svg SVG markup to sanitize.
+		 * @return string      Sanitized markup.
+		 */
+		public static function sanitize_svg( $svg = '' ) {
+			$allowed_html = array(
+				'svg'    => array(
+					'xmlns'           => array(),
+					'class'           => array(),
+					'fill'            => array(),
+					'viewbox'         => array(),
+					'role'            => array(),
+					'aria-hidden'     => array(),
+					'focusable'       => array(),
+					'height'          => array(),
+					'width'           => array(),
+					'stroke'          => array(),
+					'stroke-width'    => array(),
+					'stroke-linecap'  => array(),
+					'stroke-linejoin' => array(),
+				),
+				'path'   => array(
+					'd'    => array(),
+					'fill' => array(),
+				),
+				'circle' => array(
+					'cx' => array(),
+					'cy' => array(),
+					'r'  => array(),
+				),
+				'line'   => array(
+					'x1' => array(),
+					'x2' => array(),
+					'y1' => array(),
+					'y2' => array(),
+				),
+			);
+
+			return wp_kses( $svg, $allowed_html );
+		}
+
 	}
 }

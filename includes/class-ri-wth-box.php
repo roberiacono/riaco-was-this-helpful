@@ -18,7 +18,6 @@ if ( ! class_exists( 'RI_WTH_Box' ) ) {
 		public static function feedback_box_code() {
 			$nonce = self::get_feedback_box_nonce();
 
-			$template           = get_option( 'ri_wth_feedback_box_template' );
 			$feedback_box_text  = self::get_feedback_box_text();
 			$feedback_box_style = self::get_feedback_box_style();
 
@@ -30,16 +29,16 @@ if ( ! class_exists( 'RI_WTH_Box' ) ) {
 			$negative_button_icon  = self::get_feedback_box_button_icon( 'negative' );
 			$negative_button_style = self::get_feedback_box_button_style( 'negative' );
 
-			$code  = '<div id="ri-wth-helpful-feedback" class="ri-wth-helpful-feedback template-' . esc_attr( $template ) . '" ' . $feedback_box_style . '>';
+			$code  = '<div id="ri-wth-helpful-feedback" class="ri-wth-helpful-feedback" style="' . esc_attr( $feedback_box_style ) . '">';
 			$code .= '<div class="ri-wth-text">' . esc_html( $feedback_box_text ) . '</div>';
 			$code .= '<div class="ri-wth-buttons-container">';
-			$code .= '<button id="ri-wth-helpful-yes" class="helpful-yes" style="' . esc_attr( $positive_button_style ) . '" data-post_id="' . get_the_ID() . '" data-nonce="' . $nonce . '">';
-			$code .= $positive_button_text;
-			$code .= $positive_button_icon;
+			$code .= '<button id="ri-wth-helpful-yes" class="helpful-yes" style="' . esc_attr( $positive_button_style ) . '" data-post_id="' . get_the_ID() . '" data-nonce="' . esc_attr( $nonce ) . '">';
+			$code .= wp_kses_post( $positive_button_text );
+			$code .= RI_WTH_Functions::sanitize_svg( $positive_button_icon );
 			$code .= '</button>';
-			$code .= '<button id="ri-wth-helpful-no" class="helpful-no" style="' . esc_attr( $negative_button_style ) . '" data-post_id="' . get_the_ID() . '" data-nonce="' . $nonce . '">';
-			$code .= $negative_button_text;
-			$code .= $negative_button_icon;
+			$code .= '<button id="ri-wth-helpful-no" class="helpful-no" style="' . esc_attr( $negative_button_style ) . '" data-post_id="' . get_the_ID() . '" data-nonce="' . esc_attr( $nonce ) . '">';
+			$code .= wp_kses_post( $negative_button_text );
+			$code .= RI_WTH_Functions::sanitize_svg( $negative_button_icon );
 			$code .= '</button>';
 			$code .= '</div>';
 			$code .= '</div>';
@@ -54,7 +53,7 @@ if ( ! class_exists( 'RI_WTH_Box' ) ) {
 		public static function get_feedback_box_style() {
 			$bg_color = get_option( 'ri_wth_feedback_box_color_background' );
 			if ( $bg_color ) {
-				return 'style="background-color:' . $bg_color . ';"';
+				return 'background-color:' . $bg_color . ';';
 			}
 			return '';
 		}

@@ -24,7 +24,7 @@ if ( ! class_exists( 'RI_WTH_Admin_Columns' ) ) {
 		}
 
 		public function add_feedback_column( $columns ) {
-			$columns['helpful_feedback'] = __( 'Was this helpful?', 'ri-was-this-helpful' );
+			$columns['helpful_feedback'] = esc_html__( 'Was this helpful?', 'ri-was-this-helpful' );
 			return $columns;
 		}
 
@@ -40,8 +40,8 @@ if ( ! class_exists( 'RI_WTH_Admin_Columns' ) ) {
 				if ( $total_feedback > 0 ) {
 					$percentage = ( $positive_feedback_count / $total_feedback ) * 100;
 					$rgb        = RI_WTH_Functions::GreenYellowRed( round( $percentage ) );
-					echo '<span style="background-color: rgb(' . esc_html( $rgb ) . '); margin-right: 5px; border-radius: 50%; width: 0.5rem; height: 0.5rem; display: inline-block;"></span>';
-					echo esc_html( round( $percentage ) . '% ' . __( 'positive', 'ri-was-this-helpful' ) . ' (' . $positive_feedback_count . '/' . $total_feedback . ')' );
+					echo '<span style="background-color: rgb(' . esc_attr( $rgb ) . '); margin-right: 5px; border-radius: 50%; width: 0.5rem; height: 0.5rem; display: inline-block;"></span>';
+					echo esc_html( round( $percentage ) . '% ' ) . esc_html__( 'positive', 'ri-was-this-helpful' ) . esc_html__( ' (' . $positive_feedback_count . '/' . $total_feedback . ')' );
 				} else {
 					echo esc_html( __( 'No feedback yet', 'ri-was-this-helpful' ) );
 				}
@@ -67,13 +67,17 @@ if ( ! class_exists( 'RI_WTH_Admin_Columns' ) ) {
 				$table_name = $wpdb->prefix . RI_WTH_DB_NAME;
 
 				// Adding the join to the feedback table
+
 				add_filter(
 					'posts_join',
 					function ( $join ) use ( $wpdb, $table_name ) {
-						$join .= " LEFT JOIN (
-                    SELECT post_id, COUNT(*) as total_feedback, SUM(helpful) as positive_feedback 
-                    FROM $table_name GROUP BY post_id
-                    ) as feedback_stats ON {$wpdb->posts}.ID = feedback_stats.post_id ";
+						$join .= $wpdb->prepare(
+							" LEFT JOIN (
+					SELECT post_id, COUNT(*) as total_feedback, SUM(helpful) as positive_feedback
+					FROM %i GROUP BY post_id
+					) as feedback_stats ON {$wpdb->posts}.ID = feedback_stats.post_id ",
+							$table_name
+						);
 						return $join;
 					}
 				);
@@ -82,10 +86,11 @@ if ( ! class_exists( 'RI_WTH_Admin_Columns' ) ) {
 				add_filter(
 					'posts_orderby',
 					function ( $orderby ) use ( $order ) {
-						$orderby = "feedback_stats.positive_feedback $order, feedback_stats.total_feedback $order, $orderby";
+						$orderby = "feedback_stats.positive_feedback/feedback_stats.total_feedback $order,  $orderby";
 						return $orderby;
 					}
 				);
+
 			}
 		}
 	}

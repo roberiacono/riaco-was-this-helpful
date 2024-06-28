@@ -160,7 +160,7 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 
 		public function add_settings_link( $links ) {
 			$url           = get_admin_url() . 'options-general.php?page=ri-wth-settings';
-			$settings_link = '<a href="' . $url . '">' . __( 'Settings', 'textdomain' ) . '</a>';
+			$settings_link = '<a href="' . $url . '">' . esc_html( __( 'Settings', 'textdomain' ) ) . '</a>';
 				$links[]   = $settings_link;
 			return $links;
 		}

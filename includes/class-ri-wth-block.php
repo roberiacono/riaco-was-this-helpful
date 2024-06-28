@@ -88,7 +88,6 @@ if ( ! class_exists( 'RI_WTH_Block' ) ) {
 			return false;
 		}
 		public function get_feedback_block_for_editor() {
-
 				return RI_WTH_Box::feedback_box_code();
 		}
 	}
