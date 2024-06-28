@@ -18,7 +18,8 @@ if ( ! class_exists( 'RI_WTH_Box' ) ) {
 		public static function feedback_box_code() {
 			$nonce = self::get_feedback_box_nonce();
 
-			$feedback_box_text = self::get_feedback_box_text();
+			$feedback_box_text  = self::get_feedback_box_text();
+			$feedback_box_style = self::get_feedback_box_style();
 
 			$positive_button_text = self::get_feedback_box_button_text( 'positive' );
 			$positive_button_icon = self::get_feedback_box_button_icon( 'positive' );
@@ -26,30 +27,39 @@ if ( ! class_exists( 'RI_WTH_Box' ) ) {
 			$negative_button_text = self::get_feedback_box_button_text( 'negative' );
 			$negative_button_icon = self::get_feedback_box_button_icon( 'negative' );
 
-			$code = '
-                <div id="ri-wth-helpful-feedback" class="ri-wth-helpful-feedback">
-                    <div class="ri-wth-text">' . esc_html( $feedback_box_text ) . '</div>
-                    <div class="ri-wth-buttons-container">
-                    	<button id="ri-wth-helpful-yes" class="helpful-yes" data-post_id="' . get_the_ID() . '" data-nonce="' . $nonce . '">
-							' . $positive_button_text . '
-							' . $positive_button_icon . '
-						</button>
-                    	<button id="ri-wth-helpful-no" class="helpful-no" data-post_id="' . get_the_ID() . '" data-nonce="' . $nonce . '">
-							' . $negative_button_text . ' 
-							' . $negative_button_icon . '
-						</button>
-                    </div>
-                </div>
-            ';
+			$code  = '<div id="ri-wth-helpful-feedback" class="ri-wth-helpful-feedback" ' . $feedback_box_style . '>';
+			$code .= '<div class="ri-wth-text">' . esc_html( $feedback_box_text ) . '</div>';
+			$code .= '<div class="ri-wth-buttons-container">';
+			$code .= '<button id="ri-wth-helpful-yes" class="helpful-yes" data-post_id="' . get_the_ID() . '" data-nonce="' . $nonce . '">';
+			$code .= $positive_button_text;
+			$code .= $positive_button_icon;
+			$code .= '</button>';
+			$code .= '<button id="ri-wth-helpful-no" class="helpful-no" data-post_id="' . get_the_ID() . '" data-nonce="' . $nonce . '">';
+			$code .= $negative_button_text;
+			$code .= $negative_button_icon;
+			$code .= '</button>';
+			$code .= '</div>';
+			$code .= '</div>';
+
 			return $code;
 		}
 
 		public static function get_feedback_box_nonce() {
 			return wp_create_nonce( 'ri_was_this_helpful_nonce' );
 		}
+
+		public static function get_feedback_box_style() {
+			$bg_color = get_option( 'ri_wth_feedback_box_color_background' );
+			if ( $bg_color ) {
+				return 'style="background-color:' . esc_attr( $bg_color ) . ';"';
+			}
+			return '';
+		}
+
 		public static function get_feedback_box_text() {
 			return get_option( 'ri_wth_feedback_box_text' );
 		}
+
 		public static function get_feedback_box_button_icon( $type ) {
 			if ( ! in_array( $type, array( 'positive', 'negative' ) ) ) {
 				return;

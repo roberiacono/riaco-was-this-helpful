@@ -7,7 +7,18 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 		public function __construct() {
 			add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'ri_wth_enqueue_color_picker' ) );
 		}
+
+		function ri_wth_enqueue_color_picker( $hook_suffix ) {
+
+			if ( 'settings_page_ri-wth-settings' !== $hook_suffix ) {
+				return;
+			}
+			wp_enqueue_style( 'wp-color-picker' );
+			wp_enqueue_script( 'ri-wth-color-picker', RI_WTH_PLUGIN_URL . 'admin/js/color-picker.js', array( 'wp-color-picker' ), false, true );
+		}
+
 
 		public function add_settings_page() {
 			add_options_page(
@@ -35,6 +46,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 			register_setting( 'ri-wth-tab-feedback-box-settings-group', 'ri_wth_feedback_box_positive_button_icon' );
 			register_setting( 'ri-wth-tab-feedback-box-settings-group', 'ri_wth_feedback_box_negative_button_text' );
 			register_setting( 'ri-wth-tab-feedback-box-settings-group', 'ri_wth_feedback_box_negative_button_icon' );
+			register_setting( 'ri-wth-tab-feedback-box-settings-group', 'ri_wth_feedback_box_color_background' );
 
 			add_settings_section(
 				'ri-wth-settings-section',
@@ -98,7 +110,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 
 			add_settings_section(
 				'ri-wth-feedback-box-settings-section',
-				__( 'Feedback Box', 'ri-was-this-helpful' ),
+				__( 'Content', 'ri-was-this-helpful' ),
 				array( $this, 'feedback_box_settings_section_callback' ),
 				'ri-wth-settings-tab-feedback-box'
 			);
@@ -140,7 +152,24 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 				'ri-wth-feedback-box-settings-section',
 				array( 'class' => 'radio' )
 			);
+
+			add_settings_section(
+				'ri-wth-feedback-box-colors-settings-section',
+				__( 'Colors', 'ri-was-this-helpful' ),
+				array( $this, 'feedback_box_colors_settings_section_callback' ),
+				'ri-wth-settings-tab-feedback-box'
+			);
+
+			add_settings_field(
+				'ri_wth_feedback_box_color_background',
+				esc_html( __( 'Background Color', 'ri-was-this-helpful' ) ),
+				array( $this, 'feedback_box_color_background_callback' ),
+				'ri-wth-settings-tab-feedback-box',
+				'ri-wth-feedback-box-colors-settings-section',
+				array( 'class' => 'color' )
+			);
 		}
+
 
 		public function settings_section_callback() {
 			echo '<p>' . esc_html__( 'Where do you want to show your Was this helpful box?', 'ri-was-this-helpful' ) . '</p>';
@@ -190,7 +219,6 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 		}
 
 
-
 		public function load_settings_section_callback() {
 			echo esc_html( __( 'Select whether to load the plugin styles and scripts.', 'ri-was-this-helpful' ) );
 		}
@@ -205,6 +233,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 			echo '<input type="checkbox" name="ri_wth_load_scripts" value="1"' . checked( 1, $option, false ) . '>';
 		}
 
+
 		public function admin_bar_settings_section_callback() {
 			echo __( 'Select whether to show the content in the admin bar.', 'ri-was-this-helpful' );
 		}
@@ -214,8 +243,9 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 			echo '<input type="checkbox" name="ri_wth_show_admin_bar_content" value="1" ' . checked( 1, $option, false ) . '>';
 		}
 
+
 		public function feedback_box_settings_section_callback() {
-			echo __( 'Style and change content on your feedback box.', 'ri-was-this-helpful' );
+			esc_html_e( 'Change feedback box content.', 'ri-was-this-helpful' );
 		}
 
 		public function feedback_box_text_callback() {
@@ -263,6 +293,16 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 			$option = get_option( 'ri_wth_feedback_box_negative_button_text' );
 			echo '<input type="text" name="ri_wth_feedback_box_negative_button_text" value="' . esc_attr( $option ) . '">';
 			echo '<p class=""description"">' . esc_html( __( 'Leave empty if you don\'t want to display text', 'ri-was-this-helpful' ) ) . '</p>';
+		}
+
+
+		public function feedback_box_colors_settings_section_callback() {
+			echo __( 'Style your feedback box.', 'ri-was-this-helpful' );
+		}
+
+		public function feedback_box_color_background_callback() {
+			$option = get_option( 'ri_wth_feedback_box_color_background' );
+			echo '<input type="text" id="ri_wth_feedback_box_color_background" name="ri_wth_feedback_box_color_background" value="' . esc_attr( $option ) . '" class="my-color-field" data-default-color="#ffffff" />';
 		}
 	}
 }

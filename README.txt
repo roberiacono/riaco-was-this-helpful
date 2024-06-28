@@ -53,6 +53,7 @@ With the PRO version installed, the custom post types will automatically be avai
 * added block to gutenberg editor
 * Added button manager (text and icon) for feedback box in settings page. 
 * Added stats metabox
+* Added color scheme to positive percentage
 
 = 1.4.5 =
 * Added display stats and functionalities by user role

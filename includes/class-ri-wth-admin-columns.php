@@ -41,7 +41,7 @@ if ( ! class_exists( 'RI_WTH_Admin_Columns' ) ) {
 					$percentage = ( $positive_feedback_count / $total_feedback ) * 100;
 					$rgb        = RI_WTH_Functions::GreenYellowRed( round( $percentage ) );
 					echo '<span style="background-color: rgb(' . esc_html( $rgb ) . '); margin-right: 5px; border-radius: 50%; width: 0.5rem; height: 0.5rem; display: inline-block;"></span>';
-					echo esc_html( round( $percentage, 2 ) . '% ' . __( 'positive', 'ri-was-this-helpful' ) . ' (' . $positive_feedback_count . '/' . $total_feedback . ')' );
+					echo esc_html( round( $percentage ) . '% ' . __( 'positive', 'ri-was-this-helpful' ) . ' (' . $positive_feedback_count . '/' . $total_feedback . ')' );
 				} else {
 					echo esc_html( __( 'No feedback yet', 'ri-was-this-helpful' ) );
 				}

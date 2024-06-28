@@ -16,6 +16,7 @@ delete_option( 'ri_wth_feedback_box_positive_button_text' );
 delete_option( 'ri_wth_feedback_box_positive_button_icon' );
 delete_option( 'ri_wth_feedback_box_negative_button_text' );
 delete_option( 'ri_wth_feedback_box_negative_button_icon' );
+delete_option( 'ri_wth_feedback_box_color_background' );
 
 // Delete custom table
 

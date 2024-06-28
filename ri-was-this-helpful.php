@@ -153,6 +153,10 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 					'id'    => 'ri_wth_feedback_box_negative_button_icon',
 					'value' => 'thumbs-down',
 				),
+				array(
+					'id'    => 'ri_wth_feedback_box_color_background',
+					'value' => '#f4f4f5',
+				),
 
 			);
 
