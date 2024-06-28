@@ -18,23 +18,26 @@ if ( ! class_exists( 'RI_WTH_Box' ) ) {
 		public static function feedback_box_code() {
 			$nonce = self::get_feedback_box_nonce();
 
+			$template           = get_option( 'ri_wth_feedback_box_template' );
 			$feedback_box_text  = self::get_feedback_box_text();
 			$feedback_box_style = self::get_feedback_box_style();
 
-			$positive_button_text = self::get_feedback_box_button_text( 'positive' );
-			$positive_button_icon = self::get_feedback_box_button_icon( 'positive' );
+			$positive_button_text  = self::get_feedback_box_button_text( 'positive' );
+			$positive_button_icon  = self::get_feedback_box_button_icon( 'positive' );
+			$positive_button_style = self::get_feedback_box_button_style( 'positive' );
 
-			$negative_button_text = self::get_feedback_box_button_text( 'negative' );
-			$negative_button_icon = self::get_feedback_box_button_icon( 'negative' );
+			$negative_button_text  = self::get_feedback_box_button_text( 'negative' );
+			$negative_button_icon  = self::get_feedback_box_button_icon( 'negative' );
+			$negative_button_style = self::get_feedback_box_button_style( 'negative' );
 
-			$code  = '<div id="ri-wth-helpful-feedback" class="ri-wth-helpful-feedback" ' . $feedback_box_style . '>';
+			$code  = '<div id="ri-wth-helpful-feedback" class="ri-wth-helpful-feedback template-' . esc_attr( $template ) . '" ' . $feedback_box_style . '>';
 			$code .= '<div class="ri-wth-text">' . esc_html( $feedback_box_text ) . '</div>';
 			$code .= '<div class="ri-wth-buttons-container">';
-			$code .= '<button id="ri-wth-helpful-yes" class="helpful-yes" data-post_id="' . get_the_ID() . '" data-nonce="' . $nonce . '">';
+			$code .= '<button id="ri-wth-helpful-yes" class="helpful-yes" style="' . esc_attr( $positive_button_style ) . '" data-post_id="' . get_the_ID() . '" data-nonce="' . $nonce . '">';
 			$code .= $positive_button_text;
 			$code .= $positive_button_icon;
 			$code .= '</button>';
-			$code .= '<button id="ri-wth-helpful-no" class="helpful-no" data-post_id="' . get_the_ID() . '" data-nonce="' . $nonce . '">';
+			$code .= '<button id="ri-wth-helpful-no" class="helpful-no" style="' . esc_attr( $negative_button_style ) . '" data-post_id="' . get_the_ID() . '" data-nonce="' . $nonce . '">';
 			$code .= $negative_button_text;
 			$code .= $negative_button_icon;
 			$code .= '</button>';
@@ -51,7 +54,7 @@ if ( ! class_exists( 'RI_WTH_Box' ) ) {
 		public static function get_feedback_box_style() {
 			$bg_color = get_option( 'ri_wth_feedback_box_color_background' );
 			if ( $bg_color ) {
-				return 'style="background-color:' . esc_attr( $bg_color ) . ';"';
+				return 'style="background-color:' . $bg_color . ';"';
 			}
 			return '';
 		}
@@ -86,6 +89,31 @@ if ( ! class_exists( 'RI_WTH_Box' ) ) {
 				$button_text = '<span> ' . $button_text . '</span>';
 			}
 			return $button_text;
+		}
+
+		public static function get_feedback_box_button_style( $type ) {
+			if ( ! in_array( $type, array( 'positive', 'negative' ) ) ) {
+				return;
+			}
+
+			$return = '';
+
+			$button_color = get_option( 'ri_wth_feedback_box_color_' . $type . '_button' );
+			if ( $button_color ) {
+				$return .= 'background-color: ' . $button_color . '; ';
+			}
+
+			$text_color = get_option( 'ri_wth_feedback_box_color_' . $type . '_text' );
+			if ( $text_color ) {
+				$return .= 'color: ' . $text_color . '; ';
+			}
+
+			$border_radius = get_option( 'ri_wth_feedback_box_border_button_rounded' );
+			if ( $border_radius ) {
+				$return .= 'border-radius: ' . $border_radius . '%; ';
+			}
+
+			return $return;
 		}
 	}
 }

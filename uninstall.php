@@ -11,12 +11,18 @@ delete_option( 'ri_wth_display_by_user_role' );
 delete_option( 'ri_wth_load_styles' );
 delete_option( 'ri_wth_load_scripts' );
 delete_option( 'ri_wth_show_admin_bar_content' );
+delete_option( 'ri_wth_feedback_box_template' );
 delete_option( 'ri_wth_feedback_box_text' );
 delete_option( 'ri_wth_feedback_box_positive_button_text' );
 delete_option( 'ri_wth_feedback_box_positive_button_icon' );
 delete_option( 'ri_wth_feedback_box_negative_button_text' );
 delete_option( 'ri_wth_feedback_box_negative_button_icon' );
 delete_option( 'ri_wth_feedback_box_color_background' );
+delete_option( 'ri_wth_feedback_box_color_positive_button' );
+delete_option( 'ri_wth_feedback_box_color_positive_text' );
+delete_option( 'ri_wth_feedback_box_color_negative_button' );
+delete_option( 'ri_wth_feedback_box_color_negative_text' );
+delete_option( 'ri_wth_feedback_box_border_button_rounded' );
 
 // Delete custom table
 

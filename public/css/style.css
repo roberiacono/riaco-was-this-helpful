@@ -26,17 +26,15 @@
   font-weight: normal;
   gap: 5px;
   padding: 0.5rem;
+  transition: transform 0.3s ease;
 }
 .ri-wth-helpful-feedback button:hover {
   cursor: pointer;
+  transform: scale(1.1); 
 }
 .ri-wth-helpful-feedback button.helpful-yes:hover {
-  background-color: #00a96e;
-  color: #fff;
 }
 .ri-wth-helpful-feedback button.helpful-no:hover {
-  background-color: #ff5861;
-  color: #fff;
 }
 .ri-wth-helpful-feedback button svg{
   width: 20px;

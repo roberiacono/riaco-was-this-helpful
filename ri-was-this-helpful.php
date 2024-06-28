@@ -98,6 +98,9 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 
 		public function activate_plugin() {
 			global $wpdb;
+
+			require_once plugin_dir_path( __FILE__ ) . 'includes/class-ri-wth-settings.php';
+
 			$table_name      = $wpdb->prefix . RI_WTH_DB_NAME;
 			$charset_collate = $wpdb->get_charset_collate();
 
@@ -112,71 +115,21 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 			dbDelta( $sql );
 
-			$initial_settings = array(
-				array(
-					'id'    => 'ri_wth_display_on',
-					'value' => array( 'post' ),
-				),
-				array(
-					'id'    => 'ri_wth_display_by_user_role',
-					'value' => array( 'administrator', 'editor' ),
-				),
-				array(
-					'id'    => 'ri_wth_load_styles',
-					'value' => 1,
-				),
-				array(
-					'id'    => 'ri_wth_load_scripts',
-					'value' => 1,
-				),
-				array(
-					'id'    => 'ri_wth_show_admin_bar_content',
-					'value' => 1,
-				),
-				array(
-					'id'    => 'ri_wth_feedback_box_text',
-					'value' => __( 'Was This Helpful?', 'ri-was-this-helpful' ),
-				),
-				array(
-					'id'    => 'ri_wth_feedback_box_positive_button_text',
-					'value' => __( 'Yes', 'ri-was-this-helpful' ),
-				),
-				array(
-					'id'    => 'ri_wth_feedback_box_positive_button_icon',
-					'value' => 'thumbs-up',
-				),
-				array(
-					'id'    => 'ri_wth_feedback_box_negative_button_text',
-					'value' => __( 'No', 'ri-was-this-helpful' ),
-				),
-				array(
-					'id'    => 'ri_wth_feedback_box_negative_button_icon',
-					'value' => 'thumbs-down',
-				),
-				array(
-					'id'    => 'ri_wth_feedback_box_color_background',
-					'value' => '#f4f4f5',
-				),
-
-			);
+			$initial_settings = RI_WTH_Settings::get_intial_settings();
 
 			// set default initial settings
-			foreach ( $initial_settings as $setting ) {
-				if ( false === get_option( $setting['id'] ) ) {
-					add_option( $setting['id'], $setting['value'] );
+			foreach ( $initial_settings as $key => $value ) {
+				if ( false === get_option( $key ) ) {
+					add_option( $key, $value );
 				}
 			}
+			add_action( 'plugins_loaded', array( $this, 'set_initial_settings' ) );
 		}
 
 		public function admin_enqueue_scripts() {
-			if ( is_admin() && isset( $_GET['page'] ) && $_GET['page'] == 'ri-wth-settings' ) {
+			if ( is_admin() && isset( $_GET['page'] ) && $_GET['page'] === 'ri-wth-settings' ) {
 				wp_enqueue_style( 'ri-wth-admin-style', plugin_dir_url( __FILE__ ) . 'admin/css/style.css' );
 			}
-			// add styles for gutenberg block
-			/*
-			if ( get_option( 'ri_wth_load_styles' ) && RI_WTH_Functions::could_display_box() ) {
-				wp_enqueue_style( 'ri-wth-style', plugin_dir_url( __FILE__ ) . 'public/css/style.css', array(), RI_WTH_PLUGIN_VERSION );
-			} */
 		}
 
 		public function maybe_enqueue_scripts() {
