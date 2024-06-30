@@ -26,8 +26,8 @@ if ( ! class_exists( 'RI_WTH_Ajax' ) ) {
 				),
 			);
 
-			wp_cache_delete( 'ri_wth_total_feedback_' . $post_id );
-			wp_cache_delete( 'ri_wth_positive_feedback_' . $post_id );
+			delete_transient( 'ri_wth_total_feedback_' . $post_id );
+			delete_transient( 'ri_wth_positive_feedback_' . $post_id );
 
 			wp_die();
 		}

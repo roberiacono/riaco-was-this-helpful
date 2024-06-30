@@ -9,26 +9,26 @@ if ( ! class_exists( 'RI_WTH_Functions' ) ) {
 			global $wpdb;
 			$table_name = $wpdb->prefix . RI_WTH_DB_NAME;
 
-			$positive_feedback = wp_cache_get( 'ri_wth_positive_feedback_' . $post_id );
+			$positive_feedback = get_transient( 'ri_wth_positive_feedback_' . $post_id );
 			if ( false === $positive_feedback ) {
 				$positive_feedback = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT( * ) FROM %i WHERE post_id = %d and helpful = 1', array( $table_name, $post_id ) ) );
 				// Apply a filter to allow the Pro plugin to modify the query
 				$positive_feedback = apply_filters( 'ri_wth_get_positive_feedback_filter', $positive_feedback, $table_name, $post_id );
-				wp_cache_set( 'ri_wth_positive_feedback_' . $post_id, $positive_feedback, '', 24 * 60 * 60 );
+				set_transient( 'ri_wth_positive_feedback_' . $post_id, $positive_feedback, '', 365 * DAY_IN_SECONDS );
 			}
-				return $positive_feedback;
+			return $positive_feedback;
 		}
 
 		// Function to get the positive feedback count for a post
 		public static function get_total_feedback_count( $post_id ) {
 			global $wpdb;
 			$table_name     = $wpdb->prefix . RI_WTH_DB_NAME;
-			$total_feedback = wp_cache_get( 'ri_wth_total_feedback_' . $post_id );
+			$total_feedback = get_transient( 'ri_wth_total_feedback_' . $post_id );
 			if ( false === $total_feedback ) {
 				$total_feedback = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i WHERE post_id = %d', array( $table_name, $post_id ) ) );
 				// Apply a filter to allow the Pro plugin to modify the query
 				$total_feedback = apply_filters( 'ri_wth_get_total_feedback_filter', $total_feedback, $table_name, $post_id );
-				wp_cache_set( 'ri_wth_total_feedback_' . $post_id, $total_feedback, '', 24 * 60 * 60 );
+				set_transient( 'ri_wth_total_feedback_' . $post_id, $total_feedback, '', 365 * DAY_IN_SECONDS );
 			}
 
 			return $total_feedback;
@@ -143,6 +143,5 @@ if ( ! class_exists( 'RI_WTH_Functions' ) ) {
 
 			return wp_kses( $svg, $allowed_html );
 		}
-
 	}
 }
