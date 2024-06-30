@@ -18,16 +18,27 @@ if ( ! class_exists( 'RI_WTH_Box' ) ) {
 		public static function feedback_box_code() {
 			$nonce = self::get_feedback_box_nonce();
 
-			$feedback_box_text  = self::get_feedback_box_text();
-			$feedback_box_style = self::get_feedback_box_style();
+			$feedback_box_text    = self::get_feedback_box_text();
+			$positive_button_text = self::get_feedback_box_button_text( 'positive' );
+			$negative_button_text = self::get_feedback_box_button_text( 'negative' );
 
-			$positive_button_text  = self::get_feedback_box_button_text( 'positive' );
-			$positive_button_icon  = self::get_feedback_box_button_icon( 'positive' );
-			$positive_button_style = self::get_feedback_box_button_style( 'positive' );
+			if ( false === ( $attr = get_transient( 'ri_wth_feedback_box' ) ) ) {
+				$attr = array(
+					'feedback_box_style'    => self::get_feedback_box_style(),
+					'positive_button_icon'  => self::get_feedback_box_button_icon( 'positive' ),
+					'positive_button_style' => self::get_feedback_box_button_style( 'positive' ),
+					'negative_button_icon'  => self::get_feedback_box_button_icon( 'negative' ),
+					'negative_button_style' => self::get_feedback_box_button_style( 'negative' ),
+				);
+				set_transient( 'ri_wth_feedback_box', $attr, 365 * DAY_IN_SECONDS );
+			}
+			$feedback_box_style = $attr['feedback_box_style'];
 
-			$negative_button_text  = self::get_feedback_box_button_text( 'negative' );
-			$negative_button_icon  = self::get_feedback_box_button_icon( 'negative' );
-			$negative_button_style = self::get_feedback_box_button_style( 'negative' );
+			$positive_button_icon  = $attr['positive_button_icon'];
+			$positive_button_style = $attr['positive_button_style'];
+
+			$negative_button_icon  = $attr['negative_button_icon'];
+			$negative_button_style = $attr['negative_button_style'];
 
 			$code  = '<div id="ri-wth-helpful-feedback" class="ri-wth-helpful-feedback" style="' . esc_attr( $feedback_box_style ) . '">';
 			$code .= '<div class="ri-wth-text">' . esc_html( $feedback_box_text ) . '</div>';

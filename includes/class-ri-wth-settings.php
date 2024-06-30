@@ -311,7 +311,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 
 		public function feedback_box_positive_button_text_callback() {
 			$option = get_option( 'ri_wth_feedback_box_positive_button_text' );
-			echo '<input type="text" name="ri_wth_feedback_box_positive_button_text" value="' . esc_attr( $option ) . '">';
+			echo '<input type="text" name="ri_wth_feedback_box_positive_button_text" value="' . esc_attr( _x( sprintf( '%s', $option ), 'text of positive button', 'ri-was-this-helpful' ) ) . '">';
 			echo '<p class=""description"">' . esc_html__( 'Leave empty if you don\'t want to display text', 'ri-was-this-helpful' ) . '</p>';
 		}
 
@@ -390,6 +390,12 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 		public function feedback_box_border_button_rounded_callback() {
 			$option           = get_option( 'ri_wth_feedback_box_border_button_rounded' );
 			$initial_settings = self::get_intial_settings();
+
+			if ( isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] === 'true' ) {
+				// clear transient box
+				delete_transient( 'ri_wth_feedback_box' );
+			}
+
 			echo '<input type="number" min="0" max="100" id="ri_wth_feedback_box_border_button_rounded" name="ri_wth_feedback_box_border_button_rounded" value="' . esc_attr( $option ) . '" />%';
 		}
 
