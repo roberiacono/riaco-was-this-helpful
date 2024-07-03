@@ -12,8 +12,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 		}
 
 		function ri_wth_enqueue_color_picker( $hook_suffix ) {
-
-			if ( 'settings_page_ri-wth-settings' !== $hook_suffix ) {
+			if ( 'toplevel_page_ri-wth-settings' !== $hook_suffix ) {
 				return;
 			}
 			wp_enqueue_style( 'wp-color-picker' );
@@ -111,39 +110,64 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 				),
 				'ri_wth_load_styles'                       => array(
 					'title'    => __( 'Load Styles', 'ri-was-this-helpful' ),
-					'callback' => array( $this, 'load_styles_callback' ),
+					'callback' => array( $this, 'checkbox_callback' ),
 					'tab'      => 'ri-wth-settings-tab-extra',
 					'section'  => 'ri-wth-load-settings-section',
+					'args'     => array(
+						'type' => 'checkbox',
+						'name' => 'ri_wth_load_styles',
+					),
 				),
 				'ri_wth_load_scripts'                      => array(
 					'title'    => __( 'Load Scripts', 'ri-was-this-helpful' ),
-					'callback' => array( $this, 'load_scripts_callback' ),
+					'callback' => array( $this, 'checkbox_callback' ),
 					'tab'      => 'ri-wth-settings-tab-extra',
 					'section'  => 'ri-wth-load-settings-section',
+					'args'     => array(
+						'type' => 'checkbox',
+						'name' => 'ri_wth_load_scripts',
+					),
 				),
 				'ri_wth_show_admin_bar_content'            => array(
 					'title'    => __( 'Show Admin Bar Content', 'ri-was-this-helpful' ),
-					'callback' => array( $this, 'show_admin_bar_content_callback' ),
+					'callback' => array( $this, 'checkbox_callback' ),
 					'tab'      => 'ri-wth-settings-tab-general',
 					'section'  => 'ri-wth-admin-bar-settings-section',
+					'args'     => array(
+						'type' => 'checkbox',
+						'name' => 'ri_wth_show_admin_bar_content',
+					),
 				),
 				'ri_wth_feedback_box_text'                 => array(
 					'title'    => __( 'Feedback Box Text', 'ri-was-this-helpful' ),
-					'callback' => array( $this, 'feedback_box_text_callback' ),
+					'callback' => array( $this, 'text_callback' ),
 					'tab'      => 'ri-wth-settings-tab-feedback-box',
 					'section'  => 'ri-wth-feedback-box-settings-section',
+					'args'     => array(
+						'type' => 'text',
+						'name' => 'ri_wth_feedback_box_text',
+					),
 				),
 				'ri_wth_feedback_box_positive_button_text' => array(
 					'title'    => __( 'Positive Button Text', 'ri-was-this-helpful' ),
-					'callback' => array( $this, 'feedback_box_positive_button_text_callback' ),
+					'callback' => array( $this, 'text_callback' ),
 					'tab'      => 'ri-wth-settings-tab-feedback-box',
 					'section'  => 'ri-wth-feedback-box-settings-section',
+					'args'     => array(
+						'type' => 'text',
+						'name' => 'ri_wth_feedback_box_positive_button_text',
+					),
 				),
 				'ri_wth_feedback_box_positive_button_text' => array(
 					'title'    => __( 'Positive Button Text', 'ri-was-this-helpful' ),
-					'callback' => array( $this, 'feedback_box_positive_button_text_callback' ),
+					'callback' => array( $this, 'text_callback' ),
 					'tab'      => 'ri-wth-settings-tab-feedback-box',
 					'section'  => 'ri-wth-feedback-box-settings-section',
+					'args'     => array(
+						'type'        => 'text',
+						'name'        => 'ri_wth_feedback_box_positive_button_text',
+						'description' => __( 'Leave empty if you don\'t want to display text', 'ri-was-this-helpful' ),
+					),
 				),
 				'ri_wth_feedback_box_positive_button_icon' => array(
 					'title'    => __( 'Positive Button Icon', 'ri-was-this-helpful' ),
@@ -154,9 +178,14 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 				),
 				'ri_wth_feedback_box_negative_button_text' => array(
 					'title'    => __( 'Negative Button Text', 'ri-was-this-helpful' ),
-					'callback' => array( $this, 'feedback_box_negative_button_text_callback' ),
+					'callback' => array( $this, 'text_callback' ),
 					'tab'      => 'ri-wth-settings-tab-feedback-box',
 					'section'  => 'ri-wth-feedback-box-settings-section',
+					'args'     => array(
+						'type'        => 'text',
+						'name'        => 'ri_wth_feedback_box_negative_button_text',
+						'description' => __( 'Leave empty if you don\'t want to display text', 'ri-was-this-helpful' ),
+					),
 				),
 				'ri_wth_feedback_box_negative_button_icon' => array(
 					'title'    => __( 'Negative Button Icon', 'ri-was-this-helpful' ),
@@ -208,9 +237,13 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 				),
 				'ri_wth_uninstall_remove_data'             => array(
 					'title'    => __( 'Delete data when removing plugin?', 'ri-was-this-helpful' ),
-					'callback' => array( $this, 'uninstall_remove_data_callback' ),
+					'callback' => array( $this, 'checkbox_callback' ),
 					'tab'      => 'ri-wth-settings-tab-extra',
 					'section'  => 'ri-wth-uninstall-settings-section',
+					'args'     => array(
+						'type' => 'checkbox',
+						'name' => 'ri_wth_uninstall_remove_data',
+					),
 				),
 			);
 
@@ -300,14 +333,9 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 			echo esc_html( __( 'Select whether to load the plugin styles and scripts.', 'ri-was-this-helpful' ) );
 		}
 
-		public function load_styles_callback() {
-			$option = get_option( 'ri_wth_load_styles' );
-			echo '<input type="checkbox" name="ri_wth_load_styles" value="1"' . checked( 1, $option, false ) . '>';
-		}
-
-		public function load_scripts_callback() {
-			$option = get_option( 'ri_wth_load_scripts' );
-			echo '<input type="checkbox" name="ri_wth_load_scripts" value="1"' . checked( 1, $option, false ) . '>';
+		public function checkbox_callback( $args ) {
+			$option = get_option( $args['name'] );
+			echo '<input type="checkbox" name="' . esc_attr( $args['name'] ) . '" value="1"' . checked( 1, $option, false ) . '>';
 		}
 
 
@@ -315,25 +343,17 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 			esc_html_e( 'Select whether to show the content in the admin bar.', 'ri-was-this-helpful' );
 		}
 
-		public function show_admin_bar_content_callback() {
-			$option = get_option( 'ri_wth_show_admin_bar_content' );
-			echo '<input type="checkbox" name="ri_wth_show_admin_bar_content" value="1" ' . checked( 1, $option, false ) . '>';
-		}
-
 
 		public function feedback_box_settings_section_callback() {
 			esc_html_e( 'Change feedback box content.', 'ri-was-this-helpful' );
 		}
 
-		public function feedback_box_text_callback() {
-			$option = get_option( 'ri_wth_feedback_box_text' );
-			echo '<input type="text" name="ri_wth_feedback_box_text" value="' . esc_attr( $option ) . '">';
-		}
-
-		public function feedback_box_positive_button_text_callback() {
-			$option = get_option( 'ri_wth_feedback_box_positive_button_text' );
-			echo '<input type="text" name="ri_wth_feedback_box_positive_button_text" value="' . esc_attr( $option ) . '">';
-			echo '<p class=""description"">' . esc_html__( 'Leave empty if you don\'t want to display text', 'ri-was-this-helpful' ) . '</p>';
+		public function text_callback( $args ) {
+			$option = get_option( $args['name'] );
+			echo '<input type="text" name="' . esc_attr( $args['name'] ) . '" value="' . esc_attr( $option ) . '">';
+			if ( isset( $args['description'] ) && ! empty( $args['description'] ) ) {
+				echo '<p class=""description"">' . esc_html( $args['description'] ) . '</p>';
+			}
 		}
 
 		public function feedback_box_positive_button_icon_callback() {
@@ -364,12 +384,6 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 				</label>
 				<?php
 			}
-		}
-
-		public function feedback_box_negative_button_text_callback() {
-			$option = get_option( 'ri_wth_feedback_box_negative_button_text' );
-			echo '<input type="text" name="ri_wth_feedback_box_negative_button_text" value="' . esc_attr( $option ) . '">';
-			echo '<p class=""description"">' . esc_html( __( 'Leave empty if you don\'t want to display text', 'ri-was-this-helpful' ) ) . '</p>';
 		}
 
 
@@ -424,12 +438,6 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 		public function uninstall_settings_section_callback() {
 			echo esc_html( __( 'Deletes all data when plugin is removed.', 'ri-was-this-helpful' ) );
 		}
-
-		public function uninstall_remove_data_callback() {
-			$option = get_option( 'ri_wth_uninstall_remove_data' );
-			echo '<input type="checkbox" name="ri_wth_uninstall_remove_data" value="1"' . checked( 1, $option, false ) . '>';
-		}
-
 
 
 		public static function get_intial_settings() {
