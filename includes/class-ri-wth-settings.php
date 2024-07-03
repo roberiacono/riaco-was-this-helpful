@@ -6,6 +6,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 
 		public function __construct() {
 			add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
+			add_action( 'admin_menu', array( $this, 'add_submenu_pages' ) );
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'ri_wth_enqueue_color_picker' ) );
 		}
@@ -21,17 +22,35 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 
 
 		public function add_settings_page() {
-			add_options_page(
+			add_menu_page(
 				__( 'Was This Helpful Settings', 'ri-was-this-helpful' ),
 				__( 'Was This Helpful', 'ri-was-this-helpful' ),
 				'manage_options',
 				'ri-wth-settings',
-				array( $this, 'render_settings_page' )
+				array( $this, 'render_settings_page' ),
+				'dashicons-thumbs-up'
 			);
 		}
 
+		public function add_submenu_pages() {
+			add_submenu_page(
+				'ri-wth-settings',
+				__( 'Shortcode', 'ri-was-this-helpful' ),
+				__( 'Shortcode', 'ri-was-this-helpful' ),
+				'manage_options',
+				'ri-wth-shortcode',
+				array( $this, 'render_shortcode_page' ),
+			);
+		}
+
+
+
 		public function render_settings_page() {
 			require_once RI_WTH_PLUGIN_DIR . 'templates/page-settings.php';
+		}
+
+		public function render_shortcode_page() {
+			require_once RI_WTH_PLUGIN_DIR . 'templates/page-shortcode.php';
 		}
 
 		public function get_settings_section() {
