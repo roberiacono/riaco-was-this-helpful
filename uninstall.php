@@ -5,6 +5,11 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
+// Don't delete any data if the PRO version is already active.
+if ( class_exists( 'RI_Was_This_Helpful_Pro' ) ) {
+	return;
+}
+
 // Delete plugin options
 delete_option( 'ri_wth_display_on' );
 delete_option( 'ri_wth_display_by_user_role' );
