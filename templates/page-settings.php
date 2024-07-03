@@ -28,7 +28,7 @@ $current_tab = isset( $_GET['tab'] ) && isset( $tabs[ $_GET['tab'] ] ) ? $_GET['
 </nav>
 
 	<?php
-	settings_fields( 'ri-wth-' . esc_attr( $current_tab ) . '-settings-group' );
+	settings_fields( 'ri-wth-settings-' . esc_attr( $current_tab ) );
 	do_settings_sections( 'ri-wth-settings-' . esc_attr( $current_tab ) );
 	submit_button();
 	?>

@@ -87,9 +87,6 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 				new RI_WTH_Metabox();
 				new RI_WTH_Metabox_Stats();
 			}
-
-			var_dump( ri_was_this_helpful()->version );
-			die();
 		}
 
 		/**
