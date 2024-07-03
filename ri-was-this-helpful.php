@@ -2,7 +2,7 @@
 /*
 Plugin Name: RI Was This Helpful
 Description: Adds a "Was this helpful?" box at the end of posts with thumb-up/thumb-down buttons for feedback.
-Version: 1.5.0
+Version: 1.5.1
 Author: Roberto Iacono
 Text Domain: ri-was-this-helpful
 Domain Path: /languages
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 
 
 if ( ! defined( 'RI_WTH_PLUGIN_VERSION' ) ) {
-	define( 'RI_WTH_PLUGIN_VERSION', '1.5.0' );
+	define( 'RI_WTH_PLUGIN_VERSION', '1.5.1' );
 }
 
 if ( ! defined( 'RI_WTH_PLUGIN_FILE' ) ) {

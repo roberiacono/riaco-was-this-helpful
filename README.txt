@@ -49,6 +49,13 @@ With the PRO version installed, the custom post types will automatically be avai
 
 == Changelog ==
 
+= 1.5.1 =
+* Added shortcode page in admin menu
+* Added option to maintain/delete data when plugin is removed
+
+= 1.5.0 =
+* Refactor code
+
 = 1.4.6 =
 * added block to gutenberg editor
 * Added button manager (text and icon) for feedback box in settings page. 
