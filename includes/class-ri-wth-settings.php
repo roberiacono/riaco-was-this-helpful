@@ -311,7 +311,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 
 		public function feedback_box_positive_button_text_callback() {
 			$option = get_option( 'ri_wth_feedback_box_positive_button_text' );
-			echo '<input type="text" name="ri_wth_feedback_box_positive_button_text" value="' . esc_attr( _x( sprintf( '%s', $option ), 'text of positive button', 'ri-was-this-helpful' ) ) . '">';
+			echo '<input type="text" name="ri_wth_feedback_box_positive_button_text" value="' . esc_attr( $option ) . '">';
 			echo '<p class=""description"">' . esc_html__( 'Leave empty if you don\'t want to display text', 'ri-was-this-helpful' ) . '</p>';
 		}
 

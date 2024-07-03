@@ -69,7 +69,7 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 		private function init_hooks() {
 			add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_scripts' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
-			add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
+			add_action( 'init', array( $this, 'load_textdomain' ) );
 
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_settings_link' ) );
 
@@ -123,7 +123,6 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 					add_option( $key, $value );
 				}
 			}
-			add_action( 'plugins_loaded', array( $this, 'set_initial_settings' ) );
 		}
 
 		public function admin_enqueue_scripts() {
@@ -161,7 +160,7 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 		public function add_settings_link( $links ) {
 			$url           = get_admin_url() . 'options-general.php?page=ri-wth-settings';
 			$settings_link = '<a href="' . $url . '">' . esc_html( __( 'Settings', 'textdomain' ) ) . '</a>';
-				$links[]   = $settings_link;
+				array_unshift( $links, $settings_link );
 			return $links;
 		}
 	}

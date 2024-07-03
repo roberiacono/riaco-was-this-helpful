@@ -1,8 +1,9 @@
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: RI Was This Helpful\n"
-"POT-Creation-Date: 2024-06-17 17:13+0200\n"
-"PO-Revision-Date: 2024-06-18 09:38+0200\n"
+"POT-Creation-Date: 2024-07-01 13:18+0200\n"
+"PO-Revision-Date: 2024-07-01 13:19+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it_IT\n"
@@ -11,49 +12,201 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.4.4\n"
 "X-Poedit-Basepath: ..\n"
-"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-KeywordsList: __;_e;esc_attr__;esc_attr_e;esc_html__;esc_html_e\n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: helpful-box-block\n"
 
-#: includes/admin-columns.php:4 includes/wth-box.php:9
-msgid "Was this helpful?"
-msgstr "Hai trovato utile questo articolo?"
+#: includes/class-ri-wth-admin-bar.php:27
+#: includes/class-ri-wth-admin-columns.php:44
+#: includes/class-ri-wth-metabox-stats.php:39
+#, php-format
+msgid "%1$d%% positive (%2$d/%3$d)"
+msgstr ""
 
-#: includes/admin-columns.php:28
-msgid "positive"
-msgstr "positivi"
-
-#: includes/admin-columns.php:30
+#: includes/class-ri-wth-admin-bar.php:29
+#: includes/class-ri-wth-admin-columns.php:46
+#: includes/class-ri-wth-metabox-stats.php:41
 msgid "No feedback yet"
-msgstr "Ancora nessun Feedback"
+msgstr ""
 
-#: includes/settings.php:5
+#: includes/class-ri-wth-admin-columns.php:27
+msgid "Was this helpful?"
+msgstr ""
+
+#: includes/class-ri-wth-metabox-stats.php:20
+msgid "Helpful Stats"
+msgstr ""
+
+#: includes/class-ri-wth-metabox.php:20
+msgid "Helpful Settings"
+msgstr ""
+
+#: includes/class-ri-wth-metabox.php:35
+msgid "Disable automatic Helpful box at the bottom of this post."
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:25
 msgid "Was This Helpful Settings"
-msgstr "Impostazioni di Was This Helpful"
+msgstr ""
 
-#: includes/settings.php:6
+#: includes/class-ri-wth-settings.php:26
 msgid "Was This Helpful"
-msgstr "Was This Helpful"
+msgstr ""
 
-#: includes/settings.php:35
-msgid "Load Settings"
-msgstr "Carica Impostazioni"
+#: includes/class-ri-wth-settings.php:58 includes/class-ri-wth-settings.php:65
+msgid "Display on"
+msgstr ""
 
-#: includes/settings.php:42
+#: includes/class-ri-wth-settings.php:73
+msgid "Display Stats and Functionalities by User Role"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:81
+msgid "Assets Loading"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:88
 msgid "Load Styles"
-msgstr "Carica Styles"
+msgstr ""
 
-#: includes/settings.php:50
+#: includes/class-ri-wth-settings.php:96
 msgid "Load Scripts"
-msgstr "Carica Scripts"
+msgstr ""
 
-#: includes/settings.php:59
+#: includes/class-ri-wth-settings.php:104
+msgid "Admin Bar"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:110
+msgid "Show Admin Bar Content"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:118
+msgid "Content"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:124
+msgid "Feedback Box Text"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:131
+msgid "Positive Button Text"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:138
+msgid "Positive Button Icon"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:146
+msgid "Negative Button Text"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:154
+msgid "Negative Button Icon"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:163
+msgid "Colors"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:170
+msgid "Background Color"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:179
+msgid "Positive Button Color"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:188
+msgid "Positive Text/Icon Color"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:197
+msgid "Negative Button Color"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:206
+msgid "Negative Text/Icon Color"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:215
+msgid "Styles"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:222
+msgid "Button Border Radius"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:231
+msgid "Where do you want to show your Was this helpful box?"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:240
+msgid "Posts"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:244
+msgid "Pages"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:279
 msgid "Select whether to load the plugin styles and scripts."
-msgstr "Seleziona se caricare gli stili e gli script del plugin"
+msgstr ""
 
-#: ri-was-this-helpful.php:64
+#: includes/class-ri-wth-settings.php:294
+msgid "Select whether to show the content in the admin bar."
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:304
+msgid "Change feedback box content."
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:308
+msgid "Valore di esempio english"
+msgstr "Test"
+
+#: includes/class-ri-wth-settings.php:315
+#: includes/class-ri-wth-settings.php:351
+msgid "Leave empty if you don't want to display text"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:321
+#: includes/class-ri-wth-settings.php:336
+msgid "Leave Empty"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:356
+msgid "Style your feedback box."
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:413
+msgid "Was This Helpful?"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:414
+msgid "Yes"
+msgstr ""
+
+#: includes/class-ri-wth-settings.php:416
+msgid "No"
+msgstr ""
+
+#: ri-was-this-helpful.php:146
 msgid "Thank you for your feedback!"
-msgstr "Grazie per il tuo feedback!"
+msgstr ""
 
-#: ri-was-this-helpful.php:65
+#: ri-was-this-helpful.php:147
 msgid "Submitting..."
-msgstr "Sitamo inviando il feedback..."
+msgstr ""
+
+#: ri-was-this-helpful.php:163
+msgid "Settings"
+msgstr ""
+
+#: templates/page-settings.php:5
+msgid "General"
+msgstr ""
+
+#: templates/page-settings.php:6
+msgid "Feedback Box"
+msgstr ""

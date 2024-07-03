@@ -28,31 +28,6 @@ if ( ! class_exists( 'RI_WTH_Block' ) ) {
 							'default' => $this->get_feedback_block_for_editor(),
 							'type'    => 'string',
 						),
-						/*
-						'nonce'              => array(
-							'default' => RI_WTH_Box::get_feedback_box_nonce(),
-							'type'    => 'string',
-						),
-						'feedbackBoxText'    => array(
-							'default' => RI_WTH_Box::get_feedback_box_text(),
-							'type'    => 'string',
-						),
-						'positiveButtonText' => array(
-							'default' => RI_WTH_Box::get_feedback_box_button_text( 'positive' ),
-							'type'    => 'string',
-						),
-						'positiveButtonIcon' => array(
-							'default' => RI_WTH_Box::get_feedback_box_button_icon( 'positive' ),
-							'type'    => 'string',
-						),
-						'negativeButtonText' => array(
-							'default' => RI_WTH_Box::get_feedback_box_button_text( 'negative' ),
-							'type'    => 'string',
-						),
-						'negativeButtonIcon' => array(
-							'default' => RI_WTH_Box::get_feedback_box_button_icon( 'negative' ),
-							'type'    => 'string',
-						), */
 					),
 				)
 			);

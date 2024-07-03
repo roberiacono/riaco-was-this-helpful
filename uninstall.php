@@ -24,9 +24,6 @@ delete_option( 'ri_wth_feedback_box_color_negative_button' );
 delete_option( 'ri_wth_feedback_box_color_negative_text' );
 delete_option( 'ri_wth_feedback_box_border_button_rounded' );
 
-// Delete custom table
-
-/*
 global $wpdb;
-$table_name = $wpdb->prefix . RI_WTH_DB_NAME;
-$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $table_name ) ); */
+$table_name = $wpdb->prefix . 'ri_wth_helpful_feedback';
+$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $table_name ) );
