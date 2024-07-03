@@ -4,6 +4,7 @@
 $tabs        = array(
 	'tab-general'      => esc_html( __( 'General', 'ri-was-this-helpful' ) ),
 	'tab-feedback-box' => esc_html( __( 'Feedback Box', 'ri-was-this-helpful' ) ),
+	'tab-extra'        => esc_html( __( 'Extra', 'ri-was-this-helpful' ) ),
 );
 $current_tab = isset( $_GET['tab'] ) && isset( $tabs[ $_GET['tab'] ] ) ? $_GET['tab'] : array_key_first( $tabs );
 ?>

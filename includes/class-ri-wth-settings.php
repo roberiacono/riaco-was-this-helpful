@@ -55,32 +55,9 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 
 		public function get_settings_section() {
 			$settings_section = array(
-				'ri-wth-settings-section'           => array(
-					'title'    => __( 'Display on', 'ri-was-this-helpful' ),
-					'callback' => array( $this, 'settings_section_callback' ),
-					'tab'      => 'ri-wth-settings-tab-general',
-				),
-				'ri-wth-load-settings-section'      => array(
-					'title'    => __( 'Assets Loading', 'ri-was-this-helpful' ),
-					'callback' => array( $this, 'load_settings_section_callback' ),
-					'tab'      => 'ri-wth-settings-tab-general',
-				),
-				'ri-wth-admin-bar-settings-section' => array(
-					'title'    => __( 'Admin Bar', 'ri-was-this-helpful' ),
-					'callback' => array( $this, 'admin_bar_settings_section_callback' ),
-					'tab'      => 'ri-wth-settings-tab-general',
-				),
-
-			);
-			$settings_section = array(
 				'ri-wth-settings-section'              => array(
 					'title'    => __( 'Display on', 'ri-was-this-helpful' ),
 					'callback' => array( $this, 'settings_section_callback' ),
-					'tab'      => 'ri-wth-settings-tab-general',
-				),
-				'ri-wth-load-settings-section'         => array(
-					'title'    => __( 'Assets Loading', 'ri-was-this-helpful' ),
-					'callback' => array( $this, 'load_settings_section_callback' ),
 					'tab'      => 'ri-wth-settings-tab-general',
 				),
 				'ri-wth-admin-bar-settings-section'    => array(
@@ -102,6 +79,16 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 					'title'    => __( 'Styles', 'ri-was-this-helpful' ),
 					'callback' => null,
 					'tab'      => 'ri-wth-settings-tab-feedback-box',
+				),
+				'ri-wth-load-settings-section'         => array(
+					'title'    => __( 'Assets Loading', 'ri-was-this-helpful' ),
+					'callback' => array( $this, 'load_settings_section_callback' ),
+					'tab'      => 'ri-wth-settings-tab-extra',
+				),
+				'ri-wth-uninstall-settings-section'    => array(
+					'title'    => __( 'Data Deletion', 'ri-was-this-helpful' ),
+					'callback' => array( $this, 'uninstall_settings_section_callback' ),
+					'tab'      => 'ri-wth-settings-tab-extra',
 				),
 			);
 			return $settings_section;
@@ -125,13 +112,13 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 				'ri_wth_load_styles'                       => array(
 					'title'    => __( 'Load Styles', 'ri-was-this-helpful' ),
 					'callback' => array( $this, 'load_styles_callback' ),
-					'tab'      => 'ri-wth-settings-tab-general',
+					'tab'      => 'ri-wth-settings-tab-extra',
 					'section'  => 'ri-wth-load-settings-section',
 				),
 				'ri_wth_load_scripts'                      => array(
 					'title'    => __( 'Load Scripts', 'ri-was-this-helpful' ),
 					'callback' => array( $this, 'load_scripts_callback' ),
-					'tab'      => 'ri-wth-settings-tab-general',
+					'tab'      => 'ri-wth-settings-tab-extra',
 					'section'  => 'ri-wth-load-settings-section',
 				),
 				'ri_wth_show_admin_bar_content'            => array(
@@ -218,6 +205,12 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 					'callback' => array( $this, 'feedback_box_border_button_rounded_callback' ),
 					'tab'      => 'ri-wth-settings-tab-feedback-box',
 					'section'  => 'ri-wth-feedback-box-styles-settings-section',
+				),
+				'ri_wth_uninstall_remove_data'             => array(
+					'title'    => __( 'Delete data when removing plugin?', 'ri-was-this-helpful' ),
+					'callback' => array( $this, 'uninstall_remove_data_callback' ),
+					'tab'      => 'ri-wth-settings-tab-extra',
+					'section'  => 'ri-wth-uninstall-settings-section',
 				),
 			);
 
@@ -428,6 +421,15 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 		}
 
 
+		public function uninstall_settings_section_callback() {
+			echo esc_html( __( 'Deletes all data when plugin is removed.', 'ri-was-this-helpful' ) );
+		}
+
+		public function uninstall_remove_data_callback() {
+			$option = get_option( 'ri_wth_uninstall_remove_data' );
+			echo '<input type="checkbox" name="ri_wth_uninstall_remove_data" value="1"' . checked( 1, $option, false ) . '>';
+		}
+
 
 
 		public static function get_intial_settings() {
@@ -449,6 +451,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 				'ri_wth_feedback_box_color_negative_button' => '#ffffff',
 				'ri_wth_feedback_box_color_negative_text'  => '#444444',
 				'ri_wth_feedback_box_border_button_rounded' => '8',
+				'ri_wth_uninstall_remove_data'             => 1,
 			);
 			return $initial_settings;
 		}

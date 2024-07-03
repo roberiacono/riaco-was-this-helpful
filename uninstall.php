@@ -10,6 +10,11 @@ if ( class_exists( 'RI_Was_This_Helpful_Pro' ) ) {
 	return;
 }
 
+// Don't delete any data if user doesn't want.
+if ( ! get_option( 'ri_wth_uninstall_remove_data' ) ) {
+	return;
+}
+
 // Delete plugin options
 delete_option( 'ri_wth_display_on' );
 delete_option( 'ri_wth_display_by_user_role' );
@@ -28,6 +33,7 @@ delete_option( 'ri_wth_feedback_box_color_positive_text' );
 delete_option( 'ri_wth_feedback_box_color_negative_button' );
 delete_option( 'ri_wth_feedback_box_color_negative_text' );
 delete_option( 'ri_wth_feedback_box_border_button_rounded' );
+delete_option( 'ri_wth_uninstall_remove_data' );
 
 global $wpdb;
 $table_name = $wpdb->prefix . 'ri_wth_helpful_feedback';
