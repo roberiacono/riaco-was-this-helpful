@@ -29,14 +29,14 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 		 * Cloning is forbidden.
 		 */
 		public function __clone() {
-			_doing_it_wrong( __FUNCTION__, esc_html__( 'Cloning is forbidden.', 'ri-was-this-helpful' ), '1.0.0' );
+			_doing_it_wrong( __FUNCTION__, esc_html( 'Cloning is forbidden.' ), '1.0.0' );
 		}
 
 		/**
 		 * Unserializing instances of this class is forbidden.
 		 */
 		public function __wakeup() {
-			_doing_it_wrong( __FUNCTION__, esc_html__( 'Unserializing instances of this class is forbidden.', 'ri-was-this-helpful' ), '1.0.0' );
+			_doing_it_wrong( __FUNCTION__, esc_html( 'Unserializing instances of this class is forbidden.' ), '1.0.0' );
 		}
 
 		public function define_constants() {
