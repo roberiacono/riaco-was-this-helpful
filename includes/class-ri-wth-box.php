@@ -40,14 +40,14 @@ if ( ! class_exists( 'RI_WTH_Box' ) ) {
 			$negative_button_icon  = $attr['negative_button_icon'];
 			$negative_button_style = $attr['negative_button_style'];
 
-			$code  = '<div id="ri-wth-helpful-feedback" class="ri-wth-helpful-feedback" style="' . esc_attr( $feedback_box_style ) . '">';
+			$code  = '<div class="ri-wth-helpful-feedback" style="' . esc_attr( $feedback_box_style ) . '">';
 			$code .= '<div class="ri-wth-text">' . esc_html( $feedback_box_text ) . '</div>';
 			$code .= '<div class="ri-wth-buttons-container">';
-			$code .= '<button id="ri-wth-helpful-yes" class="helpful-yes" style="' . esc_attr( $positive_button_style ) . '" data-post_id="' . get_the_ID() . '" data-nonce="' . esc_attr( $nonce ) . '">';
+			$code .= '<button class="ri-wth-helpful-yes" style="' . esc_attr( $positive_button_style ) . '" data-post_id="' . get_the_ID() . '" data-nonce="' . esc_attr( $nonce ) . '">';
 			$code .= wp_kses_post( $positive_button_text );
 			$code .= RI_WTH_Functions::sanitize_svg( $positive_button_icon );
 			$code .= '</button>';
-			$code .= '<button id="ri-wth-helpful-no" class="helpful-no" style="' . esc_attr( $negative_button_style ) . '" data-post_id="' . get_the_ID() . '" data-nonce="' . esc_attr( $nonce ) . '">';
+			$code .= '<button class="ri-wth-helpful-no" style="' . esc_attr( $negative_button_style ) . '" data-post_id="' . get_the_ID() . '" data-nonce="' . esc_attr( $nonce ) . '">';
 			$code .= wp_kses_post( $negative_button_text );
 			$code .= RI_WTH_Functions::sanitize_svg( $negative_button_icon );
 			$code .= '</button>';

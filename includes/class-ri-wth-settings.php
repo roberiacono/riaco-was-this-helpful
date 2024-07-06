@@ -16,7 +16,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 				return;
 			}
 			wp_enqueue_style( 'wp-color-picker' );
-			wp_enqueue_script( 'ri-wth-color-picker', RI_WTH_PLUGIN_URL . 'admin/js/color-picker.js', array( 'wp-color-picker' ), false, true );
+			wp_enqueue_script( 'ri-wth-color-picker', RI_WTH_PLUGIN_URL . 'admin/js/color-picker.js', array( 'wp-color-picker' ), RI_WTH_PLUGIN_VERSION, true );
 		}
 
 
@@ -364,7 +364,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 			foreach ( $svg_icons as $key => $icon ) {
 				?>
 				<label>
-					<input type="radio" name="ri_wth_feedback_box_positive_button_icon" value="<?php esc_attr_e( $key ); ?>" <?php checked( $key, $option ); ?>>
+					<input type="radio" name="ri_wth_feedback_box_positive_button_icon" value="<?php echo esc_attr( $key ); ?>" <?php checked( $key, $option ); ?>>
 					<?php echo RI_WTH_Functions::sanitize_svg( $icon ); ?>	
 				</label>
 				<?php
@@ -379,7 +379,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 			foreach ( $svg_icons as $key => $icon ) {
 				?>
 				<label>
-					<input type="radio" name="ri_wth_feedback_box_negative_button_icon" value="<?php esc_attr_e( $key ); ?>" <?php checked( $key, $option ); ?>>
+					<input type="radio" name="ri_wth_feedback_box_negative_button_icon" value="<?php echo esc_attr( $key ); ?>" <?php checked( $key, $option ); ?>>
 					<?php echo RI_WTH_Functions::sanitize_svg( $icon ); ?>	
 				</label>
 				<?php

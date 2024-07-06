@@ -10,6 +10,11 @@ if ( ! class_exists( 'RI_WTH_Shortcode' ) ) {
 
 		public function shortcode_func( $atts ) {
 			if ( RI_WTH_Functions::could_display_box() ) {
+
+				if ( RI_WTH_Functions::feedback_given( get_the_ID() ) ) {
+					return false;
+				}
+
 				if ( get_option( 'ri_wth_load_styles' ) ) {
 					wp_enqueue_style( 'ri-wth-style' );
 				}

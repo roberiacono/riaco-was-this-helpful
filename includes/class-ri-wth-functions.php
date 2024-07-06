@@ -34,6 +34,15 @@ if ( ! class_exists( 'RI_WTH_Functions' ) ) {
 			return $total_feedback;
 		}
 
+		public static function feedback_given( $post_id ) {
+			$feedback_given = isset( $_COOKIE['feedback_given'] ) ? $_COOKIE['feedback_given'] : '';
+			$feedback_array = explode( ',', $feedback_given );
+			if ( in_array( $post_id, $feedback_array ) ) {
+				return true;
+			}
+			return false;
+		}
+
 		public static function should_display_box() {
 			global $post;
 
@@ -45,6 +54,10 @@ if ( ! class_exists( 'RI_WTH_Functions' ) ) {
 			// Check if the box is disabled for the current post
 			$disable_box = get_post_meta( $post->ID, '_ri_wth_disable_box', true );
 			if ( '1' === $disable_box ) {
+				return false;
+			}
+
+			if ( self::feedback_given( $post->ID ) ) {
 				return false;
 			}
 

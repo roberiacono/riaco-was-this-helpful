@@ -1,5 +1,5 @@
 <div class="wrap">
-<h1><?php esc_html_e( get_admin_page_title() ); ?></h1>
+<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 <?php
 $tabs        = array(
 	'tab-general'      => esc_html( __( 'General', 'ri-was-this-helpful' ) ),

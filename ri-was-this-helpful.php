@@ -19,7 +19,6 @@ if ( ! defined( 'RI_WTH_PLUGIN_FILE' ) ) {
 	define( 'RI_WTH_PLUGIN_FILE', __FILE__ );
 }
 
-// Include the main WooCommerce class.
 if ( ! class_exists( 'RI_Was_This_Helpful', false ) ) {
 	include_once dirname( RI_WTH_PLUGIN_FILE ) . '/includes/class-ri-was-this-helpful.php';
 }
@@ -35,5 +34,7 @@ if ( ! function_exists( 'ri_was_this_helpful' ) ) {
 	function ri_was_this_helpful() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 		return RI_Was_This_Helpful::get_instance();
 	}
+
 	ri_was_this_helpful();
+
 }

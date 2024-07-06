@@ -32,10 +32,6 @@
   cursor: pointer;
   transform: scale(1.1); 
 }
-.ri-wth-helpful-feedback button.helpful-yes:hover {
-}
-.ri-wth-helpful-feedback button.helpful-no:hover {
-}
 .ri-wth-helpful-feedback button svg{
   width: 20px;
 }

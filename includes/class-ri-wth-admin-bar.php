@@ -24,7 +24,8 @@ if ( ! class_exists( 'RI_WTH_Admin_Bar' ) ) {
 
 			if ( $total_feedback_count > 0 ) {
 				$percentage = ( $positive_feedback_count / $total_feedback_count ) * 100;
-				$title      = esc_html( sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'ri-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback_count ) );
+				/* translators: %1$d: percentage of positive feedback. %2$d number of positive feedback. %3$d number of total feedback. */
+				$title = esc_html( sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'ri-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback_count ) );
 			} else {
 				$title = esc_html( __( 'No feedback yet', 'ri-was-this-helpful' ) );
 			}

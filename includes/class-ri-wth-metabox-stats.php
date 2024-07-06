@@ -36,6 +36,7 @@ if ( ! class_exists( 'RI_WTH_Metabox_Stats' ) ) {
 				$percentage = ( $positive_feedback_count / $total_feedback_count ) * 100;
 				$rgb        = RI_WTH_Functions::GreenYellowRed( round( $percentage ) );
 				echo '<span style="background-color: rgb(' . esc_attr( $rgb ) . '); margin-right: 5px; border-radius: 50%; width: 0.5rem; height: 0.5rem; display: inline-block;"></span>';
+				/* translators: %1$d: positive percentage. %2$d Positive feedback. %3$d total feedback. */
 				echo esc_html( sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'ri-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback_count ) );
 			} else {
 				esc_html_e( 'No feedback yet', 'ri-was-this-helpful' );

@@ -29,14 +29,14 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 		 * Cloning is forbidden.
 		 */
 		public function __clone() {
-			_doing_it_wrong( __FUNCTION__, __( 'Cloning is forbidden.', 'ri-was-this-helpful' ), '1.0.0' );
+			_doing_it_wrong( __FUNCTION__, esc_html__( 'Cloning is forbidden.', 'ri-was-this-helpful' ), '1.0.0' );
 		}
 
 		/**
 		 * Unserializing instances of this class is forbidden.
 		 */
 		public function __wakeup() {
-			_doing_it_wrong( __FUNCTION__, __( 'Unserializing instances of this class is forbidden.', 'ri-was-this-helpful' ), '1.0.0' );
+			_doing_it_wrong( __FUNCTION__, esc_html__( 'Unserializing instances of this class is forbidden.', 'ri-was-this-helpful' ), '1.0.0' );
 		}
 
 		public function define_constants() {
@@ -143,7 +143,7 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 
 		public function admin_enqueue_scripts() {
 			if ( is_admin() && isset( $_GET['page'] ) && $_GET['page'] === 'ri-wth-settings' ) {
-				wp_enqueue_style( 'ri-wth-admin-style', RI_WTH_PLUGIN_URL . 'admin/css/style.css' );
+				wp_enqueue_style( 'ri-wth-admin-style', RI_WTH_PLUGIN_URL . 'admin/css/style.css', RI_WTH_PLUGIN_VERSION );
 			}
 		}
 
@@ -158,8 +158,9 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 					'ri_wth_scripts',
 					array(
 						'ajax_url'   => admin_url( 'admin-ajax.php' ),
-						'thank_you'  => __( 'Thank you for your feedback!', 'ri-was-this-helpful' ),
-						'submitting' => __( 'Submitting...', 'ri-was-this-helpful' ),
+						'thank_you'  => __( '✅ Thank you for your feedback!', 'ri-was-this-helpful' ),
+						'submitting' => __( '⏳ Submitting...', 'ri-was-this-helpful' ),
+						'postId'     => get_the_ID(),
 					)
 				);
 			}
@@ -174,8 +175,8 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 		}
 
 		public function add_settings_link( $links ) {
-			$url           = get_admin_url() . 'options-general.php?page=ri-wth-settings';
-			$settings_link = array( '<a href="' . $url . '">' . esc_html( __( 'Settings', 'textdomain' ) ) . '</a>' );
+			$url           = get_admin_url() . 'admin.php?page=ri-wth-settings';
+			$settings_link = array( '<a href="' . $url . '">' . esc_html( __( 'Settings', 'ri-was-this-helpful' ) ) . '</a>' );
 			return array_merge( $settings_link, $links );
 		}
 	}
