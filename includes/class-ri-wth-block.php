@@ -57,7 +57,7 @@ if ( ! class_exists( 'RI_WTH_Block' ) ) {
 		}
 
 		public function render_feedback_block() {
-			if ( RI_WTH_Functions::could_display_box() ) {
+			if ( RI_WTH_Functions::could_display_box() && ! RI_WTH_Functions::feedback_given( get_the_ID() ) ) {
 				return RI_WTH_Box::feedback_box_code();
 			}
 			return false;
