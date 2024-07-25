@@ -1,4 +1,5 @@
 <?php
+global $wpdb;
 
 // If uninstall not called from WordPress, exit
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
@@ -38,7 +39,44 @@ delete_option( 'riwth_uninstall_remove_data' );
 // delete transient
 delete_transient( 'riwth_feedback_box' );
 
+$transient_prefixes = array(
+	'riwth_total_feedback_',
+	'riwth_positive_feedback_',
+);
+
+$post_ids_with_transients = array();
+
+foreach ( $transient_prefixes as $prefix ) {
+				// Cerca tutte le chiavi dei transient con il prefisso specificato
+				$sql = $wpdb->prepare(
+					"
+					SELECT option_name
+					FROM $wpdb->options
+					WHERE option_name LIKE %s
+				",
+					'_transient_' . $prefix . '%'
+				);
+
+				// Ottieni tutte le chiavi dei transient
+				$transient_keys = $wpdb->get_col( $sql );
+
+	foreach ( $transient_keys as $transient_key ) {
+		// Estrai il post ID dalla chiave del transient
+		$post_id = str_replace( '_transient_' . $prefix, '', $transient_key );
+
+		// Aggiungi l'ID del post all'array se non è già presente
+		if ( ! in_array( $post_id, $post_ids_with_transients ) ) {
+			$post_ids_with_transients[] = $post_id;
+		}
+	}
+}
+
+
+foreach ( $post_ids_with_transients as $post_id ) {
+			delete_transient( 'riwth_total_feedback_' . $post_id );
+			delete_transient( 'riwth_positive_feedback_' . $post_id );
+}
+
 // delete table
-global $wpdb;
 $table_name = $wpdb->prefix . 'riwth_helpful_feedback';
 $wpdb->query( "DROP TABLE IF EXISTS {$table_name}" );

@@ -3,7 +3,7 @@
 Plugin Name: RI Was This Helpful
 Plugin URI: https://letsplugin.com/wordpress-plugin/ri-was-this-helpful/
 Description: Adds a "Was this helpful?" box at the end of posts with thumb-up/thumb-down buttons for feedback.
-Version: 1.5.2
+Version: 2.0.0
 Author: Roberto Iacono
 Author URI: https://letsplugin.com/
 License: GPL v2 or later
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
 
 
 if ( ! defined( 'RIWTH_PLUGIN_VERSION' ) ) {
-	define( 'RIWTH_PLUGIN_VERSION', '1.5.2' );
+	define( 'RIWTH_PLUGIN_VERSION', '2.0.0' );
 }
 
 if ( ! defined( 'RIWTH_PLUGIN_FILE' ) ) {

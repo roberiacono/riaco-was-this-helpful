@@ -2,7 +2,7 @@
 Contributors: prototipo88
 Tags: feedback, user interaction, comments
 Tested up to: 6.6.1
-Stable tag: 1.5.2
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,8 +47,10 @@ With the PRO version installed, the custom post types will automatically be avai
 
 == Changelog ==
 
-= 1.5.2 =
-* Fix code
+= 2.0.0 =
+* Update: change prefix
+* Update: change table name
+* Update: change shortcode name
 
 = 1.5.1 =
 * Added shortcode page in admin menu

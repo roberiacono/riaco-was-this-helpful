@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: RI Was This Helpful\n"
-"POT-Creation-Date: 2024-07-01 13:18+0200\n"
+"POT-Creation-Date: 2024-07-25 12:58+0200\n"
 "PO-Revision-Date: 2024-07-01 12:50+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -16,197 +16,230 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: helpful-box-block\n"
 
-#: includes/class-ri-wth-admin-bar.php:27
-#: includes/class-ri-wth-admin-columns.php:44
-#: includes/class-ri-wth-metabox-stats.php:39
+#: includes/class-admin-bar.php:28 includes/class-admin-columns.php:45
+#: includes/class-metabox-stats.php:40
 #, php-format
 msgid "%1$d%% positive (%2$d/%3$d)"
 msgstr ""
 
-#: includes/class-ri-wth-admin-bar.php:29
-#: includes/class-ri-wth-admin-columns.php:46
-#: includes/class-ri-wth-metabox-stats.php:41
+#: includes/class-admin-bar.php:30 includes/class-admin-columns.php:47
+#: includes/class-metabox-stats.php:42
 msgid "No feedback yet"
 msgstr ""
 
-#: includes/class-ri-wth-admin-columns.php:27
+#: includes/class-admin-columns.php:27
 msgid "Was this helpful?"
 msgstr ""
 
-#: includes/class-ri-wth-metabox-stats.php:20
+#: includes/class-metabox-stats.php:20
 msgid "Helpful Stats"
 msgstr ""
 
-#: includes/class-ri-wth-metabox.php:20
+#: includes/class-metabox.php:20
 msgid "Helpful Settings"
 msgstr ""
 
-#: includes/class-ri-wth-metabox.php:35
+#: includes/class-metabox.php:35
 msgid "Disable automatic Helpful box at the bottom of this post."
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:25
+#: includes/class-settings.php:25
 msgid "Was This Helpful Settings"
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:26
+#: includes/class-settings.php:26
 msgid "Was This Helpful"
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:58 includes/class-ri-wth-settings.php:65
+#: includes/class-settings.php:37 includes/class-settings.php:38
+msgid "Shortcode"
+msgstr ""
+
+#: includes/class-settings.php:58 includes/class-settings.php:105
 msgid "Display on"
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:73
-msgid "Display Stats and Functionalities by User Role"
-msgstr ""
-
-#: includes/class-ri-wth-settings.php:81
-msgid "Assets Loading"
-msgstr ""
-
-#: includes/class-ri-wth-settings.php:88
-msgid "Load Styles"
-msgstr ""
-
-#: includes/class-ri-wth-settings.php:96
-msgid "Load Scripts"
-msgstr ""
-
-#: includes/class-ri-wth-settings.php:104
+#: includes/class-settings.php:63
 msgid "Admin Bar"
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:110
-msgid "Show Admin Bar Content"
-msgstr ""
-
-#: includes/class-ri-wth-settings.php:118
+#: includes/class-settings.php:68
 msgid "Content"
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:124
-msgid "Feedback Box Text"
-msgstr ""
-
-#: includes/class-ri-wth-settings.php:131
-msgid "Positive Button Text"
-msgstr ""
-
-#: includes/class-ri-wth-settings.php:138
-msgid "Positive Button Icon"
-msgstr ""
-
-#: includes/class-ri-wth-settings.php:146
-msgid "Negative Button Text"
-msgstr ""
-
-#: includes/class-ri-wth-settings.php:154
-msgid "Negative Button Icon"
-msgstr ""
-
-#: includes/class-ri-wth-settings.php:163
+#: includes/class-settings.php:73
 msgid "Colors"
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:170
-msgid "Background Color"
-msgstr ""
-
-#: includes/class-ri-wth-settings.php:179
-msgid "Positive Button Color"
-msgstr ""
-
-#: includes/class-ri-wth-settings.php:188
-msgid "Positive Text/Icon Color"
-msgstr ""
-
-#: includes/class-ri-wth-settings.php:197
-msgid "Negative Button Color"
-msgstr ""
-
-#: includes/class-ri-wth-settings.php:206
-msgid "Negative Text/Icon Color"
-msgstr ""
-
-#: includes/class-ri-wth-settings.php:215
+#: includes/class-settings.php:78
 msgid "Styles"
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:222
-msgid "Button Border Radius"
+#: includes/class-settings.php:83
+msgid "Assets Loading"
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:231
-msgid "Where do you want to show your Was this helpful box?"
+#: includes/class-settings.php:88
+msgid "Data Deletion"
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:240
-msgid "Posts"
+#: includes/class-settings.php:93
+msgid "Submitting and Thanks Content"
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:244
-msgid "Pages"
+#: includes/class-settings.php:111
+msgid "Display Stats and Functionalities by User Role"
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:279
-msgid "Select whether to load the plugin styles and scripts."
+#: includes/class-settings.php:117
+msgid "Load Styles"
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:294
-msgid "Select whether to show the content in the admin bar."
+#: includes/class-settings.php:127
+msgid "Load Scripts"
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:304
-msgid "Change feedback box content."
+#: includes/class-settings.php:137
+msgid "Show Admin Bar Content"
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:308
-msgid "Valore di esempio english"
+#: includes/class-settings.php:147
+msgid "Feedback Box Text"
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:315
-#: includes/class-ri-wth-settings.php:351
+#: includes/class-settings.php:157 includes/class-settings.php:167
+msgid "Positive Button Text"
+msgstr ""
+
+#: includes/class-settings.php:174 includes/class-settings.php:192
 msgid "Leave empty if you don't want to display text"
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:321
-#: includes/class-ri-wth-settings.php:336
+#: includes/class-settings.php:178
+msgid "Positive Button Icon"
+msgstr ""
+
+#: includes/class-settings.php:185
+msgid "Negative Button Text"
+msgstr ""
+
+#: includes/class-settings.php:196
+msgid "Negative Button Icon"
+msgstr ""
+
+#: includes/class-settings.php:203
+msgid "Background Color"
+msgstr ""
+
+#: includes/class-settings.php:210
+msgid "Positive Button Color"
+msgstr ""
+
+#: includes/class-settings.php:217
+msgid "Positive Text/Icon Color"
+msgstr ""
+
+#: includes/class-settings.php:224
+msgid "Negative Button Color"
+msgstr ""
+
+#: includes/class-settings.php:231
+msgid "Negative Text/Icon Color"
+msgstr ""
+
+#: includes/class-settings.php:238
+msgid "Button Border Radius"
+msgstr ""
+
+#: includes/class-settings.php:244
+msgid "Delete data when removing plugin?"
+msgstr ""
+
+#: includes/class-settings.php:254
+msgid "Submitting Text"
+msgstr ""
+
+#: includes/class-settings.php:264
+msgid "Thank You Text"
+msgstr ""
+
+#: includes/class-settings.php:310
+msgid "Where do you want to show your Was this helpful box?"
+msgstr ""
+
+#: includes/class-settings.php:319
+msgid "Posts"
+msgstr ""
+
+#: includes/class-settings.php:323
+msgid "Pages"
+msgstr ""
+
+#: includes/class-settings.php:358
+msgid "Select whether to load the plugin styles and scripts."
+msgstr ""
+
+#: includes/class-settings.php:368
+msgid "Select whether to show the content in the admin bar."
+msgstr ""
+
+#: includes/class-settings.php:373
+msgid "Change feedback box content."
+msgstr ""
+
+#: includes/class-settings.php:376
+msgid "Change feedback box content  for submitting and thank you messages."
+msgstr ""
+
+#: includes/class-settings.php:391 includes/class-settings.php:407
 msgid "Leave Empty"
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:356
+#: includes/class-settings.php:421
 msgid "Style your feedback box."
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:413
+#: includes/class-settings.php:469
+msgid "Deletes all data when plugin is removed."
+msgstr ""
+
+#: includes/class-settings.php:481
 msgid "Was This Helpful?"
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:414
+#: includes/class-settings.php:482
 msgid "Yes"
 msgstr ""
 
-#: includes/class-ri-wth-settings.php:416
+#: includes/class-settings.php:484
 msgid "No"
 msgstr ""
 
-#: ri-was-this-helpful.php:146
-msgid "Thank you for your feedback!"
+#: includes/class-settings.php:493
+msgid "⏳ Submitting..."
 msgstr ""
 
-#: ri-was-this-helpful.php:147
-msgid "Submitting..."
+#: includes/class-settings.php:494
+msgid "✅ Thank you for your feedback!"
 msgstr ""
 
-#: ri-was-this-helpful.php:163
+#: includes/class-was-this-helpful.php:178
 msgid "Settings"
 msgstr ""
 
-#: templates/page-settings.php:5
+#: templates/page-settings.php:9
 msgid "General"
 msgstr ""
 
-#: templates/page-settings.php:6
+#: templates/page-settings.php:10
 msgid "Feedback Box"
+msgstr ""
+
+#: templates/page-settings.php:11
+msgid "Extra"
+msgstr ""
+
+#: templates/page-shortcode.php:8
+#, php-format
+msgid "You can display the Helpful Box using the shortcode %s inside posts/pages content."
 msgstr ""

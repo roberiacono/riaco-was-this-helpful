@@ -22,7 +22,7 @@ if ( ! class_exists( 'RIWTH_Shortcode' ) ) {
 					wp_enqueue_script( 'riwth-script' );
 				}
 
-				do_action( 'before_show_helpful_box_using_shortcode' );
+				do_action( 'riwth_before_show_helpful_box_using_shortcode' );
 
 				$helpful_box = new RIWTH_Box();
 				return $helpful_box->feedback_box_code();
