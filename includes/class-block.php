@@ -1,16 +1,16 @@
 <?php
 
 defined( 'ABSPATH' ) || exit;
-if ( ! class_exists( 'RI_WTH_Block' ) ) {
-	class RI_WTH_Block {
+if ( ! class_exists( 'RIWTH_Block' ) ) {
+	class RIWTH_Block {
 
 		public function __construct() {
-			add_action( 'init', array( $this, 'ri_wth_register_feedback_block' ) );
+			add_action( 'init', array( $this, 'riwth_register_feedback_block' ) );
 			add_action( 'enqueue_block_assets', array( $this, 'enqueue_if_block_is_present' ) ); // Can only be loaded in the footer
 			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_assets' ) );
 		}
 
-		public function ri_wth_register_feedback_block() {
+		public function riwth_register_feedback_block() {
 
 			if ( ! function_exists( 'register_block_type' ) ) {
 				// Block editor is not available.
@@ -18,7 +18,7 @@ if ( ! class_exists( 'RI_WTH_Block' ) ) {
 			}
 
 			register_block_type(
-				RI_WTH_PLUGIN_DIR . 'helpful-box-block/build',
+				RIWTH_PLUGIN_DIR . 'helpful-box-block/build',
 				array(
 					'render_callback' => array( $this, 'render_feedback_block' ),
 
@@ -38,11 +38,11 @@ if ( ! class_exists( 'RI_WTH_Block' ) ) {
 		public function enqueue_if_block_is_present() {
 
 			if ( has_block( 'ri-was-this-helpful/helpful-box-block' ) ) {
-				if ( get_option( 'ri_wth_load_styles' ) ) {
-					wp_enqueue_style( 'ri-wth-style' );
+				if ( get_option( 'riwth_load_styles' ) ) {
+					wp_enqueue_style( 'riwth-style' );
 				}
-				if ( get_option( 'ri_wth_load_scripts' ) ) {
-					wp_enqueue_script( 'ri-wth-script' );
+				if ( get_option( 'riwth_load_scripts' ) ) {
+					wp_enqueue_script( 'riwth-script' );
 				}
 			}
 		}
@@ -51,19 +51,19 @@ if ( ! class_exists( 'RI_WTH_Block' ) ) {
 		 * Enqueue Editor assets.
 		 */
 		function enqueue_editor_assets() {
-			if ( get_option( 'ri_wth_load_styles' ) ) {
-				wp_enqueue_style( 'ri-wth-style', RI_WTH_PLUGIN_URL . 'public/css/style.css', array(), RI_WTH_PLUGIN_VERSION );
+			if ( get_option( 'riwth_load_styles' ) ) {
+				wp_enqueue_style( 'riwth-style', RIWTH_PLUGIN_URL . 'assets/public/css/style.css', array(), RIWTH_PLUGIN_VERSION );
 			}
 		}
 
 		public function render_feedback_block() {
-			if ( RI_WTH_Functions::could_display_box() && ! RI_WTH_Functions::feedback_given( get_the_ID() ) ) {
-				return RI_WTH_Box::feedback_box_code();
+			if ( RIWTH_Functions::could_display_box() && ! RIWTH_Functions::feedback_given( get_the_ID() ) ) {
+				return RIWTH_Box::feedback_box_code();
 			}
 			return false;
 		}
 		public function get_feedback_block_for_editor() {
-				return RI_WTH_Box::feedback_box_code();
+				return RIWTH_Box::feedback_box_code();
 		}
 	}
 }

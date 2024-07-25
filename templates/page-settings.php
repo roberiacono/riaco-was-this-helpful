@@ -1,10 +1,14 @@
+<?php
+defined( 'ABSPATH' ) || exit;
+?>
+
 <div class="wrap">
 <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 <?php
 $tabs        = array(
-	'tab-general'      => __( 'General', 'ri-was-this-helpful' ),
-	'tab-feedback-box' => __( 'Feedback Box', 'ri-was-this-helpful' ),
-	'tab-extra'        => __( 'Extra', 'ri-was-this-helpful' ),
+	'tab-general'      => __( 'General', 'riwth-was-this-helpful' ),
+	'tab-feedback-box' => __( 'Feedback Box', 'riwth-was-this-helpful' ),
+	'tab-extra'        => __( 'Extra', 'riwth-was-this-helpful' ),
 );
 $current_tab = isset( $_GET['tab'] ) && isset( $tabs[ $_GET['tab'] ] ) ? sanitize_text_field( $_GET['tab'] ) : array_key_first( $tabs );
 ?>
@@ -17,7 +21,7 @@ $current_tab = isset( $_GET['tab'] ) && isset( $tabs[ $_GET['tab'] ] ) ? sanitiz
 		// URL
 		$url = add_query_arg(
 			array(
-				'page' => 'ri-wth-settings',
+				'page' => 'riwth-settings',
 				'tab'  => esc_attr( $tab ),
 			),
 			''
@@ -29,8 +33,8 @@ $current_tab = isset( $_GET['tab'] ) && isset( $tabs[ $_GET['tab'] ] ) ? sanitiz
 </nav>
 
 	<?php
-	settings_fields( 'ri-wth-settings-' . esc_attr( $current_tab ) );
-	do_settings_sections( 'ri-wth-settings-' . esc_attr( $current_tab ) );
+	settings_fields( 'riwth-settings-' . esc_attr( $current_tab ) );
+	do_settings_sections( 'riwth-settings-' . esc_attr( $current_tab ) );
 	submit_button();
 	?>
 </form>

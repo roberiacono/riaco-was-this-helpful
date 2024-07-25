@@ -1,8 +1,8 @@
 <?php
 
 defined( 'ABSPATH' ) || exit;
-if ( ! class_exists( 'RI_WTH_Admin_Columns' ) ) {
-	class RI_WTH_Admin_Columns {
+if ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {
+	class RIWTH_Admin_Columns {
 
 		private $post_types;
 
@@ -12,7 +12,7 @@ if ( ! class_exists( 'RI_WTH_Admin_Columns' ) ) {
 
 		public function add_filters_and_actions() {
 
-			$this->post_types = apply_filters( 'ri_wth_custom_columns_post_types', array( 'post', 'page' ) );
+			$this->post_types = apply_filters( 'riwth_custom_columns_post_types', array( 'post', 'page' ) );
 
 			foreach ( $this->post_types as $post_type ) {
 				add_filter( "manage_{$post_type}_posts_columns", array( $this, 'add_feedback_column' ) );
@@ -24,27 +24,27 @@ if ( ! class_exists( 'RI_WTH_Admin_Columns' ) ) {
 		}
 
 		public function add_feedback_column( $columns ) {
-			$columns['helpful_feedback'] = esc_html__( 'Was this helpful?', 'ri-was-this-helpful' );
+			$columns['helpful_feedback'] = esc_html__( 'Was this helpful?', 'riwth-was-this-helpful' );
 			return $columns;
 		}
 
 		public function display_feedback_column( $column, $post_id ) {
 			if ( $column == 'helpful_feedback' ) {
 				global $wpdb;
-				$table_name = $wpdb->prefix . RI_WTH_DB_NAME;
+				$table_name = $wpdb->prefix . RIWTH_DB_NAME;
 
-				$total_feedback = RI_WTH_Functions::get_total_feedback_count( $post_id );
+				$total_feedback = RIWTH_Functions::get_total_feedback_count( $post_id );
 
-				$positive_feedback_count = RI_WTH_Functions::get_positive_feedback_count( $post_id );
+				$positive_feedback_count = RIWTH_Functions::get_positive_feedback_count( $post_id );
 
 				if ( $total_feedback > 0 ) {
 					$percentage = ( $positive_feedback_count / $total_feedback ) * 100;
-					$rgb        = RI_WTH_Functions::GreenYellowRed( round( $percentage ) );
+					$rgb        = RIWTH_Functions::GreenYellowRed( round( $percentage ) );
 					echo '<span style="background-color: rgb(' . esc_attr( $rgb ) . '); margin-right: 5px; border-radius: 50%; width: 0.5rem; height: 0.5rem; display: inline-block;"></span>';
 					/* translators: %1$d: positive percentage. %2$d Positive feedback. %3$d total feedback. */
-					echo esc_html( sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'ri-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback ) );
+					echo esc_html( sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'riwth-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback ) );
 				} else {
-					echo esc_html( __( 'No feedback yet', 'ri-was-this-helpful' ) );
+					echo esc_html( __( 'No feedback yet', 'riwth-was-this-helpful' ) );
 				}
 			}
 		}
@@ -65,7 +65,7 @@ if ( ! class_exists( 'RI_WTH_Admin_Columns' ) ) {
 				$order = strtoupper( $query->get( 'order' ) );
 
 				global $wpdb;
-				$table_name = $wpdb->prefix . RI_WTH_DB_NAME;
+				$table_name = $wpdb->prefix . RIWTH_DB_NAME;
 
 				// Adding the join to the feedback table
 

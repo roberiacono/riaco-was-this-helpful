@@ -1,6 +1,6 @@
 /* feedback box */
 
-.ri-wth-helpful-feedback {
+.riwth-helpful-feedback {
   align-items: center;
   background-color: transparent;
   border: 1px solid #e7eaf0;
@@ -14,7 +14,7 @@
   padding: 2rem;
   transition: opacity 0.5s ease-in-out;
 }
-.ri-wth-helpful-feedback button {
+.riwth-helpful-feedback button {
   align-items: center;
   background-color: #fff;
   border-width: 1px;
@@ -28,21 +28,21 @@
   padding: 0.5rem;
   transition: transform 0.3s ease;
 }
-.ri-wth-helpful-feedback button:hover {
+.riwth-helpful-feedback button:hover {
   cursor: pointer;
   transform: scale(1.1); 
 }
-.ri-wth-helpful-feedback button svg{
+.riwth-helpful-feedback button svg{
   width: 20px;
 }
-.ri-wth-buttons-container{
+.riwth-buttons-container{
   display: flex;
   gap: 0.5rem;
 }
-.ri-wth-thank-you {
+.riwth-thank-you {
   transition: opacity 0.5s ease-in-out;
 }
-.ri-wth-consent{
+.riwth-consent{
   margin-bottom: 15px;
   font-size:12px;
 }

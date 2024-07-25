@@ -1,26 +1,29 @@
 jQuery(document).ready(function ($) {
-  var feedbackGiven = getCookie("feedback_given");
+  var feedbackGiven = getCookie("riwth_feedback_given");
   var feedbackArray = feedbackGiven ? feedbackGiven.split(",") : [];
 
-  $(".ri-wth-helpful-feedback button").on("click", function () {
+  console.log("riwth_scripts", riwth_scripts);
+
+  $(".riwth-helpful-feedback button").on("click", function () {
     var button = $(this);
-    var helpful = button.hasClass("ri-wth-helpful-yes") ? 1 : 0;
+    var helpful = button.hasClass("riwth-helpful-yes") ? 1 : 0;
     var nonce = button.data("nonce");
 
     $(document).trigger("showSubmitting");
 
     const data = {
-      action: "ri_wth_save_feedback",
-      post_id: ri_wth_scripts.postId,
+      action: "riwth_save_feedback",
+      post_id: riwth_scripts.postId,
       helpful: helpful,
       nonce: nonce,
     };
 
     $.ajax({
       type: "POST",
-      url: ri_wth_scripts.ajax_url,
+      url: riwth_scripts.ajax_url,
       data: data,
       success: function (response) {
+        console.log("response", response);
         if (response["feedbackId"] !== "undefined" && response["feedbackId"]) {
           $(document).trigger(response["trigger"], {
             feedbackId: response["feedbackId"],
@@ -29,19 +32,19 @@ jQuery(document).ready(function ($) {
         } else {
           $(document).trigger(response["trigger"]);
         }
-        feedbackArray.push(ri_wth_scripts.postId);
-        setCookie("feedback_given", feedbackArray.join(","), 365);
+        feedbackArray.push(riwth_scripts.postId);
+        setCookie("riwth_feedback_given", feedbackArray.join(","), 365);
       },
     });
   });
 
   $(document).on("showSubmitting", function () {
-    $(".ri-wth-helpful-feedback").html(
-      '<div class="ri-wth-loader">' + ri_wth_scripts.submitting + "</div>"
+    $(".riwth-helpful-feedback").html(
+      '<div class="riwth-loader">' + riwth_scripts.submitting + "</div>"
     );
   });
   $(document).on("showThankYou", function (event, params) {
-    $(".ri-wth-helpful-feedback").html(params.content);
+    $(".riwth-helpful-feedback").html(params.content);
   });
 
   function setCookie(name, value, days) {

@@ -1,20 +1,20 @@
 <?php
 
 defined( 'ABSPATH' ) || exit;
-if ( ! class_exists( 'RI_WTH_Functions' ) ) {
-	class RI_WTH_Functions {
+if ( ! class_exists( 'RIWTH_Functions' ) ) {
+	class RIWTH_Functions {
 
 		// Function to get the positive feedback count for a post
 		public static function get_positive_feedback_count( $post_id ) {
 			global $wpdb;
-			$table_name = $wpdb->prefix . RI_WTH_DB_NAME;
+			$table_name = $wpdb->prefix . RIWTH_DB_NAME;
 
-			$positive_feedback = get_transient( 'ri_wth_positive_feedback_' . $post_id );
+			$positive_feedback = get_transient( 'riwth_positive_feedback_' . $post_id );
 			if ( false === $positive_feedback ) {
 				$positive_feedback = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT( * ) FROM %i WHERE post_id = %d and helpful = 1', array( $table_name, $post_id ) ) );
 				// Apply a filter to allow the Pro plugin to modify the query
-				$positive_feedback = apply_filters( 'ri_wth_get_positive_feedback_filter', $positive_feedback, $table_name, $post_id );
-				set_transient( 'ri_wth_positive_feedback_' . $post_id, $positive_feedback, '', 365 * DAY_IN_SECONDS );
+				$positive_feedback = apply_filters( 'riwth_get_positive_feedback_filter', $positive_feedback, $table_name, $post_id );
+				set_transient( 'riwth_positive_feedback_' . $post_id, $positive_feedback, '', 365 * DAY_IN_SECONDS );
 			}
 			return $positive_feedback;
 		}
@@ -22,20 +22,20 @@ if ( ! class_exists( 'RI_WTH_Functions' ) ) {
 		// Function to get the positive feedback count for a post
 		public static function get_total_feedback_count( $post_id ) {
 			global $wpdb;
-			$table_name     = $wpdb->prefix . RI_WTH_DB_NAME;
-			$total_feedback = get_transient( 'ri_wth_total_feedback_' . $post_id );
+			$table_name     = $wpdb->prefix . RIWTH_DB_NAME;
+			$total_feedback = get_transient( 'riwth_total_feedback_' . $post_id );
 			if ( false === $total_feedback ) {
 				$total_feedback = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i WHERE post_id = %d', array( $table_name, $post_id ) ) );
 				// Apply a filter to allow the Pro plugin to modify the query
-				$total_feedback = apply_filters( 'ri_wth_get_total_feedback_filter', $total_feedback, $table_name, $post_id );
-				set_transient( 'ri_wth_total_feedback_' . $post_id, $total_feedback, '', 365 * DAY_IN_SECONDS );
+				$total_feedback = apply_filters( 'riwth_get_total_feedback_filter', $total_feedback, $table_name, $post_id );
+				set_transient( 'riwth_total_feedback_' . $post_id, $total_feedback, '', 365 * DAY_IN_SECONDS );
 			}
 
 			return $total_feedback;
 		}
 
 		public static function feedback_given( $post_id ) {
-			$feedback_given = isset( $_COOKIE['feedback_given'] ) ? sanitize_text_field( $_COOKIE['feedback_given'] ) : '';
+			$feedback_given = isset( $_COOKIE['riwth_feedback_given'] ) ? sanitize_text_field( $_COOKIE['riwth_feedback_given'] ) : '';
 			$feedback_array = explode( ',', $feedback_given );
 			if ( in_array( $post_id, $feedback_array ) ) {
 				return true;
@@ -52,7 +52,7 @@ if ( ! class_exists( 'RI_WTH_Functions' ) ) {
 			}
 
 			// Check if the box is disabled for the current post
-			$disable_box = get_post_meta( $post->ID, '_ri_wth_disable_box', true );
+			$disable_box = get_post_meta( $post->ID, '_riwth_disable_box', true );
 			if ( '1' === $disable_box ) {
 				return false;
 			}
@@ -73,7 +73,7 @@ if ( ! class_exists( 'RI_WTH_Functions' ) ) {
 				return false;
 			}
 
-			$options = get_option( 'ri_wth_display_on', array() );
+			$options = get_option( 'riwth_display_on', array() );
 			$options = is_array( $options ) ? $options : array();
 
 			if ( function_exists( 'get_current_screen' ) ) {
