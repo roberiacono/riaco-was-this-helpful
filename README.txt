@@ -1,10 +1,8 @@
-=== Helpful Feedback ===
+=== RI Was This Helpful ===
 Contributors: prototipo88
 Tags: feedback, user interaction, comments
-Requires at least: 6.2
-Tested up to: 6.5.4
-Requires PHP: 7.0
-Stable tag: 1.4.4
+Tested up to: 6.6.1
+Stable tag: 1.5.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,6 +46,9 @@ Yes, you can disable the loading of styles or scripts from the plugin settings p
 With the PRO version installed, the custom post types will automatically be available in the settings page. Simply select the desired custom post types to enable feedback.
 
 == Changelog ==
+
+= 1.5.2 =
+* Fix code
 
 = 1.5.1 =
 * Added shortcode page in admin menu

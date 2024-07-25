@@ -42,7 +42,7 @@ if ( ! class_exists( 'RI_WTH_Metabox' ) ) {
 				return;
 			}
 
-			if ( ! wp_verify_nonce( $_POST['ri_wth_metabox_nonce'], 'ri_wth_metabox_nonce' ) ) {
+			if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ri_wth_metabox_nonce'] ) ), 'ri_wth_metabox_nonce' ) ) {
 				return;
 			}
 
@@ -54,7 +54,7 @@ if ( ! class_exists( 'RI_WTH_Metabox' ) ) {
 				return;
 			}
 
-			if ( isset( $_POST['ri_wth_disable_box'] ) ) {
+			if ( isset( $_POST['ri_wth_disable_box'] ) && $_POST['ri_wth_disable_box'] === '1' ) {
 				update_post_meta( $post_id, '_ri_wth_disable_box', '1' );
 			} else {
 				delete_post_meta( $post_id, '_ri_wth_disable_box' );

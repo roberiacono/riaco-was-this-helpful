@@ -2,11 +2,11 @@
 <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 <?php
 $tabs        = array(
-	'tab-general'      => esc_html( __( 'General', 'ri-was-this-helpful' ) ),
-	'tab-feedback-box' => esc_html( __( 'Feedback Box', 'ri-was-this-helpful' ) ),
-	'tab-extra'        => esc_html( __( 'Extra', 'ri-was-this-helpful' ) ),
+	'tab-general'      => __( 'General', 'ri-was-this-helpful' ),
+	'tab-feedback-box' => __( 'Feedback Box', 'ri-was-this-helpful' ),
+	'tab-extra'        => __( 'Extra', 'ri-was-this-helpful' ),
 );
-$current_tab = isset( $_GET['tab'] ) && isset( $tabs[ $_GET['tab'] ] ) ? $_GET['tab'] : array_key_first( $tabs );
+$current_tab = isset( $_GET['tab'] ) && isset( $tabs[ $_GET['tab'] ] ) ? sanitize_text_field( $_GET['tab'] ) : array_key_first( $tabs );
 ?>
 <form method="post" action="options.php">
 <nav class="nav-tab-wrapper">
@@ -18,7 +18,7 @@ $current_tab = isset( $_GET['tab'] ) && isset( $tabs[ $_GET['tab'] ] ) ? $_GET['
 		$url = add_query_arg(
 			array(
 				'page' => 'ri-wth-settings',
-				'tab'  => $tab,
+				'tab'  => esc_attr( $tab ),
 			),
 			''
 		);

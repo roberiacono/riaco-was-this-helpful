@@ -35,7 +35,7 @@ if ( ! class_exists( 'RI_WTH_Functions' ) ) {
 		}
 
 		public static function feedback_given( $post_id ) {
-			$feedback_given = isset( $_COOKIE['feedback_given'] ) ? $_COOKIE['feedback_given'] : '';
+			$feedback_given = isset( $_COOKIE['feedback_given'] ) ? sanitize_text_field( $_COOKIE['feedback_given'] ) : '';
 			$feedback_array = explode( ',', $feedback_given );
 			if ( in_array( $post_id, $feedback_array ) ) {
 				return true;
@@ -115,13 +115,10 @@ if ( ! class_exists( 'RI_WTH_Functions' ) ) {
 		}
 
 		/**
-		 * Sanitize SVG markup for front-end display.
-		 *
-		 * @param  string $svg SVG markup to sanitize.
-		 * @return string      Sanitized markup.
+		 * SVG allowed html for front-end display.
 		 */
-		public static function sanitize_svg( $svg = '' ) {
-			$allowed_html = array(
+		public static function get_svg_allowed_html() {
+			$svg_allowed_html = array(
 				'svg'    => array(
 					'xmlns'           => array(),
 					'class'           => array(),
@@ -154,7 +151,7 @@ if ( ! class_exists( 'RI_WTH_Functions' ) ) {
 				),
 			);
 
-			return wp_kses( $svg, $allowed_html );
+			return $svg_allowed_html; // wp_kses( $svg, $allowed_html );
 		}
 	}
 }

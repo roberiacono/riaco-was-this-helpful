@@ -7,9 +7,7 @@ jQuery(document).ready(function ($) {
     var helpful = button.hasClass("ri-wth-helpful-yes") ? 1 : 0;
     var nonce = button.data("nonce");
 
-    $(".ri-wth-helpful-feedback").html(
-      '<div class="ri-wth-loader">' + ri_wth_scripts.submitting + "</div>"
-    );
+    $(document).trigger("showSubmitting");
 
     const data = {
       action: "ri_wth_save_feedback",
@@ -23,13 +21,27 @@ jQuery(document).ready(function ($) {
       url: ri_wth_scripts.ajax_url,
       data: data,
       success: function (response) {
-        $(".ri-wth-helpful-feedback").html(
-          '<div class="ri-wth-thank-you">' + ri_wth_scripts.thank_you + "</div>"
-        );
+        if (response["feedbackId"] !== "undefined" && response["feedbackId"]) {
+          $(document).trigger(response["trigger"], {
+            feedbackId: response["feedbackId"],
+            content: response["content"],
+          });
+        } else {
+          $(document).trigger(response["trigger"]);
+        }
         feedbackArray.push(ri_wth_scripts.postId);
         setCookie("feedback_given", feedbackArray.join(","), 365);
       },
     });
+  });
+
+  $(document).on("showSubmitting", function () {
+    $(".ri-wth-helpful-feedback").html(
+      '<div class="ri-wth-loader">' + ri_wth_scripts.submitting + "</div>"
+    );
+  });
+  $(document).on("showThankYou", function (event, params) {
+    $(".ri-wth-helpful-feedback").html(params.content);
   });
 
   function setCookie(name, value, days) {

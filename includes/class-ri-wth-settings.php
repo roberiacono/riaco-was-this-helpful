@@ -16,7 +16,7 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 				return;
 			}
 			wp_enqueue_style( 'wp-color-picker' );
-			wp_enqueue_script( 'ri-wth-color-picker', RI_WTH_PLUGIN_URL . 'admin/js/color-picker.js', array( 'wp-color-picker' ), RI_WTH_PLUGIN_VERSION, true );
+			wp_enqueue_script( 'ri-wth-color-picker', RI_WTH_PLUGIN_URL . 'assets/src/admin/js/color-picker.js', array( 'wp-color-picker' ), RI_WTH_PLUGIN_VERSION, true );
 		}
 
 
@@ -88,6 +88,11 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 					'title'    => __( 'Data Deletion', 'ri-was-this-helpful' ),
 					'callback' => array( $this, 'uninstall_settings_section_callback' ),
 					'tab'      => 'ri-wth-settings-tab-extra',
+				),
+				'ri-wth-feedback-box-other-steps-settings-section' => array(
+					'title'    => __( 'Submitting and Thanks Content', 'ri-was-this-helpful' ),
+					'callback' => array( $this, 'feedback_box_other_steps_settings_section_callback' ),
+					'tab'      => 'ri-wth-settings-tab-feedback-box',
 				),
 			);
 			return $settings_section;
@@ -245,6 +250,26 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 						'name' => 'ri_wth_uninstall_remove_data',
 					),
 				),
+				'ri_wth_feedback_box_submitting_text'      => array(
+					'title'    => __( 'Submitting Text', 'ri-was-this-helpful' ),
+					'callback' => array( $this, 'text_callback' ),
+					'tab'      => 'ri-wth-settings-tab-feedback-box',
+					'section'  => 'ri-wth-feedback-box-other-steps-settings-section',
+					'args'     => array(
+						'type' => 'text',
+						'name' => 'ri_wth_feedback_box_submitting_text',
+					),
+				),
+				'ri_wth_feedback_box_thanks_text'          => array(
+					'title'    => __( 'Thank You Text', 'ri-was-this-helpful' ),
+					'callback' => array( $this, 'text_callback' ),
+					'tab'      => 'ri-wth-settings-tab-feedback-box',
+					'section'  => 'ri-wth-feedback-box-other-steps-settings-section',
+					'args'     => array(
+						'type' => 'text',
+						'name' => 'ri_wth_feedback_box_thanks_text',
+					),
+				),
 			);
 
 			return $settings_field;
@@ -347,6 +372,9 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 		public function feedback_box_settings_section_callback() {
 			esc_html_e( 'Change feedback box content.', 'ri-was-this-helpful' );
 		}
+		public function feedback_box_other_steps_settings_section_callback() {
+			esc_html_e( 'Change feedback box content  for submitting and thank you messages.', 'ri-was-this-helpful' );
+		}
 
 		public function text_callback( $args ) {
 			$option = get_option( $args['name'] );
@@ -357,30 +385,32 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 		}
 
 		public function feedback_box_positive_button_icon_callback() {
-			$option    = get_option( 'ri_wth_feedback_box_positive_button_icon' );
-			$svg_icons = RI_WTH_SVG_Icons::get_svg_positive_icons();
-			$svg_icons = array_merge( $svg_icons, array( 'empty' => esc_html__( 'Leave Empty', 'ri-was-this-helpful' ) ) );
+			$option           = get_option( 'ri_wth_feedback_box_positive_button_icon' );
+			$svg_allowed_html = RI_WTH_Functions::get_svg_allowed_html();
+			$svg_icons        = RI_WTH_SVG_Icons::get_svg_positive_icons();
+			$svg_icons        = array_merge( $svg_icons, array( 'empty' => esc_html__( 'Leave Empty', 'ri-was-this-helpful' ) ) );
 
 			foreach ( $svg_icons as $key => $icon ) {
 				?>
 				<label>
 					<input type="radio" name="ri_wth_feedback_box_positive_button_icon" value="<?php echo esc_attr( $key ); ?>" <?php checked( $key, $option ); ?>>
-					<?php echo RI_WTH_Functions::sanitize_svg( $icon ); ?>	
+					<?php echo wp_kses( $icon, $svg_allowed_html ); ?>	
 				</label>
 				<?php
 			}
 		}
 
 		public function feedback_box_negative_button_icon_callback() {
-			$option    = get_option( 'ri_wth_feedback_box_negative_button_icon' );
-			$svg_icons = RI_WTH_SVG_Icons::get_svg_negative_icons();
-			$svg_icons = array_merge( $svg_icons, array( 'empty' => esc_html__( 'Leave Empty', 'ri-was-this-helpful' ) ) );
+			$option           = get_option( 'ri_wth_feedback_box_negative_button_icon' );
+			$svg_allowed_html = RI_WTH_Functions::get_svg_allowed_html();
+			$svg_icons        = RI_WTH_SVG_Icons::get_svg_negative_icons();
+			$svg_icons        = array_merge( $svg_icons, array( 'empty' => esc_html__( 'Leave Empty', 'ri-was-this-helpful' ) ) );
 
 			foreach ( $svg_icons as $key => $icon ) {
 				?>
 				<label>
 					<input type="radio" name="ri_wth_feedback_box_negative_button_icon" value="<?php echo esc_attr( $key ); ?>" <?php checked( $key, $option ); ?>>
-					<?php echo RI_WTH_Functions::sanitize_svg( $icon ); ?>	
+					<?php echo wp_kses( $icon, $svg_allowed_html ); ?>	
 				</label>
 				<?php
 			}
@@ -448,10 +478,10 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 				'ri_wth_load_scripts'                      => 1,
 				'ri_wth_show_admin_bar_content'            => 1,
 				'ri_wth_feedback_box_template'             => 'default',
-				'ri_wth_feedback_box_text'                 => esc_html__( 'Was This Helpful?', 'ri-was-this-helpful' ),
-				'ri_wth_feedback_box_positive_button_text' => esc_html__( 'Yes', 'ri-was-this-helpful' ),
+				'ri_wth_feedback_box_text'                 => __( 'Was This Helpful?', 'ri-was-this-helpful' ),
+				'ri_wth_feedback_box_positive_button_text' => __( 'Yes', 'ri-was-this-helpful' ),
 				'ri_wth_feedback_box_positive_button_icon' => 'thumbs-up',
-				'ri_wth_feedback_box_negative_button_text' => esc_html( __( 'No', 'ri-was-this-helpful' ) ),
+				'ri_wth_feedback_box_negative_button_text' => __( 'No', 'ri-was-this-helpful' ),
 				'ri_wth_feedback_box_negative_button_icon' => 'thumbs-down',
 				'ri_wth_feedback_box_color_background'     => '#f4f4f5',
 				'ri_wth_feedback_box_color_positive_button' => '#ffffff',
@@ -460,6 +490,8 @@ if ( ! class_exists( 'RI_WTH_Settings' ) ) {
 				'ri_wth_feedback_box_color_negative_text'  => '#444444',
 				'ri_wth_feedback_box_border_button_rounded' => '8',
 				'ri_wth_uninstall_remove_data'             => 1,
+				'ri_wth_feedback_box_submitting_text'      => __( '⏳ Submitting...', 'ri-was-this-helpful' ),
+				'ri_wth_feedback_box_thanks_text'          => __( '✅ Thank you for your feedback!', 'ri-was-this-helpful' ),
 			);
 			return $initial_settings;
 		}

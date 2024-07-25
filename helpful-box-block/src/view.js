@@ -21,5 +21,5 @@
  */
 
 /* eslint-disable no-console */
-console.log( 'Hello World! (from create-block-helpful-box-block block)' );
+//console.log( 'Hello World! (from create-block-helpful-box-block block)' );
 /* eslint-enable no-console */

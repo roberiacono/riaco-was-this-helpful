@@ -35,6 +35,10 @@ delete_option( 'ri_wth_feedback_box_color_negative_text' );
 delete_option( 'ri_wth_feedback_box_border_button_rounded' );
 delete_option( 'ri_wth_uninstall_remove_data' );
 
+// delete transient
+delete_transient( 'ri_wth_feedback_box' );
+
+// delete table
 global $wpdb;
 $table_name = $wpdb->prefix . 'ri_wth_helpful_feedback';
-$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $table_name ) );
+$wpdb->query( "DROP TABLE IF EXISTS {$table_name}" );

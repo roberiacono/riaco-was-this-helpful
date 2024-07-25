@@ -21,6 +21,9 @@ if ( ! class_exists( 'RI_WTH_Shortcode' ) ) {
 				if ( get_option( 'ri_wth_load_scripts' ) ) {
 					wp_enqueue_script( 'ri-wth-script' );
 				}
+
+				do_action('before_show_helpful_box_using_shortcode');
+
 				$helpful_box = new RI_WTH_Box();
 				return $helpful_box->feedback_box_code();
 			}

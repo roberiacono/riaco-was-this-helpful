@@ -16,7 +16,8 @@ if ( ! class_exists( 'RI_WTH_Box' ) ) {
 		}
 
 		public static function feedback_box_code() {
-			$nonce = self::get_feedback_box_nonce();
+			$svg_allowed_html = RI_WTH_Functions::get_svg_allowed_html();
+			$nonce            = self::get_feedback_box_nonce();
 
 			$feedback_box_text    = self::get_feedback_box_text();
 			$positive_button_text = self::get_feedback_box_button_text( 'positive' );
@@ -43,13 +44,13 @@ if ( ! class_exists( 'RI_WTH_Box' ) ) {
 			$code  = '<div class="ri-wth-helpful-feedback" style="' . esc_attr( $feedback_box_style ) . '">';
 			$code .= '<div class="ri-wth-text">' . esc_html( $feedback_box_text ) . '</div>';
 			$code .= '<div class="ri-wth-buttons-container">';
-			$code .= '<button class="ri-wth-helpful-yes" style="' . esc_attr( $positive_button_style ) . '" data-post_id="' . get_the_ID() . '" data-nonce="' . esc_attr( $nonce ) . '">';
+			$code .= '<button class="ri-wth-helpful-yes" style="' . esc_attr( $positive_button_style ) . '" data-post_id="' . esc_attr( get_the_ID() ) . '" data-nonce="' . esc_attr( $nonce ) . '">';
 			$code .= wp_kses_post( $positive_button_text );
-			$code .= RI_WTH_Functions::sanitize_svg( $positive_button_icon );
+			$code .= wp_kses( $positive_button_icon, $svg_allowed_html );
 			$code .= '</button>';
-			$code .= '<button class="ri-wth-helpful-no" style="' . esc_attr( $negative_button_style ) . '" data-post_id="' . get_the_ID() . '" data-nonce="' . esc_attr( $nonce ) . '">';
+			$code .= '<button class="ri-wth-helpful-no" style="' . esc_attr( $negative_button_style ) . '" data-post_id="' . esc_attr( get_the_ID() ) . '" data-nonce="' . esc_attr( $nonce ) . '">';
 			$code .= wp_kses_post( $negative_button_text );
-			$code .= RI_WTH_Functions::sanitize_svg( $negative_button_icon );
+			$code .= wp_kses( $negative_button_icon, $svg_allowed_html );
 			$code .= '</button>';
 			$code .= '</div>';
 			$code .= '</div>';
@@ -64,7 +65,7 @@ if ( ! class_exists( 'RI_WTH_Box' ) ) {
 		public static function get_feedback_box_style() {
 			$bg_color = get_option( 'ri_wth_feedback_box_color_background' );
 			if ( $bg_color ) {
-				return 'background-color:' . $bg_color . ';';
+				return 'background-color:' . esc_attr( $bg_color ) . ';';
 			}
 			return '';
 		}
@@ -83,7 +84,7 @@ if ( ! class_exists( 'RI_WTH_Box' ) ) {
 			$button_icon = get_option( 'ri_wth_feedback_box_' . $type . '_button_icon' );
 			if ( ! $button_icon || $button_icon === 'empty' ) {
 				$button_icon = '';
-			} else {
+			} elseif ( isset( $svg_icons[ $button_icon ] ) ) {
 				$button_icon = $svg_icons[ $button_icon ];
 			}
 			return $button_icon;
@@ -96,7 +97,7 @@ if ( ! class_exists( 'RI_WTH_Box' ) ) {
 
 			$button_text = get_option( 'ri_wth_feedback_box_' . $type . '_button_text' );
 			if ( $button_text ) {
-				$button_text = '<span> ' . $button_text . '</span>';
+				$button_text = '<span> ' . esc_attr( $button_text ) . '</span>';
 			}
 			return $button_text;
 		}
@@ -110,17 +111,17 @@ if ( ! class_exists( 'RI_WTH_Box' ) ) {
 
 			$button_color = get_option( 'ri_wth_feedback_box_color_' . $type . '_button' );
 			if ( $button_color ) {
-				$return .= 'background-color: ' . $button_color . '; ';
+				$return .= 'background-color: ' . esc_attr( $button_color ) . '; ';
 			}
 
 			$text_color = get_option( 'ri_wth_feedback_box_color_' . $type . '_text' );
 			if ( $text_color ) {
-				$return .= 'color: ' . $text_color . '; ';
+				$return .= 'color: ' . esc_attr( $text_color ) . '; ';
 			}
 
 			$border_radius = get_option( 'ri_wth_feedback_box_border_button_rounded' );
 			if ( $border_radius ) {
-				$return .= 'border-radius: ' . $border_radius . '%; ';
+				$return .= 'border-radius: ' . esc_attr( $border_radius ) . '%; ';
 			}
 
 			return $return;

@@ -19,8 +19,6 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 		public static function get_instance() {
 			if ( self::$instance == null ) {
 				self::$instance = new self();
-			} else {
-				error_log( 'RI_Was_This_Helpful instance already exists.' );
 			}
 			return self::$instance;
 		}
@@ -102,7 +100,9 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 		}
 
 		public function load_textdomain() {
-			load_plugin_textdomain( 'ri-was-this-helpful', false, dirname( plugin_basename( RI_WTH_PLUGIN_FILE ) ) . '/languages' );
+			if ( ! class_exists( 'RI_Was_This_Helpful_Pro' ) ) {
+				load_plugin_textdomain( 'ri-was-this-helpful', false, dirname( plugin_basename( RI_WTH_PLUGIN_FILE ) ) . '/languages' );
+			}
 		}
 
 		public function activate_plugin() {
@@ -158,8 +158,7 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 					'ri_wth_scripts',
 					array(
 						'ajax_url'   => admin_url( 'admin-ajax.php' ),
-						'thank_you'  => __( '✅ Thank you for your feedback!', 'ri-was-this-helpful' ),
-						'submitting' => __( '⏳ Submitting...', 'ri-was-this-helpful' ),
+						'submitting' => esc_html( get_option( 'ri_wth_feedback_box_submitting_text' ) ),
 						'postId'     => get_the_ID(),
 					)
 				);
@@ -176,7 +175,7 @@ if ( ! class_exists( 'RI_Was_This_Helpful' ) ) {
 
 		public function add_settings_link( $links ) {
 			$url           = get_admin_url() . 'admin.php?page=ri-wth-settings';
-			$settings_link = array( '<a href="' . $url . '">' . esc_html( __( 'Settings', 'ri-was-this-helpful' ) ) . '</a>' );
+			$settings_link = array( '<a href="' . esc_url( $url ) . '">' . esc_html( __( 'Settings', 'ri-was-this-helpful' ) ) . '</a>' );
 			return array_merge( $settings_link, $links );
 		}
 	}

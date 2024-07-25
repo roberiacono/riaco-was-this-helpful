@@ -16,9 +16,9 @@ import { useBlockProps } from "@wordpress/block-editor";
  * @return {Element} Element to render.
  */
 export default function save() {
-	return (
-		<p {...useBlockProps.save()}>
+	return {
+		/* <p {...useBlockProps.save()}>
 			{"Helpful Box Block – hello from the saved content! tac"}
-		</p>
-	);
+		</p> */
+	};
 }
