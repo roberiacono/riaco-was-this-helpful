@@ -7,7 +7,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 // Don't delete any data if the PRO version is already active.
-if ( class_exists( 'RIWTH_Was_This_Helpful_Pro' ) ) {
+if ( class_exists( 'RIACO_Was_This_Helpful_Pro' ) ) {
 	return;
 }
 

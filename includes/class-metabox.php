@@ -17,7 +17,7 @@ if ( ! class_exists( 'RIWTH_Metabox' ) ) {
 			foreach ( $post_types as $post_type ) {
 				add_meta_box(
 					'riwth_metabox',
-					esc_html__( 'Helpful Settings', 'riwth-was-this-helpful' ),
+					esc_html__( 'Helpful Settings', 'riaco-was-this-helpful' ),
 					array( $this, 'render_metabox' ),
 					esc_html( $post_type ),
 					'side',
@@ -32,7 +32,7 @@ if ( ! class_exists( 'RIWTH_Metabox' ) ) {
 			?>
 		<label for="riwth_disable_box">
 			<input type="checkbox" name="riwth_disable_box" id="riwth_disable_box" value="1" <?php checked( $value, '1' ); ?>>
-			<?php esc_attr_e( 'Disable automatic Helpful box at the bottom of this post.', 'riwth-was-this-helpful' ); ?>
+			<?php esc_attr_e( 'Disable automatic Helpful box at the bottom of this post.', 'riaco-was-this-helpful' ); ?>
 		</label>
 			<?php
 		}

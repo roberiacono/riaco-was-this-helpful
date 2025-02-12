@@ -25,9 +25,9 @@ if ( ! class_exists( 'RIWTH_Admin_Bar' ) ) {
 			if ( $total_feedback_count > 0 ) {
 				$percentage = ( $positive_feedback_count / $total_feedback_count ) * 100;
 				/* translators: %1$d: percentage of positive feedback. %2$d number of positive feedback. %3$d number of total feedback. */
-				$title = sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'riwth-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback_count );
+				$title = sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'riaco-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback_count );
 			} else {
-				$title = __( 'No feedback yet', 'riwth-was-this-helpful' );
+				$title = __( 'No feedback yet', 'riaco-was-this-helpful' );
 			}
 
 			$args = array(

@@ -24,7 +24,7 @@ if ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {
 		}
 
 		public function add_feedback_column( $columns ) {
-			$columns['helpful_feedback'] = esc_html__( 'Was this helpful?', 'riwth-was-this-helpful' );
+			$columns['helpful_feedback'] = esc_html__( 'Was this helpful?', 'riaco-was-this-helpful' );
 			return $columns;
 		}
 
@@ -42,9 +42,9 @@ if ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {
 					$rgb        = RIWTH_Functions::GreenYellowRed( round( $percentage ) );
 					echo '<span style="background-color: rgb(' . esc_attr( $rgb ) . '); margin-right: 5px; border-radius: 50%; width: 0.5rem; height: 0.5rem; display: inline-block;"></span>';
 					/* translators: %1$d: positive percentage. %2$d Positive feedback. %3$d total feedback. */
-					echo esc_html( sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'riwth-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback ) );
+					echo esc_html( sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'riaco-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback ) );
 				} else {
-					echo esc_html( __( 'No feedback yet', 'riwth-was-this-helpful' ) );
+					echo esc_html( __( 'No feedback yet', 'riaco-was-this-helpful' ) );
 				}
 			}
 		}

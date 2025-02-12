@@ -17,7 +17,7 @@ if ( ! class_exists( 'RIWTH_Metabox_Stats' ) ) {
 			foreach ( $post_types as $post_type ) {
 				add_meta_box(
 					'riwth_metabox_stats',
-					esc_html__( 'Helpful Stats', 'riwth-was-this-helpful' ),
+					esc_html__( 'Helpful Stats', 'riaco-was-this-helpful' ),
 					array( $this, 'render_metabox' ),
 					$post_type,
 					'side',
@@ -37,9 +37,9 @@ if ( ! class_exists( 'RIWTH_Metabox_Stats' ) ) {
 				$rgb        = RIWTH_Functions::GreenYellowRed( round( $percentage ) );
 				echo '<span style="background-color: rgb(' . esc_attr( $rgb ) . '); margin-right: 5px; border-radius: 50%; width: 0.5rem; height: 0.5rem; display: inline-block;"></span>';
 				/* translators: %1$d: positive percentage. %2$d Positive feedback. %3$d total feedback. */
-				echo esc_html( sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'riwth-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback_count ) );
+				echo esc_html( sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'riaco-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback_count ) );
 			} else {
-				esc_html_e( 'No feedback yet', 'riwth-was-this-helpful' );
+				esc_html_e( 'No feedback yet', 'riaco-was-this-helpful' );
 			}
 		}
 	}

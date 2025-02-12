@@ -10,7 +10,7 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 		}
 
 		public function save_feedback() {
-			check_ajax_referer( 'riwth_was_this_helpful_nonce', 'nonce' );
+			check_ajax_referer( 'riaco_was_this_helpful_nonce', 'nonce' );
 
 			global $wpdb;
 

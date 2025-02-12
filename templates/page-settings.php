@@ -6,9 +6,9 @@ defined( 'ABSPATH' ) || exit;
 <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 <?php
 $tabs        = array(
-	'tab-general'      => __( 'General', 'riwth-was-this-helpful' ),
-	'tab-feedback-box' => __( 'Feedback Box', 'riwth-was-this-helpful' ),
-	'tab-extra'        => __( 'Extra', 'riwth-was-this-helpful' ),
+	'tab-general'      => __( 'General', 'riaco-was-this-helpful' ),
+	'tab-feedback-box' => __( 'Feedback Box', 'riaco-was-this-helpful' ),
+	'tab-extra'        => __( 'Extra', 'riaco-was-this-helpful' ),
 );
 $current_tab = isset( $_GET['tab'] ) && isset( $tabs[ $_GET['tab'] ] ) ? sanitize_text_field( $_GET['tab'] ) : array_key_first( $tabs );
 ?>

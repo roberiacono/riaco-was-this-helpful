@@ -59,7 +59,7 @@ if ( ! class_exists( 'RIWTH_Box' ) ) {
 		}
 
 		public static function get_feedback_box_nonce() {
-			return wp_create_nonce( 'riwth_was_this_helpful_nonce' );
+			return wp_create_nonce( 'riaco_was_this_helpful_nonce' );
 		}
 
 		public static function get_feedback_box_style() {

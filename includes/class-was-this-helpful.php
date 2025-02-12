@@ -4,8 +4,8 @@ defined( 'ABSPATH' ) || exit;
 
 
 
-if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
-	final class RIWTH_Was_This_Helpful {
+if ( ! class_exists( 'RIACO_Was_This_Helpful' ) ) {
+	final class RIACO_Was_This_Helpful {
 
 		public $version          = RIWTH_PLUGIN_VERSION;
 		private static $instance = null;
@@ -100,8 +100,8 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 		}
 
 		public function load_textdomain() {
-			if ( ! class_exists( 'RIWTH_Was_This_Helpful_Pro' ) ) {
-				load_plugin_textdomain( 'riwth-was-this-helpful', false, dirname( plugin_basename( RIWTH_PLUGIN_FILE ) ) . '/languages' );
+			if ( ! class_exists( 'RIACO_Was_This_Helpful_Pro' ) ) {
+				load_plugin_textdomain( 'riaco-was-this-helpful', false, dirname( plugin_basename( RIWTH_PLUGIN_FILE ) ) . '/languages' );
 			}
 		}
 
@@ -175,7 +175,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 
 		public function add_settings_link( $links ) {
 			$url           = get_admin_url() . 'admin.php?page=riwth-settings';
-			$settings_link = array( '<a href="' . esc_url( $url ) . '">' . esc_html( __( 'Settings', 'riwth-was-this-helpful' ) ) . '</a>' );
+			$settings_link = array( '<a href="' . esc_url( $url ) . '">' . esc_html( __( 'Settings', 'riaco-was-this-helpful' ) ) . '</a>' );
 			return array_merge( $settings_link, $links );
 		}
 	}
