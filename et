@@ -1,0 +1,374 @@
+[33mcommit 0d06cc3e6dd43d5a83f96a79e8b86a37e0a832d8[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Roberto <roberiacono@gmail.com>
+Date:   Wed Feb 12 17:44:54 2025 +0100
+
+    change folder name and Text Domain
+
+[1mdiff --git a/gulpfile.js b/gulpfile.js[m
+[1mdeleted file mode 100644[m
+[1mindex a2dfa61..0000000[m
+[1m--- a/gulpfile.js[m
+[1m+++ /dev/null[m
+[36m@@ -1,30 +0,0 @@[m
+[31m-import gulp from "gulp";[m
+[31m-[m
+[31m-/* import uglify from "gulp-uglify";[m
+[31m-import cleanCss from "gulp-clean-css"; */[m
+[31m-import zip from "gulp-zip";[m
+[31m-[m
+[31m-import { src, dest, watch, series } from "gulp";[m
+[31m-//import concat from "gulp-concat";[m
+[31m-[m
+[31m-import {} from "gulp";[m
+[31m-[m
+[31m-const pluginFolder = "ri-was-this-helpful"; // Sostituisci con il nome della tua cartella del plugin[m
+[31m-[m
+[31m-export const zipPlugin = () =>[m
+[31m-  src([[m
+[31m-    `./**`,[m
+[31m-    "!./node_modules/**",[m
+[31m-    "!./gulpfile.js",[m
+[31m-    "!./package.json",[m
+[31m-    "!./package-lock.json",[m
+[31m-    "!./.gitignore",[m
+[31m-    "!./.vscode/**",[m
+[31m-    "!./helpful-box-block/node_modules/**",[m
+[31m-    "!./helpful-box-block/package.json",[m
+[31m-    "!./helpful-box-block/package-lock.json",[m
+[31m-    "!./helpful-box-block/.gitignore",[m
+[31m-    "!./helpful-box-block/.editorconfig",[m
+[31m-  ])[m
+[31m-    .pipe(zip("ri-was-this-helpful.zip"))[m
+[31m-    .pipe(dest("./../"));[m
+[1mdiff --git a/helpful-box-block/package.json b/helpful-box-block/package.json[m
+[1mindex 00ca951..3785f5b 100644[m
+[1m--- a/helpful-box-block/package.json[m
+[1m+++ b/helpful-box-block/package.json[m
+[36m@@ -1,8 +1,8 @@[m
+ {[m
+ 	"name": "helpful-box-block",[m
+ 	"version": "0.1.0",[m
+[31m-	"description": "Example block scaffolded with Create Block tool.",[m
+[31m-	"author": "The WordPress Contributors",[m
+[32m+[m	[32m"description": "Was This Helpful Block",[m
+[32m+[m	[32m"author": "Roberto Iacono",[m
+ 	"license": "GPL-2.0-or-later",[m
+ 	"main": "build/index.js",[m
+ 	"scripts": {[m
+[1mdiff --git a/includes/class-admin-bar.php b/includes/class-admin-bar.php[m
+[1mindex 814de6b..3cb5ae7 100644[m
+[1m--- a/includes/class-admin-bar.php[m
+[1m+++ b/includes/class-admin-bar.php[m
+[36m@@ -25,9 +25,9 @@[m [mif ( ! class_exists( 'RIWTH_Admin_Bar' ) ) {[m
+ 			if ( $total_feedback_count > 0 ) {[m
+ 				$percentage = ( $positive_feedback_count / $total_feedback_count ) * 100;[m
+ 				/* translators: %1$d: percentage of positive feedback. %2$d number of positive feedback. %3$d number of total feedback. */[m
+[31m-				$title = sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'riwth-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback_count );[m
+[32m+[m				[32m$title = sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'riaco-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback_count );[m
+ 			} else {[m
+[31m-				$title = __( 'No feedback yet', 'riwth-was-this-helpful' );[m
+[32m+[m				[32m$title = __( 'No feedback yet', 'riaco-was-this-helpful' );[m
+ 			}[m
+ [m
+ 			$args = array([m
+[1mdiff --git a/includes/class-admin-columns.php b/includes/class-admin-columns.php[m
+[1mindex f029963..2f51877 100644[m
+[1m--- a/includes/class-admin-columns.php[m
+[1m+++ b/includes/class-admin-columns.php[m
+[36m@@ -24,7 +24,7 @@[m [mif ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {[m
+ 		}[m
+ [m
+ 		public function add_feedback_column( $columns ) {[m
+[31m-			$columns['helpful_feedback'] = esc_html__( 'Was this helpful?', 'riwth-was-this-helpful' );[m
+[32m+[m			[32m$columns['helpful_feedback'] = esc_html__( 'Was this helpful?', 'riaco-was-this-helpful' );[m
+ 			return $columns;[m
+ 		}[m
+ [m
+[36m@@ -42,9 +42,9 @@[m [mif ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {[m
+ 					$rgb        = RIWTH_Functions::GreenYellowRed( round( $percentage ) );[m
+ 					echo '<span style="background-color: rgb(' . esc_attr( $rgb ) . '); margin-right: 5px; border-radius: 50%; width: 0.5rem; height: 0.5rem; display: inline-block;"></span>';[m
+ 					/* translators: %1$d: positive percentage. %2$d Positive feedback. %3$d total feedback. */[m
+[31m-					echo esc_html( sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'riwth-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback ) );[m
+[32m+[m					[32mecho esc_html( sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'riaco-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback ) );[m
+ 				} else {[m
+[31m-					echo esc_html( __( 'No feedback yet', 'riwth-was-this-helpful' ) );[m
+[32m+[m					[32mecho esc_html( __( 'No feedback yet', 'riaco-was-this-helpful' ) );[m
+ 				}[m
+ 			}[m
+ 		}[m
+[1mdiff --git a/includes/class-ajax.php b/includes/class-ajax.php[m
+[1mindex 697d7a0..0899eb5 100644[m
+[1m--- a/includes/class-ajax.php[m
+[1m+++ b/includes/class-ajax.php[m
+[36m@@ -10,7 +10,7 @@[m [mif ( ! class_exists( 'RIWTH_Ajax' ) ) {[m
+ 		}[m
+ [m
+ 		public function save_feedback() {[m
+[31m-			check_ajax_referer( 'riwth_was_this_helpful_nonce', 'nonce' );[m
+[32m+[m			[32mcheck_ajax_referer( 'riaco_was_this_helpful_nonce', 'nonce' );[m
+ [m
+ 			global $wpdb;[m
+ [m
+[1mdiff --git a/includes/class-box.php b/includes/class-box.php[m
+[1mindex fdb7195..bd33f15 100644[m
+[1m--- a/includes/class-box.php[m
+[1m+++ b/includes/class-box.php[m
+[36m@@ -59,7 +59,7 @@[m [mif ( ! class_exists( 'RIWTH_Box' ) ) {[m
+ 		}[m
+ [m
+ 		public static function get_feedback_box_nonce() {[m
+[31m-			return wp_create_nonce( 'riwth_was_this_helpful_nonce' );[m
+[32m+[m			[32mreturn wp_create_nonce( 'riaco_was_this_helpful_nonce' );[m
+ 		}[m
+ [m
+ 		public static function get_feedback_box_style() {[m
+[1mdiff --git a/includes/class-metabox-stats.php b/includes/class-metabox-stats.php[m
+[1mindex 296515c..92d4019 100644[m
+[1m--- a/includes/class-metabox-stats.php[m
+[1m+++ b/includes/class-metabox-stats.php[m
+[36m@@ -17,7 +17,7 @@[m [mif ( ! class_exists( 'RIWTH_Metabox_Stats' ) ) {[m
+ 			foreach ( $post_types as $post_type ) {[m
+ 				add_meta_box([m
+ 					'riwth_metabox_stats',[m
+[31m-					esc_html__( 'Helpful Stats', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32mesc_html__( 'Helpful Stats', 'riaco-was-this-helpful' ),[m
+ 					array( $this, 'render_metabox' ),[m
+ 					$post_type,[m
+ 					'side',[m
+[36m@@ -37,9 +37,9 @@[m [mif ( ! class_exists( 'RIWTH_Metabox_Stats' ) ) {[m
+ 				$rgb        = RIWTH_Functions::GreenYellowRed( round( $percentage ) );[m
+ 				echo '<span style="background-color: rgb(' . esc_attr( $rgb ) . '); margin-right: 5px; border-radius: 50%; width: 0.5rem; height: 0.5rem; display: inline-block;"></span>';[m
+ 				/* translators: %1$d: positive percentage. %2$d Positive feedback. %3$d total feedback. */[m
+[31m-				echo esc_html( sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'riwth-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback_count ) );[m
+[32m+[m				[32mecho esc_html( sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'riaco-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback_count ) );[m
+ 			} else {[m
+[31m-				esc_html_e( 'No feedback yet', 'riwth-was-this-helpful' );[m
+[32m+[m				[32mesc_html_e( 'No feedback yet', 'riaco-was-this-helpful' );[m
+ 			}[m
+ 		}[m
+ 	}[m
+[1mdiff --git a/includes/class-metabox.php b/includes/class-metabox.php[m
+[1mindex 06f966d..52e9e49 100644[m
+[1m--- a/includes/class-metabox.php[m
+[1m+++ b/includes/class-metabox.php[m
+[36m@@ -17,7 +17,7 @@[m [mif ( ! class_exists( 'RIWTH_Metabox' ) ) {[m
+ 			foreach ( $post_types as $post_type ) {[m
+ 				add_meta_box([m
+ 					'riwth_metabox',[m
+[31m-					esc_html__( 'Helpful Settings', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32mesc_html__( 'Helpful Settings', 'riaco-was-this-helpful' ),[m
+ 					array( $this, 'render_metabox' ),[m
+ 					esc_html( $post_type ),[m
+ 					'side',[m
+[36m@@ -32,7 +32,7 @@[m [mif ( ! class_exists( 'RIWTH_Metabox' ) ) {[m
+ 			?>[m
+ 		<label for="riwth_disable_box">[m
+ 			<input type="checkbox" name="riwth_disable_box" id="riwth_disable_box" value="1" <?php checked( $value, '1' ); ?>>[m
+[31m-			<?php esc_attr_e( 'Disable automatic Helpful box at the bottom of this post.', 'riwth-was-this-helpful' ); ?>[m
+[32m+[m			[32m<?php esc_attr_e( 'Disable automatic Helpful box at the bottom of this post.', 'riaco-was-this-helpful' ); ?>[m
+ 		</label>[m
+ 			<?php[m
+ 		}[m
+[1mdiff --git a/includes/class-settings.php b/includes/class-settings.php[m
+[1mindex c7bdb0c..16f8276 100644[m
+[1m--- a/includes/class-settings.php[m
+[1m+++ b/includes/class-settings.php[m
+[36m@@ -22,8 +22,8 @@[m [mif ( ! class_exists( 'RIWTH_Settings' ) ) {[m
+ [m
+ 		public function add_settings_page() {[m
+ 			add_menu_page([m
+[31m-				__( 'Was This Helpful Settings', 'riwth-was-this-helpful' ),[m
+[31m-				__( 'Was This Helpful', 'riwth-was-this-helpful' ),[m
+[32m+[m				[32m__( 'Was This Helpful Settings', 'riaco-was-this-helpful' ),[m
+[32m+[m				[32m__( 'Was This Helpful', 'riaco-was-this-helpful' ),[m
+ 				'manage_options',[m
+ 				'riwth-settings',[m
+ 				array( $this, 'render_settings_page' ),[m
+[36m@@ -34,8 +34,8 @@[m [mif ( ! class_exists( 'RIWTH_Settings' ) ) {[m
+ 		public function add_submenu_pages() {[m
+ 			add_submenu_page([m
+ 				'riwth-settings',[m
+[31m-				__( 'Shortcode', 'riwth-was-this-helpful' ),[m
+[31m-				__( 'Shortcode', 'riwth-was-this-helpful' ),[m
+[32m+[m				[32m__( 'Shortcode', 'riaco-was-this-helpful' ),[m
+[32m+[m				[32m__( 'Shortcode', 'riaco-was-this-helpful' ),[m
+ 				'manage_options',[m
+ 				'riwth-shortcode',[m
+ 				array( $this, 'render_shortcode_page' ),[m
+[36m@@ -55,42 +55,42 @@[m [mif ( ! class_exists( 'RIWTH_Settings' ) ) {[m
+ 		public function get_settings_section() {[m
+ 			$settings_section = array([m
+ 				'riwth-settings-section'              => array([m
+[31m-					'title'    => __( 'Display on', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Display on', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'settings_section_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-general',[m
+ 				),[m
+ 				'riwth-admin-bar-settings-section'    => array([m
+[31m-					'title'    => __( 'Admin Bar', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Admin Bar', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'admin_bar_settings_section_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-general',[m
+ 				),[m
+ 				'riwth-feedback-box-settings-section' => array([m
+[31m-					'title'    => __( 'Content', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Content', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'feedback_box_settings_section_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-feedback-box',[m
+ 				),[m
+ 				'riwth-feedback-box-colors-settings-section' => array([m
+[31m-					'title'    => __( 'Colors', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Colors', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'feedback_box_colors_settings_section_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-feedback-box',[m
+ 				),[m
+ 				'riwth-feedback-box-styles-settings-section' => array([m
+[31m-					'title'    => __( 'Styles', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Styles', 'riaco-was-this-helpful' ),[m
+ 					'callback' => null,[m
+ 					'tab'      => 'riwth-settings-tab-feedback-box',[m
+ 				),[m
+ 				'riwth-load-settings-section'         => array([m
+[31m-					'title'    => __( 'Assets Loading', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Assets Loading', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'load_settings_section_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-extra',[m
+ 				),[m
+ 				'riwth-uninstall-settings-section'    => array([m
+[31m-					'title'    => __( 'Data Deletion', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Data Deletion', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'uninstall_settings_section_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-extra',[m
+ 				),[m
+ 				'riwth-feedback-box-other-steps-settings-section' => array([m
+[31m-					'title'    => __( 'Submitting and Thanks Content', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Submitting and Thanks Content', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'feedback_box_other_steps_settings_section_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-feedback-box',[m
+ 				),[m
+[36m@@ -102,19 +102,19 @@[m [mif ( ! class_exists( 'RIWTH_Settings' ) ) {[m
+ [m
+ 			$settings_field = array([m
+ 				'riwth_display_on'                         => array([m
+[31m-					'title'    => __( 'Display on', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Display on', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'display_on_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-general',[m
+ 					'section'  => 'riwth-settings-section',[m
+ 				),[m
+ 				'riwth_display_by_user_role'               => array([m
+[31m-					'title'    => __( 'Display Stats and Functionalities by User Role', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Display Stats and Functionalities by User Role', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'display_by_user_role_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-general',[m
+ 					'section'  => 'riwth-settings-section',[m
+ 				),[m
+ 				'riwth_load_styles'                        => array([m
+[31m-					'title'    => __( 'Load Styles', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Load Styles', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'checkbox_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-extra',[m
+ 					'section'  => 'riwth-load-settings-section',[m
+[36m@@ -124,7 +124,7 @@[m [mif ( ! class_exists( 'RIWTH_Settings' ) ) {[m
+ 					),[m
+ 				),[m
+ 				'riwth_load_scripts'                       => array([m
+[31m-					'title'    => __( 'Load Scripts', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Load Scripts', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'checkbox_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-extra',[m
+ 					'section'  => 'riwth-load-settings-section',[m
+[36m@@ -134,7 +134,7 @@[m [mif ( ! class_exists( 'RIWTH_Settings' ) ) {[m
+ 					),[m
+ 				),[m
+ 				'riwth_show_admin_bar_content'             => array([m
+[31m-					'title'    => __( 'Show Admin Bar Content', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Show Admin Bar Content', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'checkbox_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-general',[m
+ 					'section'  => 'riwth-admin-bar-settings-section',[m
+[36m@@ -144,7 +144,7 @@[m [mif ( ! class_exists( 'RIWTH_Settings' ) ) {[m
+ 					),[m
+ 				),[m
+ 				'riwth_feedback_box_text'                  => array([m
+[31m-					'title'    => __( 'Feedback Box Text', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Feedback Box Text', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'text_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-feedback-box',[m
+ 					'section'  => 'riwth-feedback-box-settings-section',[m
+[36m@@ -154,7 +154,7 @@[m [mif ( ! class_exists( 'RIWTH_Settings' ) ) {[m
+ 					),[m
+ 				),[m
+ 				'riwth_feedback_box_positive_button_text'  => array([m
+[31m-					'title'    => __( 'Positive Button Text', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Positive Button Text', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'text_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-feedback-box',[m
+ 					'section'  => 'riwth-feedback-box-settings-section',[m
+[36m@@ -164,84 +164,84 @@[m [mif ( ! class_exists( 'RIWTH_Settings' ) ) {[m
+ 					),[m
+ 				),[m
+ 				'riwth_feedback_box_positive_button_text'  => array([m
+[31m-					'title'    => __( 'Positive Button Text', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Positive Button Text', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'text_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-feedback-box',[m
+ 					'section'  => 'riwth-feedback-box-settings-section',[m
+ 					'args'     => array([m
+ 						'type'        => 'text',[m
+ 						'name'        => 'riwth_feedback_box_positive_button_text',[m
+[31m-						'description' => __( 'Leave empty if you don\'t want to display text', 'riwth-was-this-helpful' ),[m
+[32m+[m						[32m'description' => __( 'Leave empty if you don\'t want to display text', 'riaco-was-this-helpful' ),[m
+ 					),[m
+ 				),[m
+ 				'riwth_feedback_box_positive_button_icon'  => array([m
+[31m-					'title'    => __( 'Positive Button Icon', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Positive Button Icon', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'feedback_box_positive_button_icon_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-feedback-box',[m
+ 					'section'  => 'riwth-feedback-box-settings-section',[m
+ 					'args'     => array( 'class' => 'radio' ),[m
+ 				),[m
+ 				'riwth_feedback_box_negative_button_text'  => array([m
+[31m-					'title'    => __( 'Negative Button Text', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Negative Button Text', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'text_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-feedback-box',[m
+ 					'section'  => 'riwth-feedback-box-settings-section',[m
+ 					'args'     => array([m
+ 						'type'        => 'text',[m
+ 						'name'        => 'riwth_feedback_box_negative_button_text',[m
+[31m-						'description' => __( 'Leave empty if you don\'t want to display text', 'riwth-was-this-helpful' ),[m
+[32m+[m						[32m'description' => __( 'Leave empty if you don\'t want to display text', 'riaco-was-this-helpful' ),[m
+ 					),[m
+ 				),[m
+ 				'riwth_feedback_box_negative_button_icon'  => array([m
+[31m-					'title'    => __( 'Negative Button Icon', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Negative Button Icon', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'feedback_box_negative_button_icon_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-feedback-box',[m
+ 					'section'  => 'riwth-feedback-box-settings-section',[m
+ 					'args'     => array( 'class' => 'radio' ),[m
+ 				),[m
+ 				'riwth_feedback_box_color_background'      => array([m
+[31m-					'title'    => __( 'Background Color', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Background Color', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'feedback_box_color_background_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-feedback-box',[m
+ 					'section'  => 'riwth-feedback-box-colors-settings-section',[m
+ 					'args'     => array( 'class' => 'color' ),[m
+ 				),[m
+ 				'riwth_feedback_box_color_positive_button' => array([m
+[31m-					'title'    => __( 'Positive Button Color', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Positive Button Color', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'feedback_box_color_positive_button_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-feedback-box',[m
+ 					'section'  => 'riwth-feedback-box-colors-settings-section',[m
+ 					'args'     => array( 'class' => 'color' ),[m
+ 				),[m
+ 				'riwth_feedback_box_color_positive_text'   => array([m
+[31m-					'title'    => __( 'Positive Text/Icon Color', 'riwth-was-this-helpful' ),[m
+[32m+[m					[32m'title'    => __( 'Positive Text/Icon Color', 'riaco-was-this-helpful' ),[m
+ 					'callback' => array( $this, 'feedback_box_color_positive_text_callback' ),[m
+ 					'tab'      => 'riwth-settings-tab-feedback-box',[m
+ 
