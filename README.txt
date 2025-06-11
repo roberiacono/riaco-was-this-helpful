@@ -1,8 +1,8 @@
-=== RI Was This Helpful ===
+=== RIACO Was This Helpful ===
 Contributors: prototipo88
 Tags: feedback, user interaction, comments
-Tested up to: 6.6.1
-Stable tag: 2.0.0
+Tested up to: 6.7
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,7 +24,7 @@ This plugin adds a simple "Was this helpful?" feedback box at the end of your po
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/riaco-was-this-helpful` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/ri-was-this-helpful` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress.
 3. Use the Settings->Was This Helpful screen to configure the plugin.
 
@@ -45,7 +45,21 @@ Yes, you can disable the loading of styles or scripts from the plugin settings p
 = How do I enable feedback on custom post types? =
 With the PRO version installed, the custom post types will automatically be available in the settings page. Simply select the desired custom post types to enable feedback.
 
+== Screenshots ==
+
+1. Settings page
+2. Feedback Box content and styles
+3. Extra settings for assets loading and data deletion
+4. Shortcode
+5. Quick stats with color scheme
+6. Block without editor option
+7. Frontend
+8. Frontend live
+
 == Changelog ==
+
+= 2.0.1 =
+* Update: improve security
 
 = 2.0.0 =
 * Update: change prefix
@@ -64,7 +78,7 @@ With the PRO version installed, the custom post types will automatically be avai
 * Added button manager (text and icon) for feedback box in settings page. 
 * Added stats metabox
 * Added color scheme to positive percentage
-* Added feedback boc color background selection via settings
+* Added feedback box color background selection via settings
 
 = 1.4.5 =
 * Added display stats and functionalities by user role

@@ -4,8 +4,8 @@ defined( 'ABSPATH' ) || exit;
 
 
 
-if ( ! class_exists( 'RIACO_Was_This_Helpful' ) ) {
-	final class RIACO_Was_This_Helpful {
+if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
+	final class RIWTH_Was_This_Helpful {
 
 		public $version          = RIWTH_PLUGIN_VERSION;
 		private static $instance = null;
@@ -65,7 +65,6 @@ if ( ! class_exists( 'RIACO_Was_This_Helpful' ) ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_scripts' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 			add_action( 'plugins_loaded', array( $this, 'init' ) );
-			add_action( 'init', array( $this, 'load_textdomain' ) );
 
 			add_filter( 'plugin_action_links_' . plugin_basename( RIWTH_PLUGIN_FILE ), array( $this, 'add_settings_link' ) );
 		}
@@ -96,12 +95,6 @@ if ( ! class_exists( 'RIACO_Was_This_Helpful' ) ) {
 		private function define( $name, $value ) {
 			if ( ! defined( $name ) ) {
 				define( $name, $value );
-			}
-		}
-
-		public function load_textdomain() {
-			if ( ! class_exists( 'RIACO_Was_This_Helpful_Pro' ) ) {
-				load_plugin_textdomain( 'riaco-was-this-helpful', false, dirname( plugin_basename( RIWTH_PLUGIN_FILE ) ) . '/languages' );
 			}
 		}
 
@@ -142,8 +135,8 @@ if ( ! class_exists( 'RIACO_Was_This_Helpful' ) ) {
 		}
 
 		public function admin_enqueue_scripts() {
-			if ( is_admin() && isset( $_GET['page'] ) && $_GET['page'] === 'riwth-settings' ) {
-				wp_enqueue_style( 'riwth-admin-style', RIWTH_PLUGIN_URL . 'assets/admin/css/style.css', RIWTH_PLUGIN_VERSION );
+			if ( is_admin() && isset( $_GET['page'] ) && sanitize_text_field( wp_unslash( $_GET['page'] ) ) === 'riwth-settings' ) {
+				wp_enqueue_style( 'riwth-admin-style', RIWTH_PLUGIN_URL . 'assets/admin/css/style.css', array(), RIWTH_PLUGIN_VERSION );
 			}
 		}
 

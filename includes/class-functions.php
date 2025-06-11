@@ -9,12 +9,32 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 			global $wpdb;
 			$table_name = $wpdb->prefix . RIWTH_DB_NAME;
 
-			$positive_feedback = get_transient( 'riwth_positive_feedback_' . $post_id );
+			// Try to get the cached value
+			$cache_key         = 'riwth_positive_feedback_' . $post_id;
+			$positive_feedback = wp_cache_get( $cache_key );
+
 			if ( false === $positive_feedback ) {
-				$positive_feedback = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT( * ) FROM %i WHERE post_id = %d and helpful = 1', array( $table_name, $post_id ) ) );
-				// Apply a filter to allow the Pro plugin to modify the query
-				$positive_feedback = apply_filters( 'riwth_get_positive_feedback_filter', $positive_feedback, $table_name, $post_id );
-				set_transient( 'riwth_positive_feedback_' . $post_id, $positive_feedback, '', 365 * DAY_IN_SECONDS );
+
+				$positive_feedback = get_transient( $cache_key );
+				if ( false === $positive_feedback ) {
+					// $positive_feedback = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT( * ) FROM %i WHERE post_id = %d and helpful = 1', array( $table_name, $post_id ) ) );
+					$positive_feedback = $wpdb->get_var(
+						$wpdb->prepare(
+							'SELECT COUNT(*) FROM %i WHERE post_id = %d AND helpful = 1',
+							array(
+								$table_name,
+								$post_id,
+							)
+						)
+					);
+
+					// Apply a filter to allow the Pro plugin to modify the query
+					$positive_feedback = apply_filters( 'riwth_get_positive_feedback_filter', $positive_feedback, $table_name, $post_id );
+
+					// Store the result in both object cache and transient cache
+					wp_cache_set( $cache_key, $positive_feedback, 'riwth_feedback', 365 * DAY_IN_SECONDS ); // Object cache (for better performance)
+					set_transient( $cache_key, $positive_feedback, 365 * DAY_IN_SECONDS );
+				}
 			}
 			return $positive_feedback;
 		}
@@ -22,20 +42,39 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 		// Function to get the positive feedback count for a post
 		public static function get_total_feedback_count( $post_id ) {
 			global $wpdb;
-			$table_name     = $wpdb->prefix . RIWTH_DB_NAME;
-			$total_feedback = get_transient( 'riwth_total_feedback_' . $post_id );
+			$table_name = $wpdb->prefix . RIWTH_DB_NAME;
+
+			$cache_key      = 'riwth_total_feedback_' . $post_id;
+			$total_feedback = wp_cache_get( $cache_key );
+
 			if ( false === $total_feedback ) {
-				$total_feedback = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i WHERE post_id = %d', array( $table_name, $post_id ) ) );
-				// Apply a filter to allow the Pro plugin to modify the query
-				$total_feedback = apply_filters( 'riwth_get_total_feedback_filter', $total_feedback, $table_name, $post_id );
-				set_transient( 'riwth_total_feedback_' . $post_id, $total_feedback, '', 365 * DAY_IN_SECONDS );
+
+				$total_feedback = get_transient( $cache_key );
+
+				if ( false === $total_feedback ) {
+					// $total_feedback = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i WHERE post_id = %d', array( $table_name, $post_id ) ) );
+					$total_feedback = $wpdb->get_var(
+						$wpdb->prepare(
+							'SELECT COUNT(*) FROM %i WHERE post_id = %d',
+							array(
+								$table_name,
+								$post_id,
+							)
+						)
+					);
+					// Apply a filter to allow the Pro plugin to modify the query
+					$total_feedback = apply_filters( 'riwth_get_total_feedback_filter', $total_feedback, $table_name, $post_id );
+
+					wp_cache_set( $cache_key, $total_feedback, 'riwth_feedback', 365 * DAY_IN_SECONDS );
+					set_transient( $cache_key, $total_feedback, 365 * DAY_IN_SECONDS );
+				}
 			}
 
 			return $total_feedback;
 		}
 
 		public static function feedback_given( $post_id ) {
-			$feedback_given = isset( $_COOKIE['riwth_feedback_given'] ) ? sanitize_text_field( $_COOKIE['riwth_feedback_given'] ) : '';
+			$feedback_given = isset( $_COOKIE['riwth_feedback_given'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['riwth_feedback_given'] ) ) : '';
 			$feedback_array = explode( ',', $feedback_given );
 			if ( in_array( $post_id, $feedback_array ) ) {
 				return true;

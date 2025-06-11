@@ -10,7 +10,13 @@ $tabs        = array(
 	'tab-feedback-box' => __( 'Feedback Box', 'riaco-was-this-helpful' ),
 	'tab-extra'        => __( 'Extra', 'riaco-was-this-helpful' ),
 );
-$current_tab = isset( $_GET['tab'] ) && isset( $tabs[ $_GET['tab'] ] ) ? sanitize_text_field( $_GET['tab'] ) : array_key_first( $tabs );
+$current_tab = isset( $_GET['tab'] ) && isset( $tabs[ $_GET['tab'] ] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : array_key_first( $tabs );
+
+// Make sure the selected value is valid
+if ( ! array_key_exists( $current_tab, $tabs ) ) {
+	$current_tab = array_key_first( $tabs );
+}
+
 ?>
 <form method="post" action="options.php">
 <nav class="nav-tab-wrapper">

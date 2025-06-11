@@ -10,7 +10,7 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 		}
 
 		public function save_feedback() {
-			check_ajax_referer( 'riaco_was_this_helpful_nonce', 'nonce' );
+			check_ajax_referer( 'riwth_was_this_helpful_nonce', 'nonce' );
 
 			global $wpdb;
 
@@ -18,23 +18,34 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 				return;
 			}
 
-			$post_id = intval( sanitize_text_field( $_POST['post_id'] ) );
-			$helpful = intval( sanitize_text_field( $_POST['helpful'] ) ) ? 1 : 0;
+			$post_id = intval( sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) );
+			$helpful = intval( sanitize_text_field( wp_unslash( $_POST['helpful'] ) ) ) ? 1 : 0;
 
 			$table_name = $wpdb->prefix . RIWTH_DB_NAME;
-			$wpdb->insert(
-				$table_name,
-				array(
-					'post_id'    => $post_id,
-					'helpful'    => $helpful,
-					'created_at' => current_time( 'mysql' ),
-				),
+
+			$wpdb->query(
+				$wpdb->prepare(
+					'INSERT INTO %i (post_id, helpful, created_at) VALUES (%d, %d, %s)',
+					array(
+						$table_name,
+						$post_id,
+						$helpful,
+						current_time( 'mysql' ),
+					)
+				)
 			);
 
+			// Ottenere l'ID dell'ultima riga inserita
 			$feedback_id = $wpdb->insert_id;
 
-			delete_transient( 'riwth_total_feedback_' . $post_id );
-			delete_transient( 'riwth_positive_feedback_' . $post_id );
+			if ( $feedback_id ) {
+				// Elimina la cache per aggiornare i dati
+				wp_cache_delete( 'riwth_total_feedback_' . $post_id, 'riwth_feedback' );
+				delete_transient( 'riwth_total_feedback_' . $post_id );
+
+				wp_cache_delete( 'riwth_positive_feedback_' . $post_id, 'riwth_feedback' );
+				delete_transient( 'riwth_positive_feedback_' . $post_id );
+			}
 
 			$return = apply_filters(
 				'riwth_ajax_feedback_sent_return',

@@ -1,13 +1,16 @@
 <?php
-global $wpdb;
 
 // If uninstall not called from WordPress, exit
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
+if ( ! current_user_can( 'delete_plugins' ) ) {
+	exit;
+}
+
 // Don't delete any data if the PRO version is already active.
-if ( class_exists( 'RIACO_Was_This_Helpful_Pro' ) ) {
+if ( class_exists( 'RIWTH_Was_This_Helpful_Pro' ) ) {
 	return;
 }
 
@@ -39,44 +42,39 @@ delete_option( 'riwth_uninstall_remove_data' );
 // delete transient
 delete_transient( 'riwth_feedback_box' );
 
-$transient_prefixes = array(
-	'riwth_total_feedback_',
-	'riwth_positive_feedback_',
+
+global $wpdb;
+
+// delete transient
+$transient_pattern = '_transient_riwth_%';
+$transients        = $wpdb->get_col(
+	$wpdb->prepare(
+		'SELECT option_name FROM %i WHERE option_name LIKE %s',
+		array(
+			$wpdb->options,
+			$transient_pattern,
+		)
+	)
 );
 
-$post_ids_with_transients = array();
-
-foreach ( $transient_prefixes as $prefix ) {
-				// Cerca tutte le chiavi dei transient con il prefisso specificato
-				$sql = $wpdb->prepare(
-					"
-					SELECT option_name
-					FROM $wpdb->options
-					WHERE option_name LIKE %s
-				",
-					'_transient_' . $prefix . '%'
-				);
-
-				// Ottieni tutte le chiavi dei transient
-				$transient_keys = $wpdb->get_col( $sql );
-
-	foreach ( $transient_keys as $transient_key ) {
-		// Estrai il post ID dalla chiave del transient
-		$post_id = str_replace( '_transient_' . $prefix, '', $transient_key );
-
-		// Aggiungi l'ID del post all'array se non è già presente
-		if ( ! in_array( $post_id, $post_ids_with_transients ) ) {
-			$post_ids_with_transients[] = $post_id;
+if ( ! empty( $transients ) ) {
+	foreach ( $transients as $transient ) {
+		$key = str_replace( '_transient_', '', $transient );
+		if ( ! empty( $key ) ) {
+			delete_transient( $key );
 		}
 	}
 }
 
+// delete cache
+wp_cache_flush();
 
-foreach ( $post_ids_with_transients as $post_id ) {
-			delete_transient( 'riwth_total_feedback_' . $post_id );
-			delete_transient( 'riwth_positive_feedback_' . $post_id );
-}
-
-// delete table
+// delete table section
 $table_name = $wpdb->prefix . 'riwth_helpful_feedback';
-$wpdb->query( "DROP TABLE IF EXISTS {$table_name}" );
+
+$wpdb->query(
+	$wpdb->prepare(
+		'DROP TABLE IF EXISTS %i',
+		$table_name
+	)
+);

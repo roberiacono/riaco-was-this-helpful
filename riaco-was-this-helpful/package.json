@@ -1,7 +1,7 @@
 {
 	"name": "helpful-box-block",
 	"version": "0.1.1",
-	"description": "Display Was this helpful? box",
+	"description": "Display 'Was this helpful?' box",
 	"author": "Roberto Iacono",
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",
