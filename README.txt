@@ -2,7 +2,7 @@
 Contributors: prototipo88
 Tags: was this helpful, feedback, user feedback, helpful button, thumbs up, user interaction, engagement, content rating, riaco  
 Tested up to: 6.8
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
