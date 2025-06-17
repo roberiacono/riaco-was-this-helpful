@@ -153,6 +153,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 						'ajax_url'   => admin_url( 'admin-ajax.php' ),
 						'submitting' => esc_html( get_option( 'riwth_feedback_box_submitting_text' ) ),
 						'postId'     => get_the_ID(),
+						'nonce'    => wp_create_nonce('riwth_was_this_helpful_nonce'),
 					)
 				);
 			}

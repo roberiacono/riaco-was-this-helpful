@@ -1,0 +1,71 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ri-was-this-helpful/helpful-box-block",
+  "version": "0.1.0",
+  "title": "Helpful Box",
+  "category": "widgets",
+  "icon": "thumbs-up",
+  "description": "Show helpful box block in editor.",
+  "example": {},
+  "supports": {
+    "align": true,
+    "anchor": true,
+    "background": {
+      "backgroundImage": true,
+      "backgroundSize": true
+    },
+    "border": {
+      "color": true,
+      "radius": true,
+      "style": true,
+      "width": true
+    },
+    "color": {
+      "background": true,
+      "text": true
+    },
+    "dimensions": {
+      "aspectRatio": true,
+      "minHeight": true
+    },
+    "html": false,
+    "layout": true,
+    "spacing": {
+      "align": true,
+      "padding": true,
+      "margin": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true,
+      "textAlign": true
+    }
+  },
+  "attributes": {
+    "style": {
+      "type": "object",
+      "default": {
+        "spacing": {
+          "padding": {
+            "top": "var:preset|spacing|30",
+            "bottom": "var:preset|spacing|30",
+            "left": "var:preset|spacing|30",
+            "right": "var:preset|spacing|30"
+          }
+        },
+        "color": {
+          "background": "#ffffff"
+        },
+        "typography": {
+          "textAlign": "center"
+        }
+      }
+    }
+  },
+  "textdomain": "helpful-box-block",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
+}

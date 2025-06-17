@@ -8,6 +8,18 @@ if ( ! class_exists( 'RIWTH_Block' ) ) {
 			add_action( 'init', array( $this, 'riwth_register_feedback_block' ) );
 			add_action( 'enqueue_block_assets', array( $this, 'enqueue_if_block_is_present' ) ); // Can only be loaded in the footer
 			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_assets' ) );
+
+			//add_action( 'enqueue_block_editor_assets', array( $this,'example_enqueue_block_variations') );
+		}
+
+		public function example_enqueue_block_variations() {
+			wp_enqueue_script(
+				'example-enqueue-block-variations',
+				RIWTH_PLUGIN_URL . 'helpful-box-block/variations.js',
+				array( 'wp-blocks', 'wp-dom-ready', 'wp-element', 'wp-editor' ),
+				wp_get_theme()->get( 'Version' ),
+				true
+			);
 		}
 
 		public function riwth_register_feedback_block() {
@@ -17,20 +29,8 @@ if ( ! class_exists( 'RIWTH_Block' ) ) {
 				return;
 			}
 
-			register_block_type(
-				RIWTH_PLUGIN_DIR . 'helpful-box-block/build',
-				array(
-					'render_callback' => array( $this, 'render_feedback_block' ),
-
-					'attributes'      => array(
-
-						'helpfulBox' => array(
-							'default' => $this->get_feedback_block_for_editor(),
-							'type'    => 'string',
-						),
-					),
-				)
-			);
+			register_block_type(RIWTH_PLUGIN_DIR . 'helpful-box-block/build/helpful-box');
+			register_block_type(RIWTH_PLUGIN_DIR . 'helpful-box-block/build/button-with-icon');
 		}
 
 

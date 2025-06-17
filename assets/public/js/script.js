@@ -42,9 +42,13 @@ jQuery(document).ready(function ($) {
     $(".riwth-helpful-feedback").html(
       '<div class="riwth-loader">' + riwth_scripts.submitting + "</div>"
     );
+    $(".riwth-helpful-feedback-block").html(
+      '<div class="riwth-loader">' + riwth_scripts.submitting + "</div>"
+    );
   });
   $(document).on("showThankYou", function (event, params) {
     $(".riwth-helpful-feedback").html(params.content);
+    $(".riwth-helpful-feedback-block").html(params.content);
   });
 
   function setCookie(name, value, days) {
