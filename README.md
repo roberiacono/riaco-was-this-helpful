@@ -1,6 +1,6 @@
 # RI Was This Helpful
 
-![WordPress Plugin Banner](banner.jpg)  
+![WordPress Plugin Banner](banner.jpg)
 
 ## Description
 
@@ -26,32 +26,40 @@ Once activated, the plugin automatically adds the feedback box at the end of pos
 ## FAQ
 
 ### Can I choose where the feedback box appears?
+
 Yes, you can enable or disable the feedback box for posts and pages. In the PRO version, you can also display it on custom post types.
 
 ### Can I disable the feedback box on specific posts?
+
 Yes, you can disable the feedback box for individual posts or pages using the settings in the post editor.
 
 ### How do I view the feedback?
+
 Feedback statistics appear in the admin posts/pages list under a new column **"Was This Helpful"**, showing the percentage of positive feedback and the total number of feedback entries.
 
 ### Can I disable the loading of styles or scripts?
+
 Yes, from the plugin settings page, you can disable the loading of styles or scripts if needed.
 
 ### How do I enable feedback on custom post types?
+
 With the PRO version, custom post types will be available in the settings. Simply select the ones where you want feedback enabled.
 
 ## Changelog
 
 ### v2.0.0
+
 - Update: changed prefix
 - Update: changed table name
 - Update: changed shortcode name
 
 ### v1.5.1
+
 - Added shortcode page in the admin menu
 - Added option to maintain/delete data when uninstalling
 
 ### v1.5.0
+
 - Code refactoring
 
 (For a complete changelog, see the **Changelog** section in the plugin directory.)
@@ -59,10 +67,12 @@ With the PRO version, custom post types will be available in the settings. Simpl
 ## Settings
 
 ### Free Version
+
 1. **Show On Post Types**: Enable feedback for posts and pages.
 2. **Disable On Specific Posts**: Option to disable the feedback box on individual posts or pages.
 
 ### PRO Version
+
 1. **Show On Custom Post Types**: Enable feedback for custom post types.
 
 ## Contributing
@@ -71,9 +81,8 @@ We welcome contributions! Feel free to submit a pull request or open an issue on
 
 ## Support
 
-For support, open an issue on GitHub or visit the [plugin support page](https://wordpress.org/support/plugin/ri-was-this-helpful/).
+For support, open an issue on GitHub or visit the [plugin support page](https://wordpress.org/plugins/riaco-was-this-helpful/).
 
 ## License
 
 This plugin is licensed under the [GPLv2 or later](https://www.gnu.org/licenses/gpl-2.0.html).
-

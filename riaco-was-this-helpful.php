@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: RIACO Was This Helpful
+Plugin Name: Was This Helpful
 Plugin URI: https://www.robertoiacono.it/riaco-was-this-helpful/
 Description: A lightweight plugin that adds a "Was this helpful?" thumbs up/down feedback box to your posts and pages — improve content quality through direct user feedback.
 Version: 2.0.2

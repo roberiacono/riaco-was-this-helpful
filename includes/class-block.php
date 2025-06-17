@@ -37,7 +37,7 @@ if ( ! class_exists( 'RIWTH_Block' ) ) {
 		// enqueue assets on frontend if a block is there
 		public function enqueue_if_block_is_present() {
 
-			if ( has_block( 'ri-was-this-helpful/helpful-box-block' ) ) {
+			if ( has_block( 'riaco-was-this-helpful/helpful-box-block' ) ) {
 				if ( get_option( 'riwth_load_styles' ) ) {
 					wp_enqueue_style( 'riwth-style' );
 				}

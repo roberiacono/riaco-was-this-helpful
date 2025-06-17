@@ -26,7 +26,7 @@ Designed for speed and simplicity, it helps you identify your most engaging post
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/ri-was-this-helpful` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/riaco-was-this-helpful` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the "Plugins" menu in WordPress.
 3. Go to **Settings → Was This Helpful** to configure display options and visibility rules.
 
