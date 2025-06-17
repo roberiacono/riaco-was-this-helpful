@@ -60,6 +60,10 @@ With the PRO version, custom post types appear in your settings page. Just check
 
 == Changelog ==
 
+= 2.0.3 =
+* Update: add italian translation
+* Remove: removed unnecessary files
+
 = 2.0.2 =
 * Update: improve security
 
