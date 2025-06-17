@@ -1,62 +1,67 @@
-=== RIACO Was This Helpful ===
+=== Was This Helpful ===
 Contributors: prototipo88
-Tags: feedback, user interaction, comments
-Tested up to: 6.7
-Stable tag: 2.0.1
+Tags: was this helpful, feedback, user feedback, helpful button, thumbs up, user interaction, engagement, content rating, riaco  
+Tested up to: 6.8
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Adds a "Was this helpful?" box at the end of posts with thumb-up/thumb-down buttons for feedback.
+A lightweight plugin that adds a **"Was this helpful?" thumbs up/down feedback box** to your posts and pages — improve content quality through direct user feedback.
 
 == Description ==
 
-This plugin adds a simple "Was this helpful?" feedback box at the end of your posts/pages, allowing users to provide feedback on whether they found a post or page helpful. It includes the following features:
+**Was This Helpful** is a simple, effective plugin that adds a "Was this helpful?" box at the bottom of your content. Let your readers give quick feedback with a thumbs up or thumbs down — no comments or forms needed.
 
-- Display a "Was This Helpful" box on posts and pages.
-- Select which post types (posts and pages) the feedback box should appear on.
-- Option to disable the feedback box on specific posts or pages.
-- Sort posts and pages by percentage of positive feedback
+Designed for speed and simplicity, it helps you identify your most engaging posts and optimize underperforming ones. Ideal for blogs, documentation, knowledge bases, and business websites.
 
-**PRO Version Features:**
+### Core Features
 
-- Display the "Was This Helpful" box on custom post types.
-- Additional settings for advanced customization.
+- Adds a "Was this helpful?" thumbs up/down box after posts and pages.
+- Supports pages, posts, or both.
+- Optionally disable the box on specific posts or pages.
+- See percentage of positive feedback directly in the admin post list.
+- Clean, minimal UI that adapts to your theme.
+- Lightweight with optional CSS/JS loading.
+- Includes shortcode to manually place the box.
 
 == Installation ==
 
 1. Upload the plugin files to the `/wp-content/plugins/ri-was-this-helpful` directory, or install the plugin through the WordPress plugins screen directly.
-2. Activate the plugin through the 'Plugins' screen in WordPress.
-3. Use the Settings->Was This Helpful screen to configure the plugin.
+2. Activate the plugin through the "Plugins" menu in WordPress.
+3. Go to **Settings → Was This Helpful** to configure display options and visibility rules.
 
 == Frequently Asked Questions ==
 
 = Can I choose where the feedback box appears? =
-Yes, you can choose to display the feedback box on the bottom of posts and pages. In the PRO version, you can choose to display the feedback box on the bottom of custom post types.
+Yes. By default, the box appears after your content on posts and pages. You can also use the `[was_this_helpful]` shortcode to place it manually.
 
 = Can I disable the feedback box on specific posts? =
-Yes, you can disable the feedback box on individual posts or pages using the settings in the post editor.
+Absolutely. Just uncheck the display option in the editor sidebar on that post or page.
 
-= How do I view the feedback? =
-You can view the percentage of positive feedback in the admin posts/pages list. A new column "Was This Helpful" will show the percentage of positive feedback and the total number of feedback entries.
+= How do I see the feedback results? =  
+Each post and page in your WordPress admin will show a "Was This Helpful" column, with the number and percentage of positive votes.
 
 = Can I disable the loading of styles or scripts? =
 Yes, you can disable the loading of styles or scripts from the plugin settings page.
 
 = How do I enable feedback on custom post types? =
-With the PRO version installed, the custom post types will automatically be available in the settings page. Simply select the desired custom post types to enable feedback.
+With the PRO version, custom post types appear in your settings page. Just check the ones you want feedback on.
 
 == Screenshots ==
 
-1. Settings page
-2. Feedback Box content and styles
+1. Settings panel in the WordPress admin.
+2. Frontend "Was This Helpful?" box with thumbs up/down.
 3. Extra settings for assets loading and data deletion
-4. Shortcode
+4. Manual placement using shortcode.
 5. Quick stats with color scheme
 6. Block without editor option
 7. Frontend
 8. Frontend live
 
 == Changelog ==
+
+= 2.0.2 =
+* Update: improve security
 
 = 2.0.1 =
 * Update: improve security
