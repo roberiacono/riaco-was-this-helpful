@@ -2,7 +2,7 @@
 Contributors: prototipo88
 Tags: was this helpful, feedback, user feedback, helpful button, thumbs up, user interaction, engagement, content rating, riaco  
 Tested up to: 6.8
-Stable tag: 2.0.3
+Stable tag: 2.0.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,6 +59,10 @@ With the PRO version, custom post types appear in your settings page. Just check
 8. Frontend live
 
 == Changelog ==
+
+= 2.0.4 =
+* Update: display block even if auto box insertion is disabled in settings
+* Fix: block style in editor, and added class wp-block-group to the box
 
 = 2.0.3 =
 * Update: add italian translation

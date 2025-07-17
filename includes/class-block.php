@@ -57,9 +57,10 @@ if ( ! class_exists( 'RIWTH_Block' ) ) {
 		public function enqueue_if_block_is_present() {
 
 			if ( has_block( 'riaco-was-this-helpful/helpful-box-block' ) ) {
+				/*
 				if ( get_option( 'riwth_load_styles' ) ) {
 					wp_enqueue_style( 'riwth-style' );
-				}
+				} */
 				if ( get_option( 'riwth_load_scripts' ) ) {
 					wp_enqueue_script( 'riwth-script' );
 				}
