@@ -41,7 +41,7 @@ if ( ! class_exists( 'RIWTH_Box' ) ) {
 			$negative_button_icon  = $attr['negative_button_icon'];
 			$negative_button_style = $attr['negative_button_style'];
 
-			$code  = '<div class="riwth-helpful-feedback" style="' . esc_attr( $feedback_box_style ) . '">';
+			$code  = '<div class="riwth-helpful-feedback wp-block-group" style="' . esc_attr( $feedback_box_style ) . '">';
 			$code .= '<div class="riwth-text">' . esc_html( $feedback_box_text ) . '</div>';
 			$code .= '<div class="riwth-buttons-container">';
 			$code .= '<button class="riwth-helpful-yes" style="' . esc_attr( $positive_button_style ) . '" data-post_id="' . esc_attr( get_the_ID() ) . '" data-nonce="' . esc_attr( $nonce ) . '">';

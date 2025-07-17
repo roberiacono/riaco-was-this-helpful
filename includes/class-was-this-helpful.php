@@ -142,7 +142,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 
 		public function maybe_enqueue_scripts() {
 			if ( get_option( 'riwth_load_styles' ) ) {
-				wp_register_style( 'riwth-style', RIWTH_PLUGIN_URL . 'assets/public/css/style.css', array(), RIWTH_PLUGIN_VERSION );
+				wp_register_style( 'riwth-style', RIWTH_PLUGIN_URL . 'helpful-box-block/build/style-index.css', array(), RIWTH_PLUGIN_VERSION );
 			}
 			if ( get_option( 'riwth_load_scripts' ) ) {
 				wp_register_script( 'riwth-script', RIWTH_PLUGIN_URL . 'assets/public/js/script.js', array( 'jquery' ), RIWTH_PLUGIN_VERSION, true );
