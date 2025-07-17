@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
 
 
 if ( ! defined( 'RIWTH_PLUGIN_VERSION' ) ) {
-	define( 'RIWTH_PLUGIN_VERSION', '2.0.1' );
+	define( 'RIWTH_PLUGIN_VERSION', '2.0.3' );
 }
 
 if ( ! defined( 'RIWTH_PLUGIN_FILE' ) ) {
