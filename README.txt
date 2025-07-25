@@ -1,8 +1,8 @@
 === Was This Helpful ===
 Contributors: prototipo88
-Tags: was this helpful, feedback, user feedback, helpful button, thumbs up, user interaction, engagement, content rating, riaco  
+Tags: was this helpful, feedback, user feedback, helpful button, thumbs up 
 Tested up to: 6.8
-Stable tag: 2.0.4
+Stable tag: 2.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,6 +59,9 @@ With the PRO version, custom post types appear in your settings page. Just check
 8. Frontend live
 
 == Changelog ==
+
+= 2.0.5 =
+* Update: remove unnecessary code in frontend
 
 = 2.0.4 =
 * Update: display block even if auto box insertion is disabled in settings
