@@ -1,1 +1,61 @@
-.riwth-helpful-feedback{align-items:center;background-color:transparent;border:1px solid #e7eaf0;border-radius:.25rem;color:#444;display:flex;flex-direction:column;gap:1rem;justify-content:center;margin-bottom:1rem;padding:2rem;transition:opacity .5s ease-in-out}.riwth-helpful-feedback button{align-items:center;background-color:#fff;border:1px solid #444;border-radius:.25rem;color:#444;display:flex;font-weight:400;gap:5px;padding:.5rem;transition:transform .3s ease}.riwth-helpful-feedback button:hover{cursor:pointer;transform:scale(1.1)}.riwth-helpful-feedback button svg{width:20px}.riwth-buttons-container{display:flex;gap:.5rem}.riwth-thank-you{transition:opacity .5s ease-in-out}.riwth-consent{font-size:12px;margin-bottom:15px}
+/*!***************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/style.scss ***!
+  \***************************************************************************************************************************************************************************************************************************************/
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+.riwth-helpful-feedback {
+  align-items: center;
+  background-color: transparent;
+  border: 1px solid #e7eaf0;
+  border-radius: 0.25rem;
+  color: #444;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+  padding: 2rem;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.riwth-helpful-feedback button {
+  align-items: center;
+  background-color: #fff;
+  border-width: 1px;
+  border-color: #444;
+  border-style: solid;
+  border-radius: 0.25rem;
+  color: #444;
+  display: flex;
+  font-weight: normal;
+  gap: 5px;
+  padding: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.riwth-helpful-feedback button:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.riwth-helpful-feedback button svg {
+  width: 20px;
+}
+
+.riwth-buttons-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.riwth-thank-you {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.riwth-consent {
+  margin-bottom: 15px;
+  font-size: 12px;
+}

@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "riaco-was-this-helpful/helpful-box-block",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"title": "Helpful Box Block",
 	"category": "widgets",
 	"icon": "thumbs-up",

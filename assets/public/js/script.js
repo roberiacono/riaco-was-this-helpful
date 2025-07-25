@@ -2,8 +2,6 @@ jQuery(document).ready(function ($) {
   var feedbackGiven = getCookie("riwth_feedback_given");
   var feedbackArray = feedbackGiven ? feedbackGiven.split(",") : [];
 
-  console.log("riwth_scripts", riwth_scripts);
-
   $(".riwth-helpful-feedback button").on("click", function () {
     var button = $(this);
     var helpful = button.hasClass("riwth-helpful-yes") ? 1 : 0;
@@ -23,7 +21,6 @@ jQuery(document).ready(function ($) {
       url: riwth_scripts.ajax_url,
       data: data,
       success: function (response) {
-        console.log("response", response);
         if (response["feedbackId"] !== "undefined" && response["feedbackId"]) {
           $(document).trigger(response["trigger"], {
             feedbackId: response["feedbackId"],

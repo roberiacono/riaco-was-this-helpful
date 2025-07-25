@@ -33,7 +33,6 @@ import "./editor.scss";
 import { RawHTML } from "@wordpress/element";
 
 export default function Edit({ attributes, setAttributes }) {
-	//console.log("attributes", attributes);
 
 	return (
 		<>
