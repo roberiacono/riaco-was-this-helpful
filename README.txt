@@ -1,20 +1,64 @@
-=== Was This Helpful ===
+=== Was This Helpful? – Article Feedback ===
 Contributors: prototipo88
-Tags: was this helpful, feedback, user feedback, helpful button, thumbs up 
+Tags: was this helpful, article feedback, feedback, WordPress feedback plugin, helpful 
 Tested up to: 6.8
 Stable tag: 2.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A lightweight plugin that adds a **"Was this helpful?" thumbs up/down feedback box** to your posts and pages — improve content quality through direct user feedback.
+**Was this helpful?** plugin for WordPress adds a thumbs up/down box to collect quick article feedback on posts and pages.
 
 == Description ==
 
-**Was This Helpful** is a simple, effective plugin that adds a "Was this helpful?" box at the bottom of your content. Let your readers give quick feedback with a thumbs up or thumbs down — no comments or forms needed.
+**Was This Helpful?** is a simple, effective WordPress feedback plugin that adds a "Was this helpful?" box at the bottom of your content to capture article feedback from your visitors. 
 
-Designed for speed and simplicity, it helps you identify your most engaging posts and optimize underperforming ones. Ideal for blogs, documentation, knowledge bases, and business websites.
+Let your readers give quick feedback with a thumbs up or thumbs down — no comments or forms needed.
 
-### Core Features
+Designed for speed and simplicity, it helps you identify your most engaging posts and optimize underperforming ones. 
+
+Unlike traditional comment forms, this feedback tool provides a frictionless way for users to respond with a single click — helping you understand content performance and engagement at a glance.
+
+Ideal for blogs, documentation, knowledge bases, and business websites.
+
+== The Problem It Solves ==
+
+Many website owners and bloggers face the same challenges:
+
+- **Low comment engagement**: Readers rarely leave comments, making it hard to know what content works.
+- **Unclear content performance**: Analytics show visits, but not whether the article helped readers.
+- **Missed opportunities to improve content**: Without feedback, you don’t know which posts need updates or rewrites.
+
+Was This Helpful is an article feedback plugin that solves these problems by providing quick feedback directly on your articles. 
+
+A simple thumbs up/down helps you see:
+
+- Which posts your audience finds useful.
+- Which pages need updates or improvements.
+- How user satisfaction changes over time.
+
+== Key Benefits== 
+
+**Collect instant feedback**: learn what readers think without requiring them to leave a comment.
+
+**Improve content strategy**: identify helpful vs. unhelpful posts to guide updates and new content.
+
+**Boost engagement**: give users a one-click way to interact with your articles.
+
+**Enhance SEO indirectly**: updating low-rated content can improve dwell time and reduce bounce rates.
+
+== Common Use Cases ==
+
+**Blog posts**: measure reader satisfaction and identify which articles resonate.
+
+**Knowledge bases / documentation**: quickly see if tutorials and how-to guides are effective.
+
+**Product or service pages**: understand if descriptions and details answer customer questions.
+
+**Course or learning websites**: track which lessons are clear or need more explanation.
+
+**Business websites**: gather visitor insights without long forms or surveys.
+
+== Core Features ==
 
 - Adds a "Was this helpful?" thumbs up/down box after posts and pages.
 - Supports pages, posts, or both.
@@ -28,7 +72,7 @@ Designed for speed and simplicity, it helps you identify your most engaging post
 
 1. Upload the plugin files to the `/wp-content/plugins/riaco-was-this-helpful` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the "Plugins" menu in WordPress.
-3. Go to **Settings → Was This Helpful** to configure display options and visibility rules.
+3. Go to **Settings > Was This Helpful** to configure display options and visibility rules.
 
 == Frequently Asked Questions ==
 
