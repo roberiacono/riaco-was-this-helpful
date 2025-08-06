@@ -47,6 +47,7 @@ global $wpdb;
 
 // delete transient
 $transient_pattern = '_transient_riwth_%';
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 $transients        = $wpdb->get_col(
 	$wpdb->prepare(
 		'SELECT option_name FROM %i WHERE option_name LIKE %s',
@@ -71,7 +72,7 @@ wp_cache_flush();
 
 // delete table section
 $table_name = $wpdb->prefix . 'riwth_helpful_feedback';
-
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 $wpdb->query(
 	$wpdb->prepare(
 		'DROP TABLE IF EXISTS %i',

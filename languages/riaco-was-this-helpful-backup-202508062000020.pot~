@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Was This Helpful\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-06 20:00+0000\n"
+"POT-Creation-Date: 2025-06-17 14:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -91,20 +91,12 @@ msgstr ""
 msgid "Extra"
 msgstr ""
 
-#: includes/class-reset-stats.php:139
-msgid "Failed to reset feedback statistics."
-msgstr ""
-
 #: templates/page-settings.php:10
 msgid "Feedback Box"
 msgstr ""
 
 #: includes/class-settings.php:157
 msgid "Feedback Box Text"
-msgstr ""
-
-#: includes/class-reset-stats.php:137
-msgid "Feedback statistics reset successfully."
 msgstr ""
 
 #: templates/page-settings.php:9
@@ -119,28 +111,12 @@ msgstr ""
 msgid "Helpful Stats"
 msgstr ""
 
-#: includes/class-reset-stats.php:108
-msgid "Helpful stats reset successfully."
-msgstr ""
-
 #. Author URI of the plugin
 msgid "https://www.robertoiacono.it/"
 msgstr ""
 
 #. URI of the plugin
 msgid "https://www.robertoiacono.it/riaco-was-this-helpful/"
-msgstr ""
-
-#: includes/class-reset-stats.php:121
-msgid "Invalid post ID or insufficient permissions."
-msgstr ""
-
-#: includes/class-reset-stats.php:74
-msgid "Invalid request."
-msgstr ""
-
-#: includes/class-reset-stats.php:161
-msgid "Last Reset Date:"
 msgstr ""
 
 #: includes/class-settings.php:481 includes/class-settings.php:495
@@ -176,10 +152,6 @@ msgstr ""
 msgid "Negative Text/Icon Color"
 msgstr ""
 
-#: includes/class-reset-stats.php:156
-msgid "Never"
-msgstr ""
-
 #: includes/class-settings.php:597
 msgid "No"
 msgstr ""
@@ -209,20 +181,8 @@ msgstr ""
 msgid "Positive Text/Icon Color"
 msgstr ""
 
-#: includes/class-reset-stats.php:127
-msgid "Post not found."
-msgstr ""
-
 #: includes/class-settings.php:370
 msgid "Posts"
-msgstr ""
-
-#: includes/class-reset-stats.php:61
-msgid "Reset Helpful Stats"
-msgstr ""
-
-#: includes/class-reset-stats.php:171
-msgid "Reset Statistics"
 msgstr ""
 
 #. Author of the plugin
@@ -237,7 +197,7 @@ msgstr ""
 msgid "Select whether to show the content in the admin bar."
 msgstr ""
 
-#: includes/class-was-this-helpful.php:175
+#: includes/class-was-this-helpful.php:171
 msgid "Settings"
 msgstr ""
 
@@ -269,6 +229,7 @@ msgstr ""
 msgid "Thank You Text"
 msgstr ""
 
+#. Name of the plugin
 #: includes/class-settings.php:26
 msgid "Was This Helpful"
 msgstr ""
@@ -285,20 +246,12 @@ msgstr ""
 msgid "Was this helpful?"
 msgstr ""
 
-#. Name of the plugin
-msgid "Was This Helpful? – Article Feedback"
-msgstr ""
-
 #: includes/class-settings.php:361
 msgid "Where do you want to show your Was this helpful box?"
 msgstr ""
 
 #: includes/class-settings.php:595
 msgid "Yes"
-msgstr ""
-
-#: includes/class-reset-stats.php:81
-msgid "You are not allowed to do this."
 msgstr ""
 
 #. %s: shortcode code.

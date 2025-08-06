@@ -2,7 +2,7 @@
 Contributors: prototipo88
 Tags: was this helpful, article feedback, feedback, WordPress feedback plugin, helpful 
 Tested up to: 6.8
-Stable tag: 2.0.5
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,6 +42,8 @@ A simple thumbs up/down helps you see:
 
 **Improve content strategy**: identify helpful vs. unhelpful posts to guide updates and new content.
 
+**Track content performance after updates**: use the reset feedback feature to see how your posts perform after you make changes or optimizations, without losing historical data.
+
 **Boost engagement**: give users a one-click way to interact with your articles.
 
 **Enhance SEO indirectly**: updating low-rated content can improve dwell time and reduce bounce rates.
@@ -67,6 +69,7 @@ A simple thumbs up/down helps you see:
 - Clean, minimal UI that adapts to your theme.
 - Lightweight with optional CSS/JS loading.
 - Includes shortcode to manually place the box.
+- Reset feedback statistics per post or page without deleting historical feedback.
 
 == Installation ==
 
@@ -91,6 +94,17 @@ Yes, you can disable the loading of styles or scripts from the plugin settings p
 = How do I enable feedback on custom post types? =
 With the PRO version, custom post types appear in your settings page. Just check the ones you want feedback on.
 
+= How do I reset feedback statistics for a post or page? =
+In the WordPress admin, go to **Posts** or **Pages**, hover over the post you want to reset, and click **"Reset Helpful Stats"**.  
+Resetting changes the reset date and stats are recalculated from that point forward.
+
+= Will resetting feedback delete previous feedback from the database? =
+No. Previous feedback entries remain stored in the database for historical purposes.  
+However, the **displayed stats** (total and positive counts) only consider feedback **from the last reset date onward**.
+
+= Can I undo a reset? =
+Not directly. You can manually adjust the reset date in the post meta if necessary, but the plugin does not currently provide a one-click undo feature.
+
 == Screenshots ==
 
 1. Settings panel in the WordPress admin.
@@ -103,6 +117,10 @@ With the PRO version, custom post types appear in your settings page. Just check
 8. Frontend live
 
 == Changelog ==
+
+= 2.1.0 - 2025-08-06 =
+* Added: Reset feature to reset helpful stats for single posts or pages.
+* Updated: Plugin name for better identification in WordPress admin.
 
 = 2.0.5 =
 * Update: remove unnecessary code in frontend

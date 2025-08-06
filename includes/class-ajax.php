@@ -23,6 +23,7 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 
 			$table_name = $wpdb->prefix . RIWTH_DB_NAME;
 
+			/*
 			$wpdb->query(
 				$wpdb->prepare(
 					'INSERT INTO %i (post_id, helpful, created_at) VALUES (%d, %d, %s)',
@@ -32,6 +33,21 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 						$helpful,
 						current_time( 'mysql' ),
 					)
+				)
+			); */
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+			$wpdb->insert(
+				$table_name,
+				array(
+					'post_id'    => $post_id,
+					'helpful'    => $helpful,
+					'created_at' => current_time( 'mysql' ),
+				),
+				array(
+					'%d', // post_id format
+					'%d', // helpful format
+					'%s',  // created_at format
 				)
 			);
 

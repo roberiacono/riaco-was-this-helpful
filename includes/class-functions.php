@@ -7,7 +7,7 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 		// Function to get the positive feedback count for a post
 		public static function get_positive_feedback_count( $post_id ) {
 			global $wpdb;
-			$table_name = $wpdb->prefix . RIWTH_DB_NAME;
+			$table_name = esc_sql( $wpdb->prefix . RIWTH_DB_NAME );
 
 			// Try to get the cached value
 			$cache_key         = 'riwth_positive_feedback_' . $post_id;
@@ -17,16 +17,30 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 
 				$positive_feedback = get_transient( $cache_key );
 				if ( false === $positive_feedback ) {
-					// $positive_feedback = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT( * ) FROM %i WHERE post_id = %d and helpful = 1', array( $table_name, $post_id ) ) );
-					$positive_feedback = $wpdb->get_var(
-						$wpdb->prepare(
-							'SELECT COUNT(*) FROM %i WHERE post_id = %d AND helpful = 1',
-							array(
+
+					$reset_date = get_post_meta( $post_id, '_riwth_reset_date', true );
+
+					// Execute query based on whether reset date exists.
+					if ( $reset_date ) {
+						// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+						$positive_feedback = (int) $wpdb->get_var(
+							$wpdb->prepare(
+								'SELECT COUNT(*) FROM %i WHERE post_id = %d AND helpful = 1 AND created_at >= %s',
 								$table_name,
 								$post_id,
+								$reset_date
 							)
-						)
-					);
+						);
+					} else {
+						// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+						$positive_feedback = (int) $wpdb->get_var(
+							$wpdb->prepare(
+								'SELECT COUNT(*) FROM %i WHERE post_id = %d AND helpful = 1',
+								$table_name,
+								$post_id
+							)
+						);
+					}
 
 					// Apply a filter to allow the Pro plugin to modify the query
 					$positive_feedback = apply_filters( 'riwth_get_positive_feedback_filter', $positive_feedback, $table_name, $post_id );
@@ -42,7 +56,7 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 		// Function to get the positive feedback count for a post
 		public static function get_total_feedback_count( $post_id ) {
 			global $wpdb;
-			$table_name = $wpdb->prefix . RIWTH_DB_NAME;
+			$table_name = esc_sql( $wpdb->prefix . RIWTH_DB_NAME );
 
 			$cache_key      = 'riwth_total_feedback_' . $post_id;
 			$total_feedback = wp_cache_get( $cache_key );
@@ -52,16 +66,33 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 				$total_feedback = get_transient( $cache_key );
 
 				if ( false === $total_feedback ) {
-					// $total_feedback = $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM %i WHERE post_id = %d', array( $table_name, $post_id ) ) );
-					$total_feedback = $wpdb->get_var(
-						$wpdb->prepare(
-							'SELECT COUNT(*) FROM %i WHERE post_id = %d',
-							array(
-								$table_name,
-								$post_id,
+					$reset_date = get_post_meta( $post_id, '_riwth_reset_date', true );
+
+					if ( $reset_date ) {
+						// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+						$total_feedback = $wpdb->get_var(
+							$wpdb->prepare(
+								'SELECT COUNT(*) FROM %i WHERE post_id = %d AND created_at >= %s',
+								array(
+									$table_name,
+									$post_id,
+									$reset_date,
+								)
 							)
-						)
-					);
+						);
+					} else {
+						// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+						$total_feedback = $wpdb->get_var(
+							$wpdb->prepare(
+								'SELECT COUNT(*) FROM %i WHERE post_id = %d',
+								array(
+									$table_name,
+									$post_id,
+								)
+							)
+						);
+					}
+
 					// Apply a filter to allow the Pro plugin to modify the query
 					$total_feedback = apply_filters( 'riwth_get_total_feedback_filter', $total_feedback, $table_name, $post_id );
 
