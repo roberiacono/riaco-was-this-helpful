@@ -41,6 +41,11 @@ if ( ! class_exists( 'RIWTH_Metabox_Stats' ) ) {
 			} else {
 				esc_html_e( 'No feedback yet', 'riaco-was-this-helpful' );
 			}
+
+			/**
+			 * Custom hook for extra fields in Helpful Stats metabox.
+			 */
+			do_action( 'riwth_after_metabox_stats', $post );
 		}
 	}
 }

@@ -53,6 +53,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-metabox.php';
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-metabox-stats.php';
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-box.php';
+			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-reset-stats.php';
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-user-role.php';
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-shortcode.php';
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-svg-icons.php';
@@ -83,6 +84,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 				new RIWTH_Admin_Bar();
 				new RIWTH_Metabox();
 				new RIWTH_Metabox_Stats();
+				new RIWTH_Reset_Stats();
 			}
 		}
 
