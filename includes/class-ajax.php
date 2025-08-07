@@ -36,8 +36,8 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 				)
 			); */
 
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-			$wpdb->insert(
+			
+			$result = $wpdb->insert(
 				$table_name,
 				array(
 					'post_id'    => $post_id,
@@ -51,11 +51,18 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 				)
 			);
 
-			// Ottenere l'ID dell'ultima riga inserita
-			$feedback_id = $wpdb->insert_id;
+			
+			if ( false === $result ) {
+				// Handle error
+				error_log( 'Database insert failed: ' . $wpdb->last_error );
+				$feedback_id = false;
+			} else {
+				// get ID of last inserted row
+				$feedback_id = $wpdb->insert_id;
+			}
 
 			if ( $feedback_id ) {
-				// Elimina la cache per aggiornare i dati
+				// delete cache
 				wp_cache_delete( 'riwth_total_feedback_' . $post_id, 'riwth_feedback' );
 				delete_transient( 'riwth_total_feedback_' . $post_id );
 
