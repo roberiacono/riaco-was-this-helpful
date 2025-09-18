@@ -69,6 +69,7 @@ if ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {
 
 				// Adding the join to the feedback table
 
+				/*
 				add_filter(
 					'posts_join',
 					function ( $join ) use ( $wpdb, $table_name ) {
@@ -87,12 +88,91 @@ if ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {
 				add_filter(
 					'posts_orderby',
 					function ( $orderby ) use ( $order ) {
-						$orderby = "feedback_stats.positive_feedback/feedback_stats.total_feedback $order,  $orderby";
+						$orderby = " (feedback_stats.positive_feedback / NULLIF(feedback_stats.total_feedback, 0)) + 0.0 $order, $orderby";
 						return $orderby;
 					}
-				);
+				); */
+
+				// Get the order direction (ASC or DESC)
+				$order = $query->get( 'order' );
+				$order = ( 'ASC' === strtoupper( $order ) ) ? 'ASC' : 'DESC';
+
+				// Modify the query to join with feedback table and calculate percentage
+				$query->set( 'meta_query', array() );
+				$query->set( 'orderby', 'feedback_percentage' );
+				$query->set( 'order', $order );
+
+				// Add filters to modify the SQL query
+				add_filter( 'posts_join', array( $this, 'feedback_posts_join' ) );
+				add_filter( 'posts_fields', array( $this, 'feedback_posts_fields' ) );
+				add_filter( 'posts_orderby', array( $this, 'feedback_posts_orderby' ) );
+				add_filter( 'posts_groupby', array( $this, 'feedback_posts_groupby' ) );
 
 			}
+		}
+
+		public function feedback_posts_join( $join ) {
+			global $wpdb;
+			$table_name = $wpdb->prefix . RIWTH_DB_NAME;
+
+			// Left join with feedback table and post meta to consider reset date
+			$join .= " LEFT JOIN {$wpdb->postmeta} pm_reset ON {$wpdb->posts}.ID = pm_reset.post_id AND pm_reset.meta_key = '_riwth_reset_date'";
+
+			$join .= " LEFT JOIN (
+				SELECT 
+					f.post_id,
+					COUNT(*) as total_feedback,
+					SUM(CASE WHEN f.helpful = 1 THEN 1 ELSE 0 END) as positive_feedback,
+					CASE 
+						WHEN COUNT(*) > 0 THEN (SUM(CASE WHEN f.helpful = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*))
+						ELSE 0 
+					END as feedback_percentage
+				FROM {$table_name} f
+				LEFT JOIN {$wpdb->postmeta} pm ON f.post_id = pm.post_id AND pm.meta_key = '_riwth_reset_date'
+				WHERE (
+					pm.meta_value IS NULL 
+					OR f.created_at > pm.meta_value
+				)
+				GROUP BY f.post_id
+			) feedback_stats ON {$wpdb->posts}.ID = feedback_stats.post_id";
+
+			return $join;
+		}
+
+		public function feedback_posts_fields( $fields ) {
+			global $wpdb;
+
+			// Add the calculated fields to SELECT
+			$fields .= ', feedback_stats.total_feedback, feedback_stats.positive_feedback, feedback_stats.feedback_percentage';
+
+			return $fields;
+		}
+
+		public function feedback_posts_orderby( $orderby ) {
+			global $wpdb;
+
+			$order = isset( $_GET['order'] ) ? strtoupper( $_GET['order'] ) : 'DESC';
+			$order = ( 'ASC' === $order ) ? 'ASC' : 'DESC';
+
+			// Order by feedback percentage, with posts having no feedback at the end
+			$orderby = "CASE 
+							WHEN feedback_stats.total_feedback IS NULL OR feedback_stats.total_feedback = 0 THEN 1 
+							ELSE 0 
+						END ASC, 
+						feedback_stats.feedback_percentage {$order}";
+
+			return $orderby;
+		}
+
+		public function feedback_posts_groupby( $groupby ) {
+			global $wpdb;
+
+			// Group by post ID to avoid duplicates
+			if ( ! $groupby ) {
+				$groupby = "{$wpdb->posts}.ID";
+			}
+
+			return $groupby;
 		}
 	}
 }
