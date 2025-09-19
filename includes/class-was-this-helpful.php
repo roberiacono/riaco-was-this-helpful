@@ -145,10 +145,25 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 		}
 
 		public function admin_enqueue_scripts() {
-			// if ( is_admin() && isset( $_GET['page'] ) && sanitize_text_field( wp_unslash( $_GET['page'] ) ) === 'riwth-settings' ) {
 			$current_screen = get_current_screen();
-			if ( $current_screen && strpos( $current_screen->id, 'riwth-settings' ) !== false ) {
-				wp_enqueue_style( 'riwth-admin-style', RIWTH_PLUGIN_URL . 'assets/admin/css/style.css', array(), RIWTH_PLUGIN_VERSION );
+			if ( $current_screen ) {
+				// List of page IDs where you want the CSS loaded
+				$allowed_pages = array(
+					'riwth-settings',
+					'riwth-shortcode', // ← your second page slug
+				);
+
+				foreach ( $allowed_pages as $page_id ) {
+					if ( strpos( $current_screen->id, $page_id ) !== false ) {
+						wp_enqueue_style(
+							'riwth-admin-style',
+							RIWTH_PLUGIN_URL . 'assets/admin/css/style.css',
+							array(),
+							RIWTH_PLUGIN_VERSION
+						);
+						break; // Stop checking once we’ve enqueued
+					}
+				}
 			}
 		}
 

@@ -18,7 +18,33 @@ if ( ! class_exists( 'RIWTH_Admin_Pages_Footer' ) ) {
 		 */
 		public function __construct() {
 			// Admin footer text.
+			add_action( 'in_admin_footer', array( $this, 'pre_footer' ) );
 			add_filter( 'admin_footer_text', array( $this, 'admin_footer' ), 1, 2 );
+		}
+
+		/**
+		 * Pre-footer block displayed on all plugin admin pages.
+		 *
+		 * @since 2.1.1
+		 */
+		public function pre_footer() {
+			global $current_screen;
+
+			if ( empty( $current_screen->id ) || ! $this->is_plugin_link_page() ) {
+				return;
+			}
+
+			$links = array(
+				array(
+					'url'    => 'https://wordpress.org/support/plugin/riaco-was-this-helpful/',
+					'text'   => __( 'Support', 'riaco-was-this-helpful' ),
+					'target' => '_blank',
+				),
+			);
+
+			$title = __( 'Made with ♥ by Roberto Iacono', 'riaco-was-this-helpful' );
+
+			require_once RIWTH_PLUGIN_DIRNAME . 'templates/parts/pre-footer.php';
 		}
 
 		/**
