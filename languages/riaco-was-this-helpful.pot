@@ -1,264 +1,249 @@
-#, fuzzy
+# Copyright (C) 2025 Roberto Iacono
+# This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Was This Helpful\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-06 20:00+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Project-Id-Version: Was This Helpful? – Article Feedback 2.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/riaco-was-this-helpful\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: \n"
-"Language: \n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.8.0; wp-6.8.1; php-8.2.12\n"
-"X-Domain: riaco-was-this-helpful"
+"POT-Creation-Date: 2025-09-19T15:06:08+02:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: riaco-was-this-helpful\n"
 
-#. %1$d: percentage of positive feedback. %2$d number of positive feedback. %3$d number of total feedback.
-#. %1$d: positive percentage. %2$d Positive feedback. %3$d total feedback.
-#: includes/class-admin-bar.php:28 includes/class-admin-columns.php:45
+#. Plugin Name of the plugin
+#: riaco-was-this-helpful.php
+msgid "Was This Helpful? – Article Feedback"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: riaco-was-this-helpful.php
+msgid "https://www.robertoiacono.it/riaco-was-this-helpful/"
+msgstr ""
+
+#. Description of the plugin
+#: riaco-was-this-helpful.php
+msgid "A lightweight plugin that adds a \"Was this helpful?\" thumbs up/down feedback box to your posts and pages — improve content quality through direct user feedback."
+msgstr ""
+
+#. Author of the plugin
+#: riaco-was-this-helpful.php
+msgid "Roberto Iacono"
+msgstr ""
+
+#. Author URI of the plugin
+#: riaco-was-this-helpful.php
+msgid "https://www.robertoiacono.it/"
+msgstr ""
+
+#. translators: %1$d: percentage of positive feedback. %2$d number of positive feedback. %3$d number of total feedback.
+#. translators: %1$d: positive percentage. %2$d Positive feedback. %3$d total feedback.
+#: includes/class-admin-bar.php:28
+#: includes/class-admin-columns.php:78
 #: includes/class-metabox-stats.php:40
 #, php-format
 msgid "%1$d%% positive (%2$d/%3$d)"
 msgstr ""
 
-#. Description of the plugin
-msgid ""
-"A lightweight plugin that adds a \"Was this helpful?\" thumbs up/down "
-"feedback box to your posts and pages — improve content quality through "
-"direct user feedback."
+#: includes/class-admin-bar.php:30
+#: includes/class-admin-columns.php:80
+#: includes/class-metabox-stats.php:42
+msgid "No feedback yet"
 msgstr ""
 
-#: includes/class-settings.php:63
-msgid "Admin Bar"
+#: includes/class-admin-columns.php:54
+msgid "Was this helpful?"
 msgstr ""
 
-#: includes/class-settings.php:83
-msgid "Assets Loading"
+#: includes/class-admin-pages-footer.php:41
+msgid "Support"
 msgstr ""
 
-#: includes/class-settings.php:225
-msgid "Background Color"
+#: includes/class-admin-pages-footer.php:46
+msgid "Made with ♥ by Roberto Iacono"
 msgstr ""
 
-#: includes/class-settings.php:270
-msgid "Button Border Radius"
+#. translators: $1$s - WP.org review link; $2$s - WP.org review link.
+#: includes/class-admin-pages-footer.php:69
+#, php-format
+msgid "Enjoying <strong>Was This Helpful</strong>? Please rate <a href=\"%1$s\" target=\"_blank\" rel=\"noopener noreferrer\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on <a href=\"%2$s\" target=\"_blank\" rel=\"noopener\">WordPress.org</a> to help us spread the word. Thank you! – Roberto Iacono"
 msgstr ""
 
-#: includes/class-settings.php:464
-msgid "Change feedback box content  for submitting and thank you messages."
+#. translators: %1$s: plugin name, %2$d: total feedback count
+#: includes/class-admin-review-notice.php:113
+#, php-format
+msgid "Thank you for using %1$s plugin! So far <strong> we have collected %2$s feedbacks </strong>. If it’s been helpful, please consider leaving a review. It helps us improve and <strong>support the project</strong>!"
 msgstr ""
 
-#: includes/class-settings.php:461
-msgid "Change feedback box content."
+#: includes/class-admin-review-notice.php:122
+msgid "Leave a Review"
 msgstr ""
 
-#: includes/class-settings.php:73
-msgid "Colors"
+#: includes/class-admin-review-notice.php:123
+msgid "Maybe Later"
 msgstr ""
 
-#: includes/class-settings.php:68
-msgid "Content"
-msgstr ""
-
-#: includes/class-settings.php:88
-msgid "Data Deletion"
-msgstr ""
-
-#: includes/class-settings.php:278
-msgid "Delete data when removing plugin?"
-msgstr ""
-
-#: includes/class-settings.php:582
-msgid "Deletes all data when plugin is removed."
-msgstr ""
-
-#: includes/class-metabox.php:35
-msgid "Disable automatic Helpful box at the bottom of this post."
-msgstr ""
-
-#: includes/class-settings.php:58 includes/class-settings.php:105
-msgid "Display on"
-msgstr ""
-
-#: includes/class-settings.php:113
-msgid "Display Stats and Functionalities by User Role"
-msgstr ""
-
-#: templates/page-settings.php:11
-msgid "Extra"
-msgstr ""
-
-#: includes/class-reset-stats.php:139
-msgid "Failed to reset feedback statistics."
-msgstr ""
-
-#: templates/page-settings.php:10
-msgid "Feedback Box"
-msgstr ""
-
-#: includes/class-settings.php:157
-msgid "Feedback Box Text"
-msgstr ""
-
-#: includes/class-reset-stats.php:137
-msgid "Feedback statistics reset successfully."
-msgstr ""
-
-#: templates/page-settings.php:9
-msgid "General"
-msgstr ""
-
-#: includes/class-metabox.php:20
-msgid "Helpful Settings"
+#: includes/class-admin-review-notice.php:124
+msgid "Never Show Again"
 msgstr ""
 
 #: includes/class-metabox-stats.php:20
 msgid "Helpful Stats"
 msgstr ""
 
-#: includes/class-reset-stats.php:108
-msgid "Helpful stats reset successfully."
+#: includes/class-metabox.php:20
+msgid "Helpful Settings"
 msgstr ""
 
-#. Author URI of the plugin
-msgid "https://www.robertoiacono.it/"
+#: includes/class-metabox.php:35
+msgid "Disable automatic Helpful box at the bottom of this post."
 msgstr ""
 
-#. URI of the plugin
-msgid "https://www.robertoiacono.it/riaco-was-this-helpful/"
-msgstr ""
-
-#: includes/class-reset-stats.php:121
-msgid "Invalid post ID or insufficient permissions."
-msgstr ""
-
-#: includes/class-reset-stats.php:74
-msgid "Invalid request."
-msgstr ""
-
-#: includes/class-reset-stats.php:161
-msgid "Last Reset Date:"
-msgstr ""
-
-#: includes/class-settings.php:481 includes/class-settings.php:495
-#: includes/class-settings.php:505 includes/class-settings.php:519
-msgid "Leave Empty"
-msgstr ""
-
-#: includes/class-settings.php:188 includes/class-settings.php:210
-msgid "Leave empty if you don't want to display text"
-msgstr ""
-
-#: includes/class-settings.php:133
-msgid "Load Scripts"
-msgstr ""
-
-#: includes/class-settings.php:121
-msgid "Load Styles"
-msgstr ""
-
-#: includes/class-settings.php:252
-msgid "Negative Button Color"
-msgstr ""
-
-#: includes/class-settings.php:216
-msgid "Negative Button Icon"
-msgstr ""
-
-#: includes/class-settings.php:203
-msgid "Negative Button Text"
-msgstr ""
-
-#: includes/class-settings.php:261
-msgid "Negative Text/Icon Color"
-msgstr ""
-
-#: includes/class-reset-stats.php:156
-msgid "Never"
-msgstr ""
-
-#: includes/class-settings.php:597
-msgid "No"
-msgstr ""
-
-#: includes/class-admin-bar.php:30 includes/class-admin-columns.php:47
-#: includes/class-metabox-stats.php:42
-msgid "No feedback yet"
-msgstr ""
-
-#: includes/class-settings.php:374
-msgid "Pages"
-msgstr ""
-
-#: includes/class-settings.php:234
-msgid "Positive Button Color"
-msgstr ""
-
-#: includes/class-settings.php:194
-msgid "Positive Button Icon"
-msgstr ""
-
-#: includes/class-settings.php:169 includes/class-settings.php:181
-msgid "Positive Button Text"
-msgstr ""
-
-#: includes/class-settings.php:243
-msgid "Positive Text/Icon Color"
-msgstr ""
-
-#: includes/class-reset-stats.php:127
-msgid "Post not found."
-msgstr ""
-
-#: includes/class-settings.php:370
-msgid "Posts"
-msgstr ""
-
-#: includes/class-reset-stats.php:61
+#: includes/class-reset-stats.php:58
 msgid "Reset Helpful Stats"
 msgstr ""
 
-#: includes/class-reset-stats.php:171
+#: includes/class-reset-stats.php:72
+msgid "Invalid request."
+msgstr ""
+
+#: includes/class-reset-stats.php:79
+msgid "You are not allowed to do this."
+msgstr ""
+
+#: includes/class-reset-stats.php:117
+msgid "Helpful stats reset successfully."
+msgstr ""
+
+#: includes/class-reset-stats.php:133
+msgid "Never"
+msgstr ""
+
+#: includes/class-reset-stats.php:138
+msgid "Last Reset Date:"
+msgstr ""
+
+#: includes/class-reset-stats.php:148
 msgid "Reset Statistics"
 msgstr ""
 
-#. Author of the plugin
-msgid "Roberto Iacono"
+#: includes/class-settings.php:25
+msgid "Was This Helpful Settings"
 msgstr ""
 
-#: includes/class-settings.php:442
-msgid "Select whether to load the plugin styles and scripts."
+#: includes/class-settings.php:26
+msgid "Was This Helpful"
 msgstr ""
 
-#: includes/class-settings.php:456
-msgid "Select whether to show the content in the admin bar."
-msgstr ""
-
-#: includes/class-was-this-helpful.php:175
-msgid "Settings"
-msgstr ""
-
-#: includes/class-settings.php:37 includes/class-settings.php:38
+#: includes/class-settings.php:37
+#: includes/class-settings.php:38
 msgid "Shortcode"
 msgstr ""
 
-#: includes/class-settings.php:145
-msgid "Show Admin Bar Content"
+#: includes/class-settings.php:58
+#: includes/class-settings.php:105
+msgid "Display on"
 msgstr ""
 
-#: includes/class-settings.php:527
-msgid "Style your feedback box."
+#: includes/class-settings.php:63
+msgid "Admin Bar"
+msgstr ""
+
+#: includes/class-settings.php:68
+msgid "Content"
+msgstr ""
+
+#: includes/class-settings.php:73
+msgid "Colors"
 msgstr ""
 
 #: includes/class-settings.php:78
 msgid "Styles"
 msgstr ""
 
+#: includes/class-settings.php:83
+msgid "Assets Loading"
+msgstr ""
+
+#: includes/class-settings.php:88
+msgid "Data Deletion"
+msgstr ""
+
 #: includes/class-settings.php:93
 msgid "Submitting and Thanks Content"
+msgstr ""
+
+#: includes/class-settings.php:113
+msgid "Display Stats and Functionalities by User Role"
+msgstr ""
+
+#: includes/class-settings.php:121
+msgid "Load Styles"
+msgstr ""
+
+#: includes/class-settings.php:133
+msgid "Load Scripts"
+msgstr ""
+
+#: includes/class-settings.php:145
+msgid "Show Admin Bar Content"
+msgstr ""
+
+#: includes/class-settings.php:157
+msgid "Feedback Box Text"
+msgstr ""
+
+#: includes/class-settings.php:169
+#: includes/class-settings.php:181
+msgid "Positive Button Text"
+msgstr ""
+
+#: includes/class-settings.php:188
+#: includes/class-settings.php:210
+msgid "Leave empty if you don't want to display text"
+msgstr ""
+
+#: includes/class-settings.php:194
+msgid "Positive Button Icon"
+msgstr ""
+
+#: includes/class-settings.php:203
+msgid "Negative Button Text"
+msgstr ""
+
+#: includes/class-settings.php:216
+msgid "Negative Button Icon"
+msgstr ""
+
+#: includes/class-settings.php:225
+msgid "Background Color"
+msgstr ""
+
+#: includes/class-settings.php:234
+msgid "Positive Button Color"
+msgstr ""
+
+#: includes/class-settings.php:243
+msgid "Positive Text/Icon Color"
+msgstr ""
+
+#: includes/class-settings.php:252
+msgid "Negative Button Color"
+msgstr ""
+
+#: includes/class-settings.php:261
+msgid "Negative Text/Icon Color"
+msgstr ""
+
+#: includes/class-settings.php:270
+msgid "Button Border Radius"
+msgstr ""
+
+#: includes/class-settings.php:278
+msgid "Delete data when removing plugin?"
 msgstr ""
 
 #: includes/class-settings.php:290
@@ -269,44 +254,59 @@ msgstr ""
 msgid "Thank You Text"
 msgstr ""
 
-#: includes/class-settings.php:26
-msgid "Was This Helpful"
+#: includes/class-settings.php:361
+msgid "Where do you want to show your Was this helpful box?"
 msgstr ""
 
-#: includes/class-settings.php:25
-msgid "Was This Helpful Settings"
+#: includes/class-settings.php:370
+msgid "Posts"
+msgstr ""
+
+#: includes/class-settings.php:374
+msgid "Pages"
+msgstr ""
+
+#: includes/class-settings.php:442
+msgid "Select whether to load the plugin styles and scripts."
+msgstr ""
+
+#: includes/class-settings.php:456
+msgid "Select whether to show the content in the admin bar."
+msgstr ""
+
+#: includes/class-settings.php:461
+msgid "Change feedback box content."
+msgstr ""
+
+#: includes/class-settings.php:464
+msgid "Change feedback box content  for submitting and thank you messages."
+msgstr ""
+
+#: includes/class-settings.php:481
+#: includes/class-settings.php:495
+#: includes/class-settings.php:505
+#: includes/class-settings.php:519
+msgid "Leave Empty"
+msgstr ""
+
+#: includes/class-settings.php:527
+msgid "Style your feedback box."
+msgstr ""
+
+#: includes/class-settings.php:582
+msgid "Deletes all data when plugin is removed."
 msgstr ""
 
 #: includes/class-settings.php:594
 msgid "Was This Helpful?"
 msgstr ""
 
-#: includes/class-admin-columns.php:27
-msgid "Was this helpful?"
-msgstr ""
-
-#. Name of the plugin
-msgid "Was This Helpful? – Article Feedback"
-msgstr ""
-
-#: includes/class-settings.php:361
-msgid "Where do you want to show your Was this helpful box?"
-msgstr ""
-
 #: includes/class-settings.php:595
 msgid "Yes"
 msgstr ""
 
-#: includes/class-reset-stats.php:81
-msgid "You are not allowed to do this."
-msgstr ""
-
-#. %s: shortcode code.
-#: templates/page-shortcode.php:8
-#, php-format
-msgid ""
-"You can display the Helpful Box using the shortcode %s inside posts/pages "
-"content."
+#: includes/class-settings.php:597
+msgid "No"
 msgstr ""
 
 #: includes/class-settings.php:606
@@ -315,4 +315,26 @@ msgstr ""
 
 #: includes/class-settings.php:607
 msgid "✅ Thank you for your feedback!"
+msgstr ""
+
+#: includes/class-was-this-helpful.php:261
+msgid "Settings"
+msgstr ""
+
+#: templates/page-settings.php:9
+msgid "General"
+msgstr ""
+
+#: templates/page-settings.php:10
+msgid "Feedback Box"
+msgstr ""
+
+#: templates/page-settings.php:11
+msgid "Extra"
+msgstr ""
+
+#. translators: %s: shortcode code.
+#: templates/page-shortcode.php:8
+#, php-format
+msgid "You can display the Helpful Box using the shortcode %s inside posts/pages content."
 msgstr ""
