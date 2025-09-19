@@ -31,13 +31,21 @@ $links_count = count( $links );
 			}
 		}
 
-		printf(
-			'<a %1$s>%2$s</a>%3$s',
-			esc_attr( $attribute_str ),
-			esc_html( $item['text'] ),
-			$links_count === $key + 1 ? '' : '<span>/</span>'
-		);
 		?>
+	
+			<a 
+				href="<?php echo esc_url( $item['url'] ); ?>" 
+				<?php if ( ! empty( $item['target'] ) ) : ?>
+					target="<?php echo esc_attr( $item['target'] ); ?>" 
+					rel="noopener noreferrer"
+				<?php endif; ?>
+			>
+				<?php echo esc_html( $item['text'] ); ?>
+			</a>
+			<?php if ( $links_count !== $key + 1 ) : ?>
+				<span>/</span>
+			<?php endif; ?>
+
 		</li>
 	<?php endforeach; ?>
 	</ul>
