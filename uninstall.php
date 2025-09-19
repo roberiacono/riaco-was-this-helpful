@@ -38,9 +38,11 @@ delete_option( 'riwth_feedback_box_color_negative_button' );
 delete_option( 'riwth_feedback_box_color_negative_text' );
 delete_option( 'riwth_feedback_box_border_button_rounded' );
 delete_option( 'riwth_uninstall_remove_data' );
+delete_option( 'riwth_review_notice_done' );
 
 // delete transient
 delete_transient( 'riwth_feedback_box' );
+delete_transient( 'riwth_review_notice_maybe_later' );
 
 
 global $wpdb;
@@ -48,7 +50,7 @@ global $wpdb;
 // delete transient
 $transient_pattern = '_transient_riwth_%';
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-$transients        = $wpdb->get_col(
+$transients = $wpdb->get_col(
 	$wpdb->prepare(
 		'SELECT option_name FROM %i WHERE option_name LIKE %s',
 		array(
