@@ -3,6 +3,7 @@
  * Admin Page Footer Class
  *
  * @package RIACO_Was_This_Helpful
+ * @since 2.1.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -109,7 +110,7 @@ if ( ! class_exists( 'RIWTH_Admin_Pages_Footer' ) ) {
 		 */
 		public function is_plugin_link_page() {
 			$hook = $this->get_screen_id();
-			// List of pages to check
+			// List of pages to check.
 			$plugin_pages = array(
 				'riwth-settings',
 				'riwth-shortcode',

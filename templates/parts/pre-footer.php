@@ -33,7 +33,7 @@ $links_count = count( $links );
 
 		printf(
 			'<a %1$s>%2$s</a>%3$s',
-			$attribute_str,
+			esc_attr( $attribute_str ),
 			esc_html( $item['text'] ),
 			$links_count === $key + 1 ? '' : '<span>/</span>'
 		);

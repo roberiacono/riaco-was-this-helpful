@@ -1,6 +1,11 @@
 <?php
+/**
+ * Uninstall script
+ *
+ * @package RIWTH
+ */
 
-// If uninstall not called from WordPress, exit
+// If uninstall not called from WordPress, exit.
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
@@ -19,7 +24,7 @@ if ( ! get_option( 'riwth_uninstall_remove_data' ) ) {
 	return;
 }
 
-// Delete plugin options
+// Delete plugin options.
 delete_option( 'riwth_display_on' );
 delete_option( 'riwth_display_by_user_role' );
 delete_option( 'riwth_load_styles' );
@@ -40,14 +45,14 @@ delete_option( 'riwth_feedback_box_border_button_rounded' );
 delete_option( 'riwth_uninstall_remove_data' );
 delete_option( 'riwth_review_notice_done' );
 
-// delete transient
+// delete transient.
 delete_transient( 'riwth_feedback_box' );
 delete_transient( 'riwth_review_notice_maybe_later' );
 
 
 global $wpdb;
 
-// delete transient
+// delete transient.
 $transient_pattern = '_transient_riwth_%';
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 $transients = $wpdb->get_col(
@@ -69,10 +74,10 @@ if ( ! empty( $transients ) ) {
 	}
 }
 
-// delete cache
+// delete cache.
 wp_cache_flush();
 
-// delete table section
+// delete table section.
 $table_name = $wpdb->prefix . 'riwth_helpful_feedback';
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 $wpdb->query(

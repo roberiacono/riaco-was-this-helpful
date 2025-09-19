@@ -1,23 +1,51 @@
 <?php
+/**
+ * Main plugin class
+ *
+ * @package RIWTH
+ */
 
 defined( 'ABSPATH' ) || exit;
 
 
-
 if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
+	/**
+	 * Main RIWTH_Was_This_Helpful Class.
+	 */
 	final class RIWTH_Was_This_Helpful {
 
-		public $version          = RIWTH_PLUGIN_VERSION;
+		/**
+		 * Plugin version.
+		 *
+		 * @var string
+		 */
+		public $version = RIWTH_PLUGIN_VERSION;
+
+		/**
+		 * The single instance of the class.
+		 *
+		 * @var RIWTH_Was_This_Helpful
+		 */
 		private static $instance = null;
 
+		/**
+		 * Constructor function.
+		 */
 		public function __construct() {
 			$this->define_constants();
 			$this->includes();
 			$this->init_hooks();
 		}
 
+		/**
+		 * Main RIWTH_Was_This_Helpful Instance.
+		 *
+		 * Ensures only one instance of RIWTH_Was_This_Helpful is loaded or can be loaded.
+		 *
+		 * @return RIWTH_Was_This_Helpful - Main instance.
+		 */
 		public static function get_instance() {
-			if ( self::$instance == null ) {
+			if ( null === self::$instance ) {
 				self::$instance = new self();
 			}
 			return self::$instance;
@@ -37,6 +65,9 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 			_doing_it_wrong( __FUNCTION__, esc_html( 'Unserializing instances of this class is forbidden.' ), '1.0.0' );
 		}
 
+		/**
+		 * Define plugin constants.
+		 */
 		public function define_constants() {
 			$this->define( 'RIWTH_DB_NAME', 'riwth_helpful_feedback' );
 			$this->define( 'RIWTH_PLUGIN_DIR', plugin_dir_path( RIWTH_PLUGIN_FILE ) );
@@ -44,6 +75,9 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 			$this->define( 'RIWTH_PLUGIN_DIRNAME', dirname( RIWTH_PLUGIN_FILE ) . '/' );
 		}
 
+		/**
+		 * Include required core files used in admin and on the frontend.
+		 */
 		private function includes() {
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-functions.php';
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-settings.php';
@@ -62,6 +96,9 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-block.php';
 		}
 
+		/**
+		 * Initialize the plugin hooks.
+		 */
 		private function init_hooks() {
 			register_activation_hook( RIWTH_PLUGIN_FILE, array( $this, 'activate_plugin' ) );
 
@@ -86,7 +123,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 
 			if ( is_admin() ) {
 				new RIWTH_Admin_Pages_Footer();
-				// Initialize the notice
+				// Initialize the notice.
 				if ( 1 !== get_option( 'riwth_review_notice_done', 0 ) ) {
 					new RIWTH_Admin_Review_Notice();
 				}
@@ -113,11 +150,17 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 			}
 		}
 
+		/**
+		 * Code to run during plugin activation.
+		 */
 		public function activate_plugin() {
 			$this->create_database();
 			$this->set_initial_settings();
 		}
 
+		/**
+		 * Create database table if not exists.
+		 * */
 		public function create_database() {
 			global $wpdb;
 
@@ -138,10 +181,13 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 			dbDelta( $sql );
 		}
 
+		/**
+		 * Set initial settings on plugin activation.
+		 */
 		public function set_initial_settings() {
 			$initial_settings = RIWTH_Settings::get_intial_settings();
 
-			// set default initial settings
+			// set default initial settings.
 			foreach ( $initial_settings as $key => $value ) {
 				if ( false === get_option( $key ) ) {
 					add_option( $key, $value );
@@ -149,13 +195,17 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 			}
 		}
 
+		/**
+		 * Enqueue admin scripts and styles on specific plugin admin pages.
+		 * Only load on plugin settings and shortcode pages.
+		 */
 		public function admin_enqueue_scripts() {
 			$current_screen = get_current_screen();
 			if ( $current_screen ) {
-				// List of page IDs where you want the CSS loaded
+				// List of page IDs where you want the CSS loaded.
 				$allowed_pages = array(
 					'riwth-settings',
-					'riwth-shortcode', // ← your second page slug
+					'riwth-shortcode',
 				);
 
 				foreach ( $allowed_pages as $page_id ) {
@@ -166,12 +216,15 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 							array(),
 							RIWTH_PLUGIN_VERSION
 						);
-						break; // Stop checking once we’ve enqueued
+						break; // Stop checking once we’ve enqueued.
 					}
 				}
 			}
 		}
 
+		/**
+		 * Maybe enqueue frontend scripts and styles based on settings and conditions.
+		 */
 		public function maybe_enqueue_scripts() {
 			if ( get_option( 'riwth_load_styles' ) ) {
 				wp_register_style( 'riwth-style', RIWTH_PLUGIN_URL . 'helpful-box-block/build/style-index.css', array(), RIWTH_PLUGIN_VERSION );
@@ -198,6 +251,11 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 			}
 		}
 
+		/**
+		 * Add settings link on plugin page.
+		 *
+		 * @param array $links Existing plugin action links.
+		 */
 		public function add_settings_link( $links ) {
 			$url           = get_admin_url() . 'admin.php?page=riwth-settings';
 			$settings_link = array( '<a href="' . esc_url( $url ) . '">' . esc_html( __( 'Settings', 'riaco-was-this-helpful' ) ) . '</a>' );

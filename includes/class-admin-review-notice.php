@@ -1,19 +1,67 @@
 <?php
+/**
+ * Admin Review Notice Class
+ *
+ * Shows an admin notice asking users to leave a review after a certain amount of feedback has been collected.
+ *
+ * @package RIACO_Was_This_Helpful
+ * @since 2.1.1
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Class RIWTH_Admin_Review_Notice
+ */
 class RIWTH_Admin_Review_Notice {
 
-	private $feedback_threshold = 1;
-	private $option_done        = 'riwth_review_notice_done';
-	private $transient_later    = 'riwth_review_notice_maybe_later';
-	private $maybe_later_days   = 30;
-	private $review_url         = 'https://wordpress.org/support/plugin/riaco-was-this-helpful/reviews/?filter=5#new-post';
-	private $plugin_pages       = array( 'riwth-settings', 'riwth-shortcode' ); // Only show here
+	/**
+	 * Minimum feedback count to trigger the notice
+	 *
+	 * @var int
+	 */
+	private $feedback_threshold = 100;
 
+	/**
+	 * Options and Transients
+	 *
+	 * @var string
+	 */
+	private $option_done = 'riwth_review_notice_done';
 
+	/**
+	 * Transient to track "Maybe Later" action
+	 *
+	 * @var string
+	 */
+	private $transient_later = 'riwth_review_notice_maybe_later';
+
+	/**
+	 * Days to wait before showing the notice again after "Maybe Later"
+	 *
+	 * @var int
+	 */
+	private $maybe_later_days = 30;
+
+	/**
+	 * Review URL
+	 *
+	 * @var string
+	 */
+	private $review_url = 'https://wordpress.org/support/plugin/riaco-was-this-helpful/reviews/?filter=5#new-post';
+
+	/**
+	 * Plugin admin pages where the notice should be shown
+	 *
+	 * @var array
+	 */
+	private $plugin_pages = array( 'riwth-settings', 'riwth-shortcode' );
+
+	/**
+	 * Constructor
+	 */
 	public function __construct() {
 		add_action( 'admin_notices', array( $this, 'maybe_show_notice' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -21,18 +69,20 @@ class RIWTH_Admin_Review_Notice {
 	}
 
 
-
+	/**
+	 * Maybe show the review notice
+	 */
 	public function maybe_show_notice() {
 		if ( ! $this->is_plugin_page() ) {
-			return; // Not a plugin page we care about
+			return;
 		}
 
-		// Already reviewed or dismissed
+		// Already reviewed or dismissed.
 		if ( get_option( $this->option_done, 0 ) ) {
 			return;
 		}
 
-		// Temporary maybe later
+		// Temporary maybe later.
 		if ( get_transient( $this->transient_later ) ) {
 			return;
 		}
@@ -46,6 +96,9 @@ class RIWTH_Admin_Review_Notice {
 		$this->render_notice();
 	}
 
+	/**
+	 * Render the review notice HTML
+	 */
 	private function render_notice() {
 		?>
 		<div class="notice notice-info riwth-review-notice ">
@@ -91,21 +144,23 @@ class RIWTH_Admin_Review_Notice {
 		return false;
 	}
 
+	/**
+	 * Get the overall total feedback count from the database with caching
+	 */
 	private function get_overall_total_feedback() {
 		global $wpdb;
 
 		$table_name = esc_sql( $wpdb->prefix . RIWTH_DB_NAME );
 		$cache_key  = 'riwth_overall_total_feedback';
 
-		// Proviamo prima la cache oggetto
 		$overall_total_feedback = wp_cache_get( $cache_key, 'riwth_feedback' );
 
 		if ( false === $overall_total_feedback ) {
-			// Poi transient
+
 			$overall_total_feedback = get_transient( $cache_key );
 
 			if ( false === $overall_total_feedback ) {
-				// Eseguiamo la query SQL diretta
+
                 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$overall_total_feedback = $wpdb->get_var(
 					$wpdb->prepare(
@@ -114,7 +169,6 @@ class RIWTH_Admin_Review_Notice {
 					)
 				);
 
-				// Salviamo cache e transient per 1 anno
 				wp_cache_set( $cache_key, $overall_total_feedback, 'riwth_feedback', 365 * DAY_IN_SECONDS );
 				set_transient( $cache_key, $overall_total_feedback, 365 * DAY_IN_SECONDS );
 			}
@@ -123,14 +177,16 @@ class RIWTH_Admin_Review_Notice {
 		return $overall_total_feedback;
 	}
 
-
-	public function enqueue_scripts( $hook ) {
+	/**
+	 * Enqueue admin scripts for handling the review notice actions
+	 */
+	public function enqueue_scripts() {
 		if ( ! is_admin() ) {
 			return;
 		}
 
 		if ( ! $this->is_plugin_page() ) {
-			return; // Not a plugin page we care about
+			return;
 		}
 
 		wp_enqueue_script(
@@ -152,6 +208,9 @@ class RIWTH_Admin_Review_Notice {
 		);
 	}
 
+	/**
+	 * Handle AJAX actions for the review notice
+	 */
 	public function handle_ajax_action() {
 		check_ajax_referer( 'riwth_review_nonce', 'nonce' );
 
@@ -164,7 +223,7 @@ class RIWTH_Admin_Review_Notice {
 		switch ( $action ) {
 			case 'review':
 			case 'dismiss':
-				update_option( $this->option_done, 1 ); // permanent, never show again
+				update_option( $this->option_done, 1 ); // permanent, never show again.
 				break;
 
 			case 'later':
