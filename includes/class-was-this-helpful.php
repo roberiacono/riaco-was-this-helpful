@@ -49,6 +49,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-settings.php';
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-admin-columns.php';
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-admin-pages-footer.php';
+			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-admin-review-notice.php';
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-ajax.php';
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-admin-bar.php';
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-metabox.php';
@@ -85,6 +86,10 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 
 			if ( is_admin() ) {
 				new RIWTH_Admin_Pages_Footer();
+				// Initialize the notice
+				if ( 1 !== get_option( 'riwth_review_notice_done', 0 ) ) {
+					new RIWTH_Admin_Review_Notice();
+				}
 			}
 
 			if ( $user_role->can_user_see_stats() ) {
