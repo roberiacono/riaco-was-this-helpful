@@ -64,35 +64,6 @@ if ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {
 			if ( 'helpful_feedback' === $orderby ) {
 				$order = strtoupper( $query->get( 'order' ) );
 
-				global $wpdb;
-				$table_name = $wpdb->prefix . RIWTH_DB_NAME;
-
-				// Adding the join to the feedback table
-
-				/*
-				add_filter(
-					'posts_join',
-					function ( $join ) use ( $wpdb, $table_name ) {
-						$join .= $wpdb->prepare(
-							" LEFT JOIN (
-					SELECT post_id, COUNT(*) as total_feedback, SUM(helpful) as positive_feedback
-					FROM %i GROUP BY post_id
-					) as feedback_stats ON {$wpdb->posts}.ID = feedback_stats.post_id ",
-							$table_name
-						);
-						return $join;
-					}
-				);
-
-				// Adding the order by clause
-				add_filter(
-					'posts_orderby',
-					function ( $orderby ) use ( $order ) {
-						$orderby = " (feedback_stats.positive_feedback / NULLIF(feedback_stats.total_feedback, 0)) + 0.0 $order, $orderby";
-						return $orderby;
-					}
-				); */
-
 				// Get the order direction (ASC or DESC)
 				$order = $query->get( 'order' );
 				$order = ( 'ASC' === strtoupper( $order ) ) ? 'ASC' : 'DESC';
@@ -154,12 +125,21 @@ if ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {
 			$order = isset( $_GET['order'] ) ? strtoupper( $_GET['order'] ) : 'DESC';
 			$order = ( 'ASC' === $order ) ? 'ASC' : 'DESC';
 
-			// Order by feedback percentage, with posts having no feedback at the end
+			// Reverse order for total feedback count (more feedback = higher priority)
+			$feedback_count_order = ( 'ASC' === $order ) ? 'DESC' : 'ASC';
+
+			// Order by:
+			// 1. Posts with feedback first, then posts without feedback
+			// 2. Feedback percentage (primary sort)
+			// 3. Total feedback count (secondary sort - more feedback = higher priority)
+			// 4. Post ID as final tiebreaker for consistency
 			$orderby = "CASE 
-							WHEN feedback_stats.total_feedback IS NULL OR feedback_stats.total_feedback = 0 THEN 1 
-							ELSE 0 
-						END ASC, 
-						feedback_stats.feedback_percentage {$order}";
+                    WHEN feedback_stats.total_feedback IS NULL OR feedback_stats.total_feedback = 0 THEN 1 
+                    ELSE 0 
+                END ASC, 
+                COALESCE(feedback_stats.feedback_percentage, 0) {$order},
+                COALESCE(feedback_stats.total_feedback, 0) DESC,
+                {$wpdb->posts}.ID ASC";
 
 			return $orderby;
 		}
