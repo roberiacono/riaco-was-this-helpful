@@ -1,6 +1,8 @@
 <?php
 
 defined( 'ABSPATH' ) || exit;
+
+
 if ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {
 	class RIWTH_Admin_Columns {
 

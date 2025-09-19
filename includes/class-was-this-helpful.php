@@ -48,6 +48,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-functions.php';
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-settings.php';
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-admin-columns.php';
+			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-admin-pages-footer.php';
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-ajax.php';
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-admin-bar.php';
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-metabox.php';
@@ -70,6 +71,9 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 			add_filter( 'plugin_action_links_' . plugin_basename( RIWTH_PLUGIN_FILE ), array( $this, 'add_settings_link' ) );
 		}
 
+		/**
+		 * Initialize all the classes of the plugin.
+		 */
 		public function init() {
 			$user_role = new RIWTH_User_Role();
 			new RIWTH_Settings();
@@ -78,6 +82,10 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 			new RIWTH_Shortcode();
 			new RIWTH_Ajax();
 			new RIWTH_Block();
+
+			if ( is_admin() ) {
+				new RIWTH_Admin_Pages_Footer();
+			}
 
 			if ( $user_role->can_user_see_stats() ) {
 				new RIWTH_Admin_Columns();
