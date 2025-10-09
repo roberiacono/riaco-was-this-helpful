@@ -39,6 +39,13 @@ if ( ! class_exists( 'RIWTH_Reset_Stats' ) ) {
 		public function riwth_add_reset_link( $actions, $post ) {
 			if ( current_user_can( 'manage_options' ) ) {
 
+				$options = get_option( 'riwth_display_on', array() );
+				$options = is_array( $options ) ? $options : array();
+
+				if ( ! in_array( get_post_type(), $options ) ) {
+					return $actions;
+				}
+
 				// Build a safe URL with nonce
 				$url = wp_nonce_url(
 					add_query_arg(
