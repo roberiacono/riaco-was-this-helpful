@@ -2,7 +2,7 @@
 Contributors: prototipo88
 Tags: was this helpful, article feedback, feedback, WordPress feedback plugin, helpful 
 Tested up to: 6.8
-Stable tag: 2.1.1
+Stable tag: 2.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,9 @@ Not directly. You can manually adjust the reset date in the post meta if necessa
 8. Frontend live
 
 == Changelog ==
+
+= 2.1.2 - 2025-10-9 =
+* Fix: display reset stats link only on selected post types.
 
 = 2.1.1 - 2025-09-19 =
 * Fix: query to order by columns orderby=helpful_feedback
