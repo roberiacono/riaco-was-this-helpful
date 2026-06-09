@@ -9,6 +9,13 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 			add_action( 'admin_menu', array( $this, 'add_submenu_pages' ) );
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'riwth_enqueue_color_picker' ) );
+			add_action( 'updated_option', array( $this, 'maybe_clear_box_transient' ), 10, 1 );
+		}
+
+		public function maybe_clear_box_transient( $option ) {
+			if ( str_starts_with( $option, 'riwth_feedback_box_' ) ) {
+				delete_transient( 'riwth_feedback_box' );
+			}
 		}
 
 		function riwth_enqueue_color_picker( $hook_suffix ) {
@@ -161,18 +168,6 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 					'args'              => array(
 						'type' => 'text',
 						'name' => 'riwth_feedback_box_text',
-					),
-					'type'              => 'string',
-					'sanitize_callback' => 'sanitize_text_field',
-				),
-				'riwth_feedback_box_positive_button_text'  => array(
-					'title'             => __( 'Positive Button Text', 'riaco-was-this-helpful' ),
-					'callback'          => array( $this, 'text_callback' ),
-					'tab'               => 'riwth-settings-tab-feedback-box',
-					'section'           => 'riwth-feedback-box-settings-section',
-					'args'              => array(
-						'type' => 'text',
-						'name' => 'riwth_feedback_box_positive_button_text',
 					),
 					'type'              => 'string',
 					'sanitize_callback' => 'sanitize_text_field',
@@ -448,7 +443,7 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 		}
 
 		public function sanitize_checkbox( $input ) {
-			return isset( $input ) && $input == '1' ? 1 : 0;
+			return ( '1' === $input ) ? 1 : 0;
 		}
 
 
@@ -470,7 +465,7 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 			echo '<input type="text" name="' . esc_attr( $args['name'] ) . '" value="' . esc_attr( $option ) . '">';
 
 			if ( isset( $args['description'] ) && ! empty( $args['description'] ) ) {
-				echo '<p class=""description"">' . esc_html( $args['description'] ) . '</p>';
+				echo '<p class="description">' . esc_html( $args['description'] ) . '</p>';
 			}
 		}
 
@@ -567,9 +562,6 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 			$initial_settings = self::get_intial_settings();
 
 			echo '<input type="number" min="0" max="100" id="riwth_feedback_box_border_button_rounded" name="riwth_feedback_box_border_button_rounded" value="' . esc_attr( $option ) . '" />%';
-
-			// clear transient box. Every time save plugin settings, delete transient
-			delete_transient( 'riwth_feedback_box' );
 		}
 
 		public function sanitize_border_radius( $input ) {

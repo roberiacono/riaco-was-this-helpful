@@ -97,7 +97,7 @@ if ( ! class_exists( 'RIWTH_Box' ) ) {
 
 			$button_text = get_option( 'riwth_feedback_box_' . $type . '_button_text' );
 			if ( $button_text ) {
-				$button_text = '<span> ' . esc_attr( $button_text ) . '</span>';
+				$button_text = '<span> ' . esc_html( $button_text ) . '</span>';
 			}
 			return $button_text;
 		}

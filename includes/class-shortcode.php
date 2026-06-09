@@ -12,7 +12,7 @@ if ( ! class_exists( 'RIWTH_Shortcode' ) ) {
 			if ( RIWTH_Functions::could_display_box() ) {
 
 				if ( RIWTH_Functions::feedback_given( get_the_ID() ) ) {
-					return false;
+					return '';
 				}
 
 				if ( get_option( 'riwth_load_styles' ) ) {

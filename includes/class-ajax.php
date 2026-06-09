@@ -29,7 +29,7 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 
 			global $wpdb;
 
-			if ( ! isset( $_POST['post_id'] ) && ! isset( $_POST['helpful'] ) ) {
+			if ( ! isset( $_POST['post_id'] ) || ! isset( $_POST['helpful'] ) ) {
 				return;
 			}
 
@@ -54,12 +54,10 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 			);
 
 			if ( false === $result ) {
-				// Handle error.
-				$feedback_id = false;
-			} else {
-				// get ID of last inserted row.
-				$feedback_id = $wpdb->insert_id;
+				wp_send_json_error( array( 'message' => 'Could not save feedback.' ), 500 );
 			}
+
+			$feedback_id = $wpdb->insert_id;
 
 			if ( $feedback_id ) {
 				// delete cache.

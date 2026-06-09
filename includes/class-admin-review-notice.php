@@ -150,7 +150,7 @@ class RIWTH_Admin_Review_Notice {
 	private function get_overall_total_feedback() {
 		global $wpdb;
 
-		$table_name = esc_sql( $wpdb->prefix . RIWTH_DB_NAME );
+		$table_name = $wpdb->prefix . RIWTH_DB_NAME;
 		$cache_key  = 'riwth_overall_total_feedback';
 
 		$overall_total_feedback = wp_cache_get( $cache_key, 'riwth_feedback' );

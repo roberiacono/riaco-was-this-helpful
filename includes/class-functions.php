@@ -7,7 +7,7 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 		// Function to get the positive feedback count for a post
 		public static function get_positive_feedback_count( $post_id ) {
 			global $wpdb;
-			$table_name = esc_sql( $wpdb->prefix . RIWTH_DB_NAME );
+			$table_name = $wpdb->prefix . RIWTH_DB_NAME;
 
 			// Try to get the cached value
 			$cache_key         = 'riwth_positive_feedback_' . $post_id;
@@ -56,7 +56,7 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 		// Function to get the positive feedback count for a post
 		public static function get_total_feedback_count( $post_id ) {
 			global $wpdb;
-			$table_name = esc_sql( $wpdb->prefix . RIWTH_DB_NAME );
+			$table_name = $wpdb->prefix . RIWTH_DB_NAME;
 
 			$cache_key      = 'riwth_total_feedback_' . $post_id;
 			$total_feedback = wp_cache_get( $cache_key );

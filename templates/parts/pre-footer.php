@@ -16,24 +16,7 @@ $links_count = count( $links );
 	<ul class="riwth-pre-footer--links">
 	<?php foreach ( $links as $key => $item ) : ?>
 		<li>
-		<?php
-		$attributes = array(
-			'href'   => esc_url( $item['url'] ),
-			'target' => isset( $item['target'] ) ? $item['target'] : false,
-			'rel'    => isset( $item['target'] ) ? 'noopener noreferrer' : false,
-		);
-
-		$attribute_str = '';
-
-		foreach ( $attributes as $attr_key => $attr_item ) {
-			if ( $attr_item ) {
-				$attribute_str .= sprintf( '%s="%s"', $attr_key, esc_attr( $attr_item ) );
-			}
-		}
-
-		?>
-	
-			<a 
+				<a 
 				href="<?php echo esc_url( $item['url'] ); ?>" 
 				<?php if ( ! empty( $item['target'] ) ) : ?>
 					target="<?php echo esc_attr( $item['target'] ); ?>" 
