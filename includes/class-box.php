@@ -80,7 +80,7 @@ if ( ! class_exists( 'RIWTH_Box' ) ) {
 		}
 
 		public static function get_feedback_box_text() {
-			return get_option( 'riwth_feedback_box_text' );
+			return get_option( 'riwth_feedback_box_text', __( 'Was This Helpful?', 'riaco-was-this-helpful' ) );
 		}
 
 		public static function get_feedback_box_button_icon( $type ) {
@@ -104,7 +104,11 @@ if ( ! class_exists( 'RIWTH_Box' ) ) {
 				return;
 			}
 
-			$button_text = get_option( 'riwth_feedback_box_' . $type . '_button_text' );
+			$defaults    = array(
+				'positive' => __( 'Yes', 'riaco-was-this-helpful' ),
+				'negative' => __( 'No', 'riaco-was-this-helpful' ),
+			);
+			$button_text = get_option( 'riwth_feedback_box_' . $type . '_button_text', $defaults[ $type ] );
 			if ( $button_text ) {
 				$button_text = '<span> ' . esc_html( $button_text ) . '</span>';
 			}

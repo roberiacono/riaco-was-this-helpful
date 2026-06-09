@@ -257,7 +257,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 						'riwth_localize_script_data',
 						array(
 							'ajax_url'   => admin_url( 'admin-ajax.php' ),
-							'submitting' => esc_html( get_option( 'riwth_feedback_box_submitting_text' ) ),
+							'submitting' => esc_html( get_option( 'riwth_feedback_box_submitting_text', __( '⏳ Submitting...', 'riaco-was-this-helpful' ) ) ),
 							'postId'     => get_the_ID(),
 						)
 					)

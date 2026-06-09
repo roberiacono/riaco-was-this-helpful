@@ -80,6 +80,14 @@ The built assets (`build/`) are committed. Always run `npm run build` before com
 
 `RIWTH_Functions::could_display_box()` — used for admin UI visibility — returns `true` when the current post type is in the `riwth_display_on` option array and it's a singular front-end request (or the correct admin screen). The result is filterable via `riwth_could_display_box`.
 
+### Localization Pattern
+
+Text options (`riwth_feedback_box_text`, `riwth_feedback_box_positive_button_text`, `riwth_feedback_box_negative_button_text`, `riwth_feedback_box_submitting_text`, `riwth_feedback_box_thanks_text`) are retrieved with a `__()` wrapped fallback as the second argument to `get_option()`. This means:
+- If the user has saved a custom value → their value is used as-is.
+- If the option is absent (fresh install, never customized) → the fallback passes through `__()` and respects the active site language.
+
+Do not store translated strings into the DB at activation time for these options; the fallback handles translation automatically.
+
 ### Caching Pattern
 
 Feedback counts use a two-layer cache: `wp_cache_get/set` (object cache, group `riwth_feedback`) with a transient fallback. Both are invalidated together on every new submission (`RIWTH_Ajax::save_feedback`) and on stats reset. The HTML of the feedback box itself is cached in the `riwth_feedback_box` transient (365-day TTL); it is busted via the `updated_option` hook in `RIWTH_Settings::maybe_clear_box_transient()` whenever any `riwth_feedback_box_*` option is saved.
@@ -143,7 +151,11 @@ All options are prefixed `riwth_`. Key ones:
 | `riwth_display_on` | `['post']` | Array of post types |
 | `riwth_display_by_user_role` | `['administrator','editor']` | Controls stats visibility |
 | `riwth_load_styles` / `riwth_load_scripts` | `1` | Toggle asset loading |
-| `riwth_feedback_box_text` | "Was This Helpful?" | |
+| `riwth_feedback_box_text` | "Was This Helpful?" | Falls back via `__()` if not customized |
+| `riwth_feedback_box_positive_button_text` | "Yes" | Falls back via `__()` if not customized |
+| `riwth_feedback_box_negative_button_text` | "No" | Falls back via `__()` if not customized |
+| `riwth_feedback_box_submitting_text` | "⏳ Submitting..." | Falls back via `__()` if not customized |
+| `riwth_feedback_box_thanks_text` | "✅ Thank you for your feedback!" | Falls back via `__()` if not customized |
 | `riwth_feedback_box_color_background` | `#f4f4f5` | |
 | `riwth_uninstall_remove_data` | `1` | Drop table on uninstall |
 | `riwth_db_version` | — | Tracks applied DB schema version; compared against `RIWTH_DB_VERSION` constant on every load |

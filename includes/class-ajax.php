@@ -114,7 +114,7 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 				array(
 					'trigger'    => 'showThankYou',
 					'feedbackId' => esc_attr( $feedback_id ),
-					'content'    => '<div class="riwth-thank-you">' . esc_html( get_option( 'riwth_feedback_box_thanks_text' ) ) . '</div>',
+					'content'    => '<div class="riwth-thank-you">' . esc_html( get_option( 'riwth_feedback_box_thanks_text', __( '✅ Thank you for your feedback!', 'riaco-was-this-helpful' ) ) ) . '</div>',
 				)
 			);
 

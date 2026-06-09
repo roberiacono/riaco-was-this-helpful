@@ -1,7 +1,7 @@
 === Was This Helpful? – Article Feedback ===
 Contributors: prototipo88
 Tags: was this helpful, article feedback, feedback, WordPress feedback plugin, helpful 
-Tested up to: 6.8
+Tested up to: 7.0
 Stable tag: 2.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
