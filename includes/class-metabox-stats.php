@@ -27,7 +27,6 @@ if ( ! class_exists( 'RIWTH_Metabox_Stats' ) ) {
 		}
 
 		public function render_metabox( $post ) {
-			global $post;
 
 			$positive_feedback_count = RIWTH_Functions::get_positive_feedback_count( $post->ID );
 			$total_feedback_count    = RIWTH_Functions::get_total_feedback_count( $post->ID );

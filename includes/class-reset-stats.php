@@ -99,18 +99,13 @@ if ( ! class_exists( 'RIWTH_Reset_Stats' ) ) {
 
 			do_action( 'riwth_after_reset_stats', $post_id );
 
-			// Redirect back to the list table with message.
+			// Store a one-time notice in a transient instead of passing the nonce in the URL.
+			set_transient( 'riwth_reset_notice_' . get_current_user_id(), $post_id, 60 );
 
-			$redirect = add_query_arg(
-				array(
-					'riwth_reset' => 1,
-					'post_type'   => get_post_type( $post_id ),
-					'_wpnonce'    => $wpnonce,
-					'post'        => $post_id,
-				),
+			wp_safe_redirect( add_query_arg(
+				array( 'post_type' => get_post_type( $post_id ) ),
 				admin_url( 'edit.php' )
-			);
-			wp_safe_redirect( $redirect );
+			) );
 			exit;
 		}
 
@@ -118,16 +113,13 @@ if ( ! class_exists( 'RIWTH_Reset_Stats' ) ) {
 		 * Show admin notice after resetting stats.
 		 */
 		public function show_reset_notice() {
-
-			if ( isset( $_GET['riwth_reset'], $_GET['_wpnonce'], $_GET['post'] ) && '1' === $_GET['riwth_reset'] ) {
-				$post_id = absint( $_GET['post'] );
-				$nonce   = sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) );
-
-				if ( wp_verify_nonce( $nonce, 'riwth_reset_stats_' . $post_id ) ) {
-					echo '<div class="notice notice-success is-dismissible"><p>'
-						. esc_html__( 'Helpful stats reset successfully.', 'riaco-was-this-helpful' )
-						. '</p></div>';
-				}
+			$transient_key = 'riwth_reset_notice_' . get_current_user_id();
+			$post_id       = (int) get_transient( $transient_key );
+			if ( $post_id ) {
+				delete_transient( $transient_key );
+				echo '<div class="notice notice-success is-dismissible"><p>'
+					. esc_html__( 'Helpful stats reset successfully.', 'riaco-was-this-helpful' )
+					. '</p></div>';
 			}
 		}
 

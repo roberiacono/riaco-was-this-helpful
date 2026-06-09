@@ -70,7 +70,7 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 
 					if ( $reset_date ) {
 						// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-						$total_feedback = $wpdb->get_var(
+						$total_feedback = (int) $wpdb->get_var(
 							$wpdb->prepare(
 								'SELECT COUNT(*) FROM %i WHERE post_id = %d AND created_at >= %s',
 								array(
@@ -82,7 +82,7 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 						);
 					} else {
 						// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-						$total_feedback = $wpdb->get_var(
+						$total_feedback = (int) $wpdb->get_var(
 							$wpdb->prepare(
 								'SELECT COUNT(*) FROM %i WHERE post_id = %d',
 								array(
@@ -107,7 +107,7 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 		public static function feedback_given( $post_id ) {
 			$feedback_given = isset( $_COOKIE['riwth_feedback_given'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['riwth_feedback_given'] ) ) : '';
 			$feedback_array = explode( ',', $feedback_given );
-			$given          = in_array( $post_id, $feedback_array );
+			$given          = in_array( (string) $post_id, $feedback_array, true );
 
 			return (bool) apply_filters( 'riwth_feedback_given', $given, $post_id );
 		}

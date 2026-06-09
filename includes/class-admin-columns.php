@@ -103,8 +103,6 @@ if ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {
 			$orderby = $query->get( 'orderby' );
 
 			if ( 'helpful_feedback' === $orderby ) {
-				$order = strtoupper( $query->get( 'order' ) );
-
 				// Get the order direction (ASC or DESC).
 				$order = $query->get( 'order' );
 				$order = ( 'ASC' === strtoupper( $order ) ) ? 'ASC' : 'DESC';

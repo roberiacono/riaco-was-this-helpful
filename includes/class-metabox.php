@@ -56,7 +56,7 @@ if ( ! class_exists( 'RIWTH_Metabox' ) ) {
 
 			do_action( 'riwth_before_save_metabox', $post_id );
 
-			if ( isset( $_POST['riwth_disable_box'] ) && $_POST['riwth_disable_box'] === '1' ) {
+			if ( isset( $_POST['riwth_disable_box'] ) && '1' === sanitize_text_field( wp_unslash( $_POST['riwth_disable_box'] ) ) ) {
 				update_post_meta( $post_id, '_riwth_disable_box', '1' );
 			} else {
 				delete_post_meta( $post_id, '_riwth_disable_box' );

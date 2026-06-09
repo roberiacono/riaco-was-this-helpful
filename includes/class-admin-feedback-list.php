@@ -105,7 +105,20 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 			);
 
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-			$wpdb->delete( $wpdb->prefix . RIWTH_DB_NAME, array( 'id' => $feedback_id ), array( '%d' ) );
+			$deleted = $wpdb->delete( $wpdb->prefix . RIWTH_DB_NAME, array( 'id' => $feedback_id ), array( '%d' ) );
+
+			if ( false === $deleted ) {
+				wp_safe_redirect(
+					add_query_arg(
+						array(
+							'page'         => 'riwth-feedback-list',
+							'riwth_notice' => 'delete_failed',
+						),
+						admin_url( 'admin.php' )
+					)
+				);
+				exit;
+			}
 
 			if ( $post_id ) {
 				wp_cache_delete( 'riwth_total_feedback_' . $post_id, 'riwth_feedback' );
@@ -174,6 +187,8 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 				echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Feedback record deleted.', 'riaco-was-this-helpful' ) . '</p></div>';
 			} elseif ( 'deleted_all' === $notice ) {
 				echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'All feedback records deleted.', 'riaco-was-this-helpful' ) . '</p></div>';
+			} elseif ( 'delete_failed' === $notice ) {
+				echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__( 'Could not delete feedback record.', 'riaco-was-this-helpful' ) . '</p></div>';
 			}
 		}
 
@@ -203,7 +218,11 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 			foreach ( $rows as $row ) {
 				$title = get_the_title( (int) $row['post_id'] );
 				$title = $title ? $title : __( '(Post deleted)', 'riaco-was-this-helpful' );
-				$vote  = '1' === $row['helpful'] ? 'Yes' : 'No';
+				// Neutralise CSV formula injection: prefix dangerous leading characters.
+				if ( $title && in_array( $title[0], array( '=', '+', '-', '@', "\t", "\r" ), true ) ) {
+					$title = "'" . $title;
+				}
+				$vote = '1' === $row['helpful'] ? 'Yes' : 'No';
 				fputcsv( $output, array( $row['post_id'], $title, $vote, $row['created_at'] ) );
 			}
 

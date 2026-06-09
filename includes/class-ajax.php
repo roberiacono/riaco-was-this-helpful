@@ -27,27 +27,34 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 		public function save_feedback() {
 			check_ajax_referer( 'riwth_was_this_helpful_nonce', 'nonce' );
 
+			if ( ! isset( $_POST['post_id'], $_POST['helpful'] ) ) {
+				wp_send_json_error( array( 'message' => 'Missing parameters.' ), 400 );
+			}
+
+			$post_id = intval( sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) );
+			$helpful = intval( sanitize_text_field( wp_unslash( $_POST['helpful'] ) ) ) ? 1 : 0;
+
+			$post = get_post( $post_id );
+			if ( ! $post || 'publish' !== $post->post_status ) {
+				wp_send_json_error( array( 'message' => 'Invalid post.' ), 400 );
+			}
+			$allowed_types = get_option( 'riwth_display_on', array() );
+			if ( ! in_array( $post->post_type, (array) $allowed_types, true ) ) {
+				wp_send_json_error( array( 'message' => 'Feedback not enabled for this post.' ), 403 );
+			}
+
 			// Rate limiting: one vote per IP per post per 30 seconds.
 			// Note: on sites behind a reverse proxy REMOTE_ADDR is the proxy IP;
 			// checking HTTP_X_FORWARDED_FOR is more accurate but that header is
 			// spoofable, so we keep this simple for the free tier.
 			$ip_raw   = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
-			$pid_raw  = isset( $_POST['post_id'] ) ? intval( $_POST['post_id'] ) : 0;
-			$rate_key = 'riwth_rate_' . md5( $ip_raw . '|' . $pid_raw );
+			$rate_key = 'riwth_rate_' . md5( $ip_raw . '|' . $post_id );
 
-			if ( get_transient( $rate_key ) ) {
+			if ( ! add_transient( $rate_key, 1, 30 ) ) {
 				wp_send_json_error( array( 'message' => 'Too many requests. Please wait before voting again.' ), 429 );
 			}
-			set_transient( $rate_key, 1, 30 );
 
 			global $wpdb;
-
-			if ( ! isset( $_POST['post_id'] ) || ! isset( $_POST['helpful'] ) ) {
-				return;
-			}
-
-			$post_id = intval( sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) );
-			$helpful = intval( sanitize_text_field( wp_unslash( $_POST['helpful'] ) ) ) ? 1 : 0;
 
 			$table_name = $wpdb->prefix . RIWTH_DB_NAME;
 
@@ -113,7 +120,7 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 				'riwth_ajax_feedback_sent_return',
 				array(
 					'trigger'    => 'showThankYou',
-					'feedbackId' => esc_attr( $feedback_id ),
+					'feedbackId' => absint( $feedback_id ),
 					'content'    => '<div class="riwth-thank-you">' . esc_html( get_option( 'riwth_feedback_box_thanks_text', __( '✅ Thank you for your feedback!', 'riaco-was-this-helpful' ) ) ) . '</div>',
 				)
 			);
