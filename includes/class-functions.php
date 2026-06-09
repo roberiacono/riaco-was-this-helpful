@@ -107,10 +107,9 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 		public static function feedback_given( $post_id ) {
 			$feedback_given = isset( $_COOKIE['riwth_feedback_given'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['riwth_feedback_given'] ) ) : '';
 			$feedback_array = explode( ',', $feedback_given );
-			if ( in_array( $post_id, $feedback_array ) ) {
-				return true;
-			}
-			return false;
+			$given          = in_array( $post_id, $feedback_array );
+
+			return (bool) apply_filters( 'riwth_feedback_given', $given, $post_id );
 		}
 
 		public static function should_display_box() {
@@ -159,14 +158,14 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 				$screen = get_current_screen();
 
 				if ( is_admin() && is_main_query() && in_array( $screen->base, $options ) && in_array( get_post_type(), $options ) ) {
-					return true;
+					return (bool) apply_filters( 'riwth_could_display_box', true, $post->ID );
 				}
 			}
 
 			if ( is_main_query() && is_singular() && in_array( get_post_type(), $options ) ) {
-				return true;
+				return (bool) apply_filters( 'riwth_could_display_box', true, $post->ID );
 			}
-			return false;
+			return (bool) apply_filters( 'riwth_could_display_box', false, $post->ID );
 		}
 
 		public static function GreenYellowRed( $number ) {

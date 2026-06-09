@@ -136,6 +136,8 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 				new RIWTH_Metabox_Stats();
 				new RIWTH_Reset_Stats();
 			}
+
+			do_action( 'riwth_loaded' );
 		}
 
 		/**
@@ -234,10 +236,13 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 				wp_localize_script(
 					'riwth-script',
 					'riwth_scripts',
-					array(
-						'ajax_url'   => admin_url( 'admin-ajax.php' ),
-						'submitting' => esc_html( get_option( 'riwth_feedback_box_submitting_text' ) ),
-						'postId'     => get_the_ID(),
+					apply_filters(
+						'riwth_localize_script_data',
+						array(
+							'ajax_url'   => admin_url( 'admin-ajax.php' ),
+							'submitting' => esc_html( get_option( 'riwth_feedback_box_submitting_text' ) ),
+							'postId'     => get_the_ID(),
+						)
 					)
 				);
 			}

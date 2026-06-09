@@ -33,6 +33,9 @@ if ( ! class_exists( 'RIWTH_Box' ) ) {
 				);
 				set_transient( 'riwth_feedback_box', $attr, 365 * DAY_IN_SECONDS );
 			}
+
+			$attr = apply_filters( 'riwth_feedback_box_atts', $attr, get_the_ID() );
+
 			$feedback_box_style = $attr['feedback_box_style'];
 
 			$positive_button_icon  = $attr['positive_button_icon'];

@@ -50,20 +50,24 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 			 */
 			do_action( 'riwth_before_save_feedback', $post_id, $helpful );
 
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Using custom table, no core function available.
-			$result = $wpdb->insert(
-				$table_name,
+			$feedback_data   = apply_filters(
+				'riwth_insert_feedback_data',
 				array(
 					'post_id'    => $post_id,
 					'helpful'    => $helpful,
 					'created_at' => current_time( 'mysql', true ), // set true for UTC.
 				),
-				array(
-					'%d', // post_id format.
-					'%d', // helpful format.
-					'%s',  // created_at format.
-				)
+				$post_id,
+				$helpful
 			);
+			$feedback_format = apply_filters(
+				'riwth_insert_feedback_format',
+				array( '%d', '%d', '%s' ),
+				$feedback_data
+			);
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Using custom table, no core function available.
+			$result = $wpdb->insert( $table_name, $feedback_data, $feedback_format );
 
 			if ( false === $result ) {
 				wp_send_json_error( array( 'message' => 'Could not save feedback.' ), 500 );

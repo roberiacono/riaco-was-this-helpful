@@ -86,6 +86,8 @@ if ( ! class_exists( 'RIWTH_Reset_Stats' ) ) {
 				wp_die( esc_html__( 'You are not allowed to do this.', 'riaco-was-this-helpful' ) );
 			}
 
+			do_action( 'riwth_before_reset_stats', $post_id );
+
 			// Reset logic: update meta and clear caches.
 			update_post_meta( $post_id, '_riwth_reset_date', current_time( 'mysql', true ) );
 
@@ -94,6 +96,8 @@ if ( ! class_exists( 'RIWTH_Reset_Stats' ) ) {
 
 			wp_cache_delete( 'riwth_positive_feedback_' . $post_id, 'riwth_feedback' );
 			delete_transient( 'riwth_positive_feedback_' . $post_id );
+
+			do_action( 'riwth_after_reset_stats', $post_id );
 
 			// Redirect back to the list table with message.
 

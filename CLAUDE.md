@@ -76,7 +76,7 @@ The built assets (`build/`) are committed. Always run `npm run build` before com
 3. The `riwth_feedback_given` cookie does not include this post ID
 4. `could_display_box()` is `true` (filterable via `riwth_should_display_box`)
 
-`RIWTH_Functions::could_display_box()` — used for admin UI visibility — returns `true` when the current post type is in the `riwth_display_on` option array and it's a singular front-end request (or the correct admin screen).
+`RIWTH_Functions::could_display_box()` — used for admin UI visibility — returns `true` when the current post type is in the `riwth_display_on` option array and it's a singular front-end request (or the correct admin screen). The result is filterable via `riwth_could_display_box`.
 
 ### Caching Pattern
 
@@ -89,20 +89,33 @@ Feedback counts use a two-layer cache: `wp_cache_get/set` (object cache, group `
 | Filter | Args | Where | Purpose |
 |---|---|---|---|
 | `riwth_feedback_box_html` | `$html, $post_id` | `RIWTH_Box::feedback_box_code()` | Wrap, replace, or extend the box markup |
+| `riwth_feedback_box_atts` | `$atts, $post_id` | `RIWTH_Box::feedback_box_code()` | Modify structured box attributes (styles, icons) before HTML is built; keys: `feedback_box_style`, `positive_button_icon`, `positive_button_style`, `negative_button_icon`, `negative_button_style` |
 | `riwth_should_display_box` | `$bool, $post_id` | `RIWTH_Functions::should_display_box()` | Override display logic (category, user role, etc.) |
+| `riwth_could_display_box` | `$bool, $post_id` | `RIWTH_Functions::could_display_box()` | Override the post-type/screen display gate (also controls metabox and shortcode visibility) |
+| `riwth_feedback_given` | `$bool, $post_id` | `RIWTH_Functions::feedback_given()` | Override the cookie-based duplicate-vote check (e.g. server-side tracking for logged-in users) |
 | `riwth_initial_settings` | `$settings` | `RIWTH_Settings::get_intial_settings()` | Override default option values |
-| `riwth_display_on_fields` | `$fields` | `RIWTH_Settings` | Add post types to "Display on" setting (used by PRO) |
+| `riwth_display_on_fields` | `$fields` | `RIWTH_Settings` | Add post types to "Display on" setting |
 | `riwth_custom_columns_post_types` | `$types` | `RIWTH_Admin_Columns` | Extend feedback column to custom post types |
-| `riwth_get_positive_feedback_filter` | `$count, $table, $post_id` | `RIWTH_Functions` | Modify positive-feedback count (used by PRO) |
-| `riwth_get_total_feedback_filter` | `$count, $table, $post_id` | `RIWTH_Functions` | Modify total-feedback count (used by PRO) |
+| `riwth_admin_column_content` | `$html, $post_id, $total, $positive` | `RIWTH_Admin_Columns::display_feedback_column()` | Extend or replace the admin column cell HTML |
+| `riwth_get_positive_feedback_filter` | `$count, $table, $post_id` | `RIWTH_Functions` | Modify positive-feedback count |
+| `riwth_get_total_feedback_filter` | `$count, $table, $post_id` | `RIWTH_Functions` | Modify total-feedback count |
+| `riwth_insert_feedback_data` | `$data, $post_id, $helpful` | `RIWTH_Ajax::save_feedback()` | Add extra columns to the feedback DB insert array |
+| `riwth_insert_feedback_format` | `$format, $data` | `RIWTH_Ajax::save_feedback()` | Provide matching `%` format array for extra insert columns |
 | `riwth_ajax_feedback_sent_return` | `$response` | `RIWTH_Ajax` | Modify the AJAX JSON response after save |
+| `riwth_localize_script_data` | `$data` | `RIWTH_Was_This_Helpful::maybe_enqueue_scripts()` | Add extra variables to the `riwth_scripts` JS object |
+| `riwth_can_user_see_stats` | `$bool, $user` | `RIWTH_User_Role::can_user_see_stats()` | Override role-based stats visibility |
 
 **Actions**
 
 | Action | Args | Where | Purpose |
 |---|---|---|---|
+| `riwth_loaded` | — | `RIWTH_Was_This_Helpful::init()` | Fires after all plugin classes are instantiated and their hooks registered |
 | `riwth_before_save_feedback` | `$post_id, $helpful` | `RIWTH_Ajax::save_feedback()` | Logging, rate-limiting before DB insert |
 | `riwth_feedback_saved` | `$feedback_id, $post_id, $helpful` | `RIWTH_Ajax::save_feedback()` | Notifications, analytics after successful save |
+| `riwth_before_save_metabox` | `$post_id` | `RIWTH_Metabox::save_metabox()` | Fires before per-post "disable box" meta is saved |
+| `riwth_after_save_metabox` | `$post_id` | `RIWTH_Metabox::save_metabox()` | Fires after per-post "disable box" meta is saved |
+| `riwth_before_reset_stats` | `$post_id` | `RIWTH_Reset_Stats::riwth_handle_reset_stats_action()` | Fires before stats are reset (cache cleared, reset date written) |
+| `riwth_after_reset_stats` | `$post_id` | `RIWTH_Reset_Stats::riwth_handle_reset_stats_action()` | Fires after stats are reset |
 | `riwth_before_show_helpful_box_using_shortcode` | — | `RIWTH_Shortcode` | Side-effects before shortcode renders |
 | `riwth_after_metabox_stats` | `$post` | `RIWTH_Metabox_Stats` | Append content to the "Helpful Stats" metabox |
 

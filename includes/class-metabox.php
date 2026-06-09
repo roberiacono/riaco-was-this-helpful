@@ -54,11 +54,15 @@ if ( ! class_exists( 'RIWTH_Metabox' ) ) {
 				return;
 			}
 
+			do_action( 'riwth_before_save_metabox', $post_id );
+
 			if ( isset( $_POST['riwth_disable_box'] ) && $_POST['riwth_disable_box'] === '1' ) {
 				update_post_meta( $post_id, '_riwth_disable_box', '1' );
 			} else {
 				delete_post_meta( $post_id, '_riwth_disable_box' );
 			}
+
+			do_action( 'riwth_after_save_metabox', $post_id );
 		}
 	}
 }
