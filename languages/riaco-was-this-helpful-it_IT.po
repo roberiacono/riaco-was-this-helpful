@@ -1,23 +1,27 @@
+# Italian translation for Was This Helpful? – Article Feedback
 # Copyright (C) 2026 Roberto Iacono
 # This file is distributed under the GPL v2 or later.
+# Roberto Iacono <roberiacono@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Was This Helpful? – Article Feedback 2.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/riaco-was-this-helpful\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2026-06-09T00:00:00+02:00\n"
+"PO-Revision-Date: 2026-06-09 00:00+0200\n"
+"Last-Translator: Roberto Iacono <roberiacono@gmail.com>\n"
+"Language-Team: Italian\n"
+"Language: it_IT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-09T00:00:00+02:00\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.12.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Manual\n"
 "X-Domain: riaco-was-this-helpful\n"
 
 #. Plugin Name of the plugin
 #: riaco-was-this-helpful.php
 msgid "Was This Helpful? – Article Feedback"
-msgstr ""
+msgstr "Was This Helpful? – Article Feedback"
 
 #. Plugin URI of the plugin
 #: riaco-was-this-helpful.php
@@ -27,7 +31,7 @@ msgstr ""
 #. Description of the plugin
 #: riaco-was-this-helpful.php
 msgid "A lightweight plugin that adds a \"Was this helpful?\" thumbs up/down feedback box to your posts and pages — improve content quality through direct user feedback."
-msgstr ""
+msgstr "Un plugin leggero che aggiunge una casella di feedback \"È stato utile?\" con pollice su/giù ai tuoi articoli e pagine — migliora la qualità dei contenuti attraverso il feedback diretto degli utenti."
 
 #. Author of the plugin
 #: riaco-was-this-helpful.php
@@ -46,373 +50,373 @@ msgstr ""
 #: includes/class-metabox-stats.php:40
 #, php-format
 msgid "%1$d%% positive (%2$d/%3$d)"
-msgstr ""
+msgstr "%1$d%% positivi (%2$d/%3$d)"
 
 #: includes/class-admin-bar.php:30
 #: includes/class-admin-columns.php:80
 #: includes/class-metabox-stats.php:42
 msgid "No feedback yet"
-msgstr ""
+msgstr "Nessun feedback ancora"
 
 #: includes/class-admin-columns.php:54
 msgid "Was this helpful?"
-msgstr ""
+msgstr "Was this helpful?"
 
 #: includes/class-admin-feedback-list.php:26
 #: includes/class-admin-feedback-list.php:27
 msgid "Feedback Records"
-msgstr ""
+msgstr "Elenco feedback"
 
 #: includes/class-admin-feedback-list.php:36
 msgid "You are not allowed to view this page."
-msgstr ""
+msgstr "Non hai i permessi per visualizzare questa pagina."
 
 #: includes/class-admin-feedback-list.php:89
 #: includes/class-admin-feedback-list.php:152
 #: includes/class-admin-feedback-list.php:209
 msgid "Not allowed."
-msgstr ""
+msgstr "Non consentito."
 
 #: includes/class-admin-feedback-list.php:94
 #: includes/class-reset-stats.php:72
 msgid "Invalid request."
-msgstr ""
+msgstr "Richiesta non valida."
 
 #: includes/class-admin-feedback-list.php:97
 #: includes/class-admin-feedback-list.php:155
 msgid "Nonce check failed."
-msgstr ""
+msgstr "Verifica della sicurezza fallita."
 
 #: includes/class-admin-feedback-list.php:196
 msgid "Feedback record deleted."
-msgstr ""
+msgstr "Record di feedback eliminato."
 
 #: includes/class-admin-feedback-list.php:198
 msgid "All feedback records deleted."
-msgstr ""
+msgstr "Tutti i record di feedback eliminati."
 
 #: includes/class-admin-feedback-list.php:200
 msgid "Could not delete feedback record."
-msgstr ""
+msgstr "Impossibile eliminare il record di feedback."
 
 #: includes/class-admin-feedback-list.php:232
 #: templates/page-feedback-list.php:60
 msgid "(Post deleted)"
-msgstr ""
+msgstr "(Articolo eliminato)"
 
 #: includes/class-admin-pages-footer.php:41
 msgid "Support"
-msgstr ""
+msgstr "Supporto"
 
 #: includes/class-admin-pages-footer.php:46
 msgid "Made with ♥ by Roberto Iacono"
-msgstr ""
+msgstr "Fatto con ♥ da Roberto Iacono"
 
 #. translators: $1$s - WP.org review link; $2$s - WP.org review link.
 #: includes/class-admin-pages-footer.php:69
 #, php-format
 msgid "Enjoying <strong>Was This Helpful</strong>? Please rate <a href=\"%1$s\" target=\"_blank\" rel=\"noopener noreferrer\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on <a href=\"%2$s\" target=\"_blank\" rel=\"noopener\">WordPress.org</a> to help us spread the word. Thank you! – Roberto Iacono"
-msgstr ""
+msgstr "Ti piace <strong>Was This Helpful</strong>? Lascia una valutazione <a href=\"%1$s\" target=\"_blank\" rel=\"noopener noreferrer\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> su <a href=\"%2$s\" target=\"_blank\" rel=\"noopener\">WordPress.org</a> per aiutarci a diffondere il plugin. Grazie! – Roberto Iacono"
 
 #. translators: %1$s: plugin name, %2$d: total feedback count
 #: includes/class-admin-review-notice.php:113
 #, php-format
 msgid "Thank you for using %1$s plugin! So far <strong> we have collected %2$s feedbacks </strong>. If it's been helpful, please consider leaving a review. It helps us improve and <strong>support the project</strong>!"
-msgstr ""
+msgstr "Grazie per aver utilizzato il plugin %1$s! Finora <strong>abbiamo raccolto %2$s feedback</strong>. Se ti è stato utile, considera di lasciare una recensione. Ci aiuta a migliorare e a <strong>sostenere il progetto</strong>!"
 
 #: includes/class-admin-review-notice.php:122
 msgid "Leave a Review"
-msgstr ""
+msgstr "Lascia una recensione"
 
 #: includes/class-admin-review-notice.php:123
 msgid "Maybe Later"
-msgstr ""
+msgstr "Forse più tardi"
 
 #: includes/class-admin-review-notice.php:124
 msgid "Never Show Again"
-msgstr ""
+msgstr "Non mostrare più"
 
 #: includes/class-metabox-stats.php:20
 msgid "Helpful Stats"
-msgstr ""
+msgstr "Statistiche di Helpful"
 
 #: includes/class-metabox.php:20
 msgid "Helpful Settings"
-msgstr ""
+msgstr "Impostazioni di Helpful"
 
 #: includes/class-metabox.php:35
 msgid "Disable automatic Helpful box at the bottom of this post."
-msgstr ""
+msgstr "Disabilita la Helpful Box automatica in fondo a questo articolo."
 
 #: includes/class-reset-stats.php:58
 msgid "Reset Helpful Stats"
-msgstr ""
+msgstr "Azzera le statistiche di Helpful"
 
 #: includes/class-reset-stats.php:79
 msgid "You are not allowed to do this."
-msgstr ""
+msgstr "Non hai i permessi per eseguire questa azione."
 
 #: includes/class-reset-stats.php:117
 msgid "Helpful stats reset successfully."
-msgstr ""
+msgstr "Statistiche di Helpful azzerate con successo."
 
 #: includes/class-reset-stats.php:133
 msgid "Never"
-msgstr ""
+msgstr "Mai"
 
 #: includes/class-reset-stats.php:138
 msgid "Last Reset Date:"
-msgstr ""
+msgstr "Data ultimo azzeramento:"
 
 #: includes/class-reset-stats.php:148
 msgid "Reset Statistics"
-msgstr ""
+msgstr "Azzera statistiche"
 
 #: includes/class-settings.php:25
 msgid "Was This Helpful Settings"
-msgstr ""
+msgstr "Impostazioni di Was This Helpful"
 
 #: includes/class-settings.php:26
 msgid "Was This Helpful"
-msgstr ""
+msgstr "Was This Helpful"
 
 #: includes/class-settings.php:37
 #: includes/class-settings.php:38
 msgid "Shortcode"
-msgstr ""
+msgstr "Shortcode"
 
 #: includes/class-settings.php:58
 #: includes/class-settings.php:105
 msgid "Display on"
-msgstr ""
+msgstr "Mostra su"
 
 #: includes/class-settings.php:63
 msgid "Admin Bar"
-msgstr ""
+msgstr "Barra admin"
 
 #: includes/class-settings.php:68
 msgid "Content"
-msgstr ""
+msgstr "Contenuto"
 
 #: includes/class-settings.php:73
 msgid "Colors"
-msgstr ""
+msgstr "Colori"
 
 #: includes/class-settings.php:78
 msgid "Styles"
-msgstr ""
+msgstr "Stili"
 
 #: includes/class-settings.php:83
 msgid "Assets Loading"
-msgstr ""
+msgstr "Caricamento risorse"
 
 #: includes/class-settings.php:88
 msgid "Data Deletion"
-msgstr ""
+msgstr "Eliminazione dati"
 
 #: includes/class-settings.php:93
 msgid "Submitting and Thanks Content"
-msgstr ""
+msgstr "Contenuto di invio e ringraziamento"
 
 #: includes/class-settings.php:113
 msgid "Display Stats and Functionalities by User Role"
-msgstr ""
+msgstr "Mostra statistiche e funzionalità per ruolo utente"
 
 #: includes/class-settings.php:121
 msgid "Load Styles"
-msgstr ""
+msgstr "Carica stili"
 
 #: includes/class-settings.php:133
 msgid "Load Scripts"
-msgstr ""
+msgstr "Carica script"
 
 #: includes/class-settings.php:145
 msgid "Show Admin Bar Content"
-msgstr ""
+msgstr "Mostra contenuto nella barra admin"
 
 #: includes/class-settings.php:157
 msgid "Feedback Box Text"
-msgstr ""
+msgstr "Testo della feedback box"
 
 #: includes/class-settings.php:169
 #: includes/class-settings.php:181
 msgid "Positive Button Text"
-msgstr ""
+msgstr "Testo pulsante positivo"
 
 #: includes/class-settings.php:188
 #: includes/class-settings.php:210
 msgid "Leave empty if you don't want to display text"
-msgstr ""
+msgstr "Lascia vuoto se non vuoi visualizzare testo"
 
 #: includes/class-settings.php:194
 msgid "Positive Button Icon"
-msgstr ""
+msgstr "Icona pulsante positivo"
 
 #: includes/class-settings.php:203
 msgid "Negative Button Text"
-msgstr ""
+msgstr "Testo pulsante negativo"
 
 #: includes/class-settings.php:216
 msgid "Negative Button Icon"
-msgstr ""
+msgstr "Icona pulsante negativo"
 
 #: includes/class-settings.php:225
 msgid "Background Color"
-msgstr ""
+msgstr "Colore di sfondo"
 
 #: includes/class-settings.php:234
 msgid "Positive Button Color"
-msgstr ""
+msgstr "Colore pulsante positivo"
 
 #: includes/class-settings.php:243
 msgid "Positive Text/Icon Color"
-msgstr ""
+msgstr "Colore testo/icona positivo"
 
 #: includes/class-settings.php:252
 msgid "Negative Button Color"
-msgstr ""
+msgstr "Colore pulsante negativo"
 
 #: includes/class-settings.php:261
 msgid "Negative Text/Icon Color"
-msgstr ""
+msgstr "Colore testo/icona negativo"
 
 #: includes/class-settings.php:270
 msgid "Button Border Radius"
-msgstr ""
+msgstr "Raggio bordo pulsante"
 
 #: includes/class-settings.php:278
 msgid "Delete data when removing plugin?"
-msgstr ""
+msgstr "Eliminare i dati alla rimozione del plugin?"
 
 #: includes/class-settings.php:290
 msgid "Submitting Text"
-msgstr ""
+msgstr "Testo di invio"
 
 #: includes/class-settings.php:302
 msgid "Thank You Text"
-msgstr ""
+msgstr "Testo di ringraziamento"
 
 #: includes/class-settings.php:361
 msgid "Where do you want to show your Was this helpful box?"
-msgstr ""
+msgstr "Dove vuoi mostrare il box Was This Helpful?"
 
 #: includes/class-settings.php:370
 msgid "Posts"
-msgstr ""
+msgstr "Articoli"
 
 #: includes/class-settings.php:374
 msgid "Pages"
-msgstr ""
+msgstr "Pagine"
 
 #: includes/class-settings.php:442
 msgid "Select whether to load the plugin styles and scripts."
-msgstr ""
+msgstr "Seleziona se caricare gli stili e gli script del plugin."
 
 #: includes/class-settings.php:456
 msgid "Select whether to show the content in the admin bar."
-msgstr ""
+msgstr "Seleziona se mostrare il contenuto nella barra admin."
 
 #: includes/class-settings.php:461
 msgid "Change feedback box content."
-msgstr ""
+msgstr "Modifica il contenuto del feedback box."
 
 #: includes/class-settings.php:464
 msgid "Change feedback box content  for submitting and thank you messages."
-msgstr ""
+msgstr "Modifica il contenuto del feedback box per i messaggi di invio e ringraziamento."
 
 #: includes/class-settings.php:481
 #: includes/class-settings.php:495
 #: includes/class-settings.php:505
 #: includes/class-settings.php:519
 msgid "Leave Empty"
-msgstr ""
+msgstr "Lascia vuoto"
 
 #: includes/class-settings.php:527
 msgid "Style your feedback box."
-msgstr ""
+msgstr "Personalizza il feedback box."
 
 #: includes/class-settings.php:582
 msgid "Deletes all data when plugin is removed."
-msgstr ""
+msgstr "Elimina tutti i dati quando il plugin viene rimosso."
 
 #: includes/class-settings.php:594
 msgid "Was This Helpful?"
-msgstr ""
+msgstr "È stato utile?"
 
 #: includes/class-settings.php:595
 msgid "Yes"
-msgstr ""
+msgstr "Sì"
 
 #: includes/class-settings.php:597
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: includes/class-settings.php:606
 msgid "⏳ Submitting..."
-msgstr ""
+msgstr "⏳ Invio in corso..."
 
 #: includes/class-settings.php:607
 msgid "✅ Thank you for your feedback!"
-msgstr ""
+msgstr "✅ Grazie per il tuo feedback!"
 
 #: includes/class-was-this-helpful.php:261
 msgid "Settings"
-msgstr ""
+msgstr "Impostazioni"
 
 #: templates/page-feedback-list.php:26
 msgid "Export CSV"
-msgstr ""
+msgstr "Esporta CSV"
 
 #: templates/page-feedback-list.php:31
 msgid "Delete all feedback records? This cannot be undone."
-msgstr ""
+msgstr "Eliminare tutti i record di feedback? Questa operazione non può essere annullata."
 
 #: templates/page-feedback-list.php:32
 msgid "Delete All"
-msgstr ""
+msgstr "Elimina tutti"
 
 #: templates/page-feedback-list.php:44
 msgid "No feedback records found."
-msgstr ""
+msgstr "Nessun record di feedback trovato."
 
 #: templates/page-feedback-list.php:50
 msgid "Post"
-msgstr ""
+msgstr "Articolo"
 
 #: templates/page-feedback-list.php:51
 msgid "Vote"
-msgstr ""
+msgstr "Voto"
 
 #: templates/page-feedback-list.php:52
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 #: templates/page-feedback-list.php:53
 msgid "Actions"
-msgstr ""
+msgstr "Azioni"
 
 #: templates/page-feedback-list.php:92
 msgid "Delete this record?"
-msgstr ""
+msgstr "Eliminare questo record?"
 
 #: templates/page-feedback-list.php:94
 msgid "Delete"
-msgstr ""
+msgstr "Elimina"
 
 #: templates/page-settings.php:9
 msgid "General"
-msgstr ""
+msgstr "Generale"
 
 #: templates/page-settings.php:10
 msgid "Feedback Box"
-msgstr ""
+msgstr "Feedback Box"
 
 #: templates/page-settings.php:11
 msgid "Extra"
-msgstr ""
+msgstr "Extra"
 
 #. translators: %s: shortcode code.
 #: templates/page-shortcode.php:8
 #, php-format
 msgid "You can display the Helpful Box using the shortcode %s inside posts/pages content."
-msgstr ""
+msgstr "Puoi visualizzare il Helpful Box usando lo shortcode %s all'interno del contenuto di articoli/pagine."

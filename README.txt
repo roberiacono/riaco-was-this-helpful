@@ -2,7 +2,7 @@
 Contributors: prototipo88
 Tags: was this helpful, article feedback, feedback, WordPress feedback plugin, helpful 
 Tested up to: 7.0
-Stable tag: 2.1.2
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,15 @@ Not directly. You can manually adjust the reset date in the post meta if necessa
 8. Frontend live
 
 == Changelog ==
+
+= 2.2.0 - 2026-06-09 =
+* Added: Feedback Records admin page with paginated table, single/bulk delete, and CSV export.
+* Added: Rate limiting (30 seconds per IP/post) to prevent duplicate feedback submissions.
+* Added: Database index on post_id for improved query performance.
+* Updated: Frontend script rewritten in vanilla JavaScript (jQuery dependency removed).
+* Updated: Text options fall back to the active site translation when not customized.
+* Added: New developer hooks and filters for extending plugin behaviour.
+* Fixed: Security vulnerabilities and various logic improvements.
 
 = 2.1.2 - 2025-10-9 =
 * Fix: display reset stats link only on selected post types.

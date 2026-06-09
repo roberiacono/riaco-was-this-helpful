@@ -50,9 +50,10 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 			$ip_raw   = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
 			$rate_key = 'riwth_rate_' . md5( $ip_raw . '|' . $post_id );
 
-			if ( ! add_transient( $rate_key, 1, 30 ) ) {
+			if ( false !== get_transient( $rate_key ) ) {
 				wp_send_json_error( array( 'message' => 'Too many requests. Please wait before voting again.' ), 429 );
 			}
+			set_transient( $rate_key, 1, 30 );
 
 			global $wpdb;
 

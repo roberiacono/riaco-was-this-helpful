@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(git -C /opt/lampp/htdocs/dev/wp-content/plugins/riaco-was-this-helpful log --oneline -5)",
-      "Bash(git -C /opt/lampp/htdocs/dev/wp-content/plugins/riaco-was-this-helpful diff --cached)"
+      "Bash(git -C /opt/lampp/htdocs/dev/wp-content/plugins/riaco-was-this-helpful diff --cached)",
+      "Bash(sort -t: -k1,1)",
+      "Bash(msgfmt /opt/lampp/htdocs/dev/wp-content/plugins/riaco-was-this-helpful/languages/riaco-was-this-helpful-it_IT.po -o /opt/lampp/htdocs/dev/wp-content/plugins/riaco-was-this-helpful/languages/riaco-was-this-helpful-it_IT.mo)",
+      "Read(//opt/lampp/htdocs/dev/wp-content/plugins/**)",
+      "Bash(zip -r riaco-was-this-helpful-2.2.0.zip riaco-was-this-helpful --exclude riaco-was-this-helpful/.git/* --exclude riaco-was-this-helpful/.gitignore --exclude riaco-was-this-helpful/.vscode/* --exclude riaco-was-this-helpful/.claude/* --exclude riaco-was-this-helpful/CLAUDE.md --exclude riaco-was-this-helpful/helpful-box-block/node_modules/* --exclude riaco-was-this-helpful/helpful-box-block/src/* --exclude riaco-was-this-helpful/helpful-box-block/package.json --exclude riaco-was-this-helpful/helpful-box-block/package-lock.json --exclude riaco-was-this-helpful/*.zip)"
     ]
   }
 }
