@@ -151,6 +151,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 		 */
 		private function define( $name, $value ) {
 			if ( ! defined( $name ) ) {
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.VariableConstantNameFound -- caller always passes an RIWTH_-prefixed constant name.
 				define( $name, $value );
 			}
 		}

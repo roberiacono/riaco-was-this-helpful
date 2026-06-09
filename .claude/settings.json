@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /opt/lampp/htdocs/dev/wp-content/plugins/riaco-was-this-helpful log --oneline -5)",
+      "Bash(git -C /opt/lampp/htdocs/dev/wp-content/plugins/riaco-was-this-helpful diff --cached)"
+    ]
+  }
+}

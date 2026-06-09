@@ -53,23 +53,23 @@ delete_transient( 'riwth_review_notice_maybe_later' );
 global $wpdb;
 
 // delete transient.
-$transient_pattern = '_transient_riwth_%';
-// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-$transients = $wpdb->get_col(
+$riwth_transient_pattern = '_transient_riwth_%';
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+$riwth_transients = $wpdb->get_col(
 	$wpdb->prepare(
 		'SELECT option_name FROM %i WHERE option_name LIKE %s',
 		array(
 			$wpdb->options,
-			$transient_pattern,
+			$riwth_transient_pattern,
 		)
 	)
 );
 
-if ( ! empty( $transients ) ) {
-	foreach ( $transients as $transient ) {
-		$key = str_replace( '_transient_', '', $transient );
-		if ( ! empty( $key ) ) {
-			delete_transient( $key );
+if ( ! empty( $riwth_transients ) ) {
+	foreach ( $riwth_transients as $riwth_transient ) {
+		$riwth_key = str_replace( '_transient_', '', $riwth_transient );
+		if ( ! empty( $riwth_key ) ) {
+			delete_transient( $riwth_key );
 		}
 	}
 }
@@ -78,11 +78,11 @@ if ( ! empty( $transients ) ) {
 wp_cache_flush();
 
 // delete table section.
-$table_name = $wpdb->prefix . 'riwth_helpful_feedback';
-// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+$riwth_table_name = $wpdb->prefix . 'riwth_helpful_feedback';
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
 $wpdb->query(
 	$wpdb->prepare(
 		'DROP TABLE IF EXISTS %i',
-		$table_name
+		$riwth_table_name
 	)
 );

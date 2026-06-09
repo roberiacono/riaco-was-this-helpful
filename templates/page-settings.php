@@ -5,6 +5,7 @@ defined( 'ABSPATH' ) || exit;
 <div class="wrap">
 	<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 	<?php
+	// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- template included inside a class method; variables are method-scoped, not global.
 	$tabs = array(
 		'tab-general'      => __( 'General', 'riaco-was-this-helpful' ),
 		'tab-feedback-box' => __( 'Feedback Box', 'riaco-was-this-helpful' ),
@@ -54,6 +55,7 @@ defined( 'ABSPATH' ) || exit;
 		settings_fields( 'riwth-settings-' . esc_attr( $current_tab ) );
 		do_settings_sections( 'riwth-settings-' . esc_attr( $current_tab ) );
 		submit_button();
+		// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 		?>
 	</form>
 </div>

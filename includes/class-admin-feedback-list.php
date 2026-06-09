@@ -37,6 +37,7 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 			}
 
 			// Handle CSV export before any HTML output.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce is verified inside export_csv() via check_admin_referer().
 			if ( isset( $_GET['export'] ) && 'csv' === $_GET['export'] ) {
 				$this->export_csv();
 				return;
@@ -59,7 +60,8 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			return $wpdb->get_results(
 				$wpdb->prepare(
-					'SELECT id, post_id, helpful, created_at FROM `' . $wpdb->prefix . RIWTH_DB_NAME . '` ORDER BY created_at DESC LIMIT %d OFFSET %d',
+					'SELECT id, post_id, helpful, created_at FROM %i ORDER BY created_at DESC LIMIT %d OFFSET %d',
+					$wpdb->prefix . RIWTH_DB_NAME,
 					$per_page,
 					$offset
 				)
@@ -74,7 +76,9 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 		public function get_total_records() {
 			global $wpdb;
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			return (int) $wpdb->get_var( 'SELECT COUNT(*) FROM `' . $wpdb->prefix . RIWTH_DB_NAME . '`' );
+			return (int) $wpdb->get_var(
+				$wpdb->prepare( 'SELECT COUNT(*) FROM %i', $wpdb->prefix . RIWTH_DB_NAME )
+			);
 		}
 
 		/**
@@ -99,7 +103,8 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$post_id = (int) $wpdb->get_var(
 				$wpdb->prepare(
-					'SELECT post_id FROM `' . $wpdb->prefix . RIWTH_DB_NAME . '` WHERE id = %d',
+					'SELECT post_id FROM %i WHERE id = %d',
+					$wpdb->prefix . RIWTH_DB_NAME,
 					$feedback_id
 				)
 			);
@@ -151,8 +156,10 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 			}
 
 			global $wpdb;
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-			$wpdb->query( 'DELETE FROM `' . $wpdb->prefix . RIWTH_DB_NAME . '`' );
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->query(
+				$wpdb->prepare( 'DELETE FROM %i', $wpdb->prefix . RIWTH_DB_NAME )
+			);
 
 			wp_cache_flush();
 
@@ -177,11 +184,13 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 				return;
 			}
 
+			// phpcs:disable WordPress.Security.NonceVerification.Recommended -- riwth_notice is a read-only redirect message, not form input.
 			if ( ! isset( $_GET['riwth_notice'] ) ) {
 				return;
 			}
 
 			$notice = sanitize_text_field( wp_unslash( $_GET['riwth_notice'] ) );
+			// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 			if ( 'deleted' === $notice ) {
 				echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Feedback record deleted.', 'riaco-was-this-helpful' ) . '</p></div>';
@@ -204,7 +213,10 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 			global $wpdb;
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$rows = $wpdb->get_results(
-				'SELECT post_id, helpful, created_at FROM `' . $wpdb->prefix . RIWTH_DB_NAME . '` ORDER BY created_at DESC',
+				$wpdb->prepare(
+					'SELECT post_id, helpful, created_at FROM %i ORDER BY created_at DESC',
+					$wpdb->prefix . RIWTH_DB_NAME
+				),
 				ARRAY_A
 			);
 
