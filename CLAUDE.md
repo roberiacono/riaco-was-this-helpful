@@ -9,7 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - PHP package prefix: `RIWTH`
 - Text domain: `riaco-was-this-helpful`
 - Requires: WordPress 6.2+, PHP 7.4+
-- Custom DB table: `{prefix}riwth_helpful_feedback` (columns: `id`, `post_id`, `helpful`, `created_at`)
+- Custom DB table: `{prefix}riwth_helpful_feedback` (columns: `id`, `post_id`, `helpful`, `created_at`; index on `post_id`)
 
 ## Build Commands (Gutenberg Block)
 
@@ -40,12 +40,13 @@ The built assets (`build/`) are committed. Always run `npm run build` before com
 
 ### Bootstrap
 
-`riaco-was-this-helpful.php` defines `RIWTH_PLUGIN_VERSION` and `RIWTH_PLUGIN_FILE`, loads `class-was-this-helpful.php`, and calls `riwth_was_this_helpful()` to get the singleton.
+`riaco-was-this-helpful.php` defines `RIWTH_PLUGIN_VERSION`, `RIWTH_PLUGIN_FILE`, and `RIWTH_DB_VERSION`, loads `class-was-this-helpful.php`, and calls `riwth_was_this_helpful()` to get the singleton.
 
 `RIWTH_Was_This_Helpful` (singleton) wires everything together:
 - `define_constants()` — sets `RIWTH_DB_NAME`, `RIWTH_PLUGIN_DIR`, `RIWTH_PLUGIN_URL`, `RIWTH_PLUGIN_DIRNAME`
 - `includes()` — requires all class files
-- `init_hooks()` — registers activation hook, enqueue hooks, and `plugins_loaded`
+- `init_hooks()` — registers activation hook, enqueue hooks, `plugins_loaded` (priority 9: `maybe_upgrade_db`; priority 10: `init`)
+- `maybe_upgrade_db()` (on `plugins_loaded`, priority 9) — compares `riwth_db_version` option against `RIWTH_DB_VERSION`; re-runs `dbDelta` when behind so existing installs pick up schema changes (e.g. the `post_id` index) without re-activation
 - `init()` (on `plugins_loaded`) — instantiates all classes; admin-only classes are guarded by `is_admin()`; stats classes are gated by `RIWTH_User_Role::can_user_see_stats()`
 
 ### Class Responsibilities
@@ -55,7 +56,8 @@ The built assets (`build/`) are committed. Always run `npm run build` before com
 | `RIWTH_Functions` | `class-functions.php` | Static helpers: feedback counts (with object cache + transient), `should_display_box()`, `could_display_box()`, color utility |
 | `RIWTH_Settings` | `class-settings.php` | Admin menu/submenu, Settings API registration, all option callbacks and sanitizers, `get_intial_settings()` defaults |
 | `RIWTH_Box` | `class-box.php` | Hooks `the_content` filter to append the feedback HTML; `feedback_box_code()` builds the HTML (cached via `riwth_feedback_box` transient) |
-| `RIWTH_Ajax` | `class-ajax.php` | Handles `wp_ajax_riwth_save_feedback` (public + priv); inserts row, busts caches, returns JSON |
+| `RIWTH_Ajax` | `class-ajax.php` | Handles `wp_ajax_riwth_save_feedback` (public + priv); enforces 30-second per-IP/post rate limit via transient; inserts row, busts caches, returns JSON |
+| `RIWTH_Admin_Feedback_List` | `class-admin-feedback-list.php` | Admin "Feedback Records" submenu page — paginated table of raw feedback rows with single/bulk delete and CSV export |
 | `RIWTH_Block` | `class-block.php` | Registers the Gutenberg block (`riaco-was-this-helpful/helpful-box-block`) with a server-side render callback that reuses `RIWTH_Box::feedback_box_code()` |
 | `RIWTH_Shortcode` | `class-shortcode.php` | Registers `[riwth_helpful_box]` shortcode |
 | `RIWTH_Admin_Columns` | `class-admin-columns.php` | Adds "Was This Helpful?" column to post/page list tables; makes it sortable via custom JOIN/ORDER BY SQL |
@@ -121,10 +123,11 @@ Feedback counts use a two-layer cache: `wp_cache_get/set` (object cache, group `
 
 ### Frontend JavaScript
 
-`assets/public/js/script.js` (jQuery, loaded as `riwth-script`):
+`assets/public/js/script.js` (vanilla JS, no jQuery, loaded as `riwth-script`):
 - Listens for clicks on `.riwth-helpful-yes` / `.riwth-helpful-no`
-- POSTs to `admin-ajax.php` with `action=riwth_save_feedback`, `post_id`, `helpful` (1/0), and nonce
-- On success, fires the DOM event from `response.trigger` (normally `showThankYou`) and sets the `riwth_feedback_given` cookie
+- POSTs to `admin-ajax.php` via `fetch` with `action=riwth_save_feedback`, `post_id`, `helpful` (1/0), and nonce
+- On success, dispatches the `CustomEvent` named by `response.trigger` (normally `showThankYou`) and sets the `riwth_feedback_given` cookie; event detail carries `{ feedbackId, content }`
+- Handles non-success responses (e.g. rate-limit 429) by dispatching `showError`
 - Localized data available as `riwth_scripts`: `ajax_url`, `submitting`, `postId`
 
 ### Gutenberg Block
@@ -143,3 +146,4 @@ All options are prefixed `riwth_`. Key ones:
 | `riwth_feedback_box_text` | "Was This Helpful?" | |
 | `riwth_feedback_box_color_background` | `#f4f4f5` | |
 | `riwth_uninstall_remove_data` | `1` | Drop table on uninstall |
+| `riwth_db_version` | — | Tracks applied DB schema version; compared against `RIWTH_DB_VERSION` constant on every load |

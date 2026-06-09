@@ -27,6 +27,19 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 		public function save_feedback() {
 			check_ajax_referer( 'riwth_was_this_helpful_nonce', 'nonce' );
 
+			// Rate limiting: one vote per IP per post per 30 seconds.
+			// Note: on sites behind a reverse proxy REMOTE_ADDR is the proxy IP;
+			// checking HTTP_X_FORWARDED_FOR is more accurate but that header is
+			// spoofable, so we keep this simple for the free tier.
+			$ip_raw   = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+			$pid_raw  = isset( $_POST['post_id'] ) ? intval( $_POST['post_id'] ) : 0;
+			$rate_key = 'riwth_rate_' . md5( $ip_raw . '|' . $pid_raw );
+
+			if ( get_transient( $rate_key ) ) {
+				wp_send_json_error( array( 'message' => 'Too many requests. Please wait before voting again.' ), 429 );
+			}
+			set_transient( $rate_key, 1, 30 );
+
 			global $wpdb;
 
 			if ( ! isset( $_POST['post_id'] ) || ! isset( $_POST['helpful'] ) ) {

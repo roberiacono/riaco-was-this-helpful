@@ -94,6 +94,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-shortcode.php';
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-svg-icons.php';
 			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-block.php';
+			require_once RIWTH_PLUGIN_DIRNAME . 'includes/class-admin-feedback-list.php';
 		}
 
 		/**
@@ -104,6 +105,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_scripts' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+			add_action( 'plugins_loaded', array( $this, 'maybe_upgrade_db' ), 9 );
 			add_action( 'plugins_loaded', array( $this, 'init' ) );
 
 			add_filter( 'plugin_action_links_' . plugin_basename( RIWTH_PLUGIN_FILE ), array( $this, 'add_settings_link' ) );
@@ -122,6 +124,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 			new RIWTH_Block();
 
 			if ( is_admin() ) {
+				new RIWTH_Admin_Feedback_List();
 				new RIWTH_Admin_Pages_Footer();
 				// Initialize the notice.
 				if ( 1 !== get_option( 'riwth_review_notice_done', 0 ) ) {
@@ -158,6 +161,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 		public function activate_plugin() {
 			$this->create_database();
 			$this->set_initial_settings();
+			update_option( 'riwth_db_version', RIWTH_DB_VERSION );
 		}
 
 		/**
@@ -176,11 +180,23 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
             post_id bigint(20) NOT NULL,
             helpful tinyint(1) NOT NULL,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-            PRIMARY KEY (id)
+            PRIMARY KEY (id),
+            KEY post_id (post_id)
         ) $charset_collate;";
 
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 			dbDelta( $sql );
+		}
+
+		/**
+		 * Run dbDelta if the stored DB schema version is behind the current one.
+		 * Safe to call on every plugins_loaded: it's a no-op when versions match.
+		 */
+		public function maybe_upgrade_db() {
+			if ( get_option( 'riwth_db_version' ) !== RIWTH_DB_VERSION ) {
+				$this->create_database();
+				update_option( 'riwth_db_version', RIWTH_DB_VERSION );
+			}
 		}
 
 		/**
@@ -208,6 +224,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 				$allowed_pages = array(
 					'riwth-settings',
 					'riwth-shortcode',
+					'riwth-feedback-list',
 				);
 
 				foreach ( $allowed_pages as $page_id ) {
@@ -232,7 +249,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 				wp_register_style( 'riwth-style', RIWTH_PLUGIN_URL . 'helpful-box-block/build/style-index.css', array(), RIWTH_PLUGIN_VERSION );
 			}
 			if ( get_option( 'riwth_load_scripts' ) ) {
-				wp_register_script( 'riwth-script', RIWTH_PLUGIN_URL . 'assets/public/js/script.js', array( 'jquery' ), RIWTH_PLUGIN_VERSION, true );
+				wp_register_script( 'riwth-script', RIWTH_PLUGIN_URL . 'assets/public/js/script.js', array(), RIWTH_PLUGIN_VERSION, true );
 				wp_localize_script(
 					'riwth-script',
 					'riwth_scripts',

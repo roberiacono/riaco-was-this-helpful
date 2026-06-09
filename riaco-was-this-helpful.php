@@ -23,6 +23,10 @@ if ( ! defined( 'RIWTH_PLUGIN_VERSION' ) ) {
 	define( 'RIWTH_PLUGIN_VERSION', '2.1.2' );
 }
 
+if ( ! defined( 'RIWTH_DB_VERSION' ) ) {
+	define( 'RIWTH_DB_VERSION', '1.1' );
+}
+
 if ( ! defined( 'RIWTH_PLUGIN_FILE' ) ) {
 	define( 'RIWTH_PLUGIN_FILE', __FILE__ );
 }
