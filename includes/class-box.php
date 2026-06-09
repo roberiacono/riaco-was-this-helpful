@@ -55,7 +55,13 @@ if ( ! class_exists( 'RIWTH_Box' ) ) {
 			$code .= '</div>';
 			$code .= '</div>';
 
-			return $code;
+			/**
+			 * Filter the feedback box HTML.
+			 *
+			 * @param string $code    The complete feedback box HTML.
+			 * @param int    $post_id The current post ID.
+			 */
+			return apply_filters( 'riwth_feedback_box_html', $code, get_the_ID() );
 		}
 
 		public static function get_feedback_box_nonce() {

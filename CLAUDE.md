@@ -82,14 +82,29 @@ The built assets (`build/`) are committed. Always run `npm run build` before com
 
 Feedback counts use a two-layer cache: `wp_cache_get/set` (object cache, group `riwth_feedback`) with a transient fallback. Both are invalidated together on every new submission (`RIWTH_Ajax::save_feedback`) and on stats reset. The HTML of the feedback box itself is cached in `riwth_feedback_box` transient; it is busted when settings are saved (in `feedback_box_border_button_rounded_callback`).
 
-### Pro Extension Points
+### Developer Hooks
 
-The free plugin exposes several filters for a PRO add-on:
-- `riwth_display_on_fields` — add custom post types to "Display on" setting
-- `riwth_custom_columns_post_types` — extend admin columns to custom post types
-- `riwth_get_positive_feedback_filter` / `riwth_get_total_feedback_filter` — modify DB query results
-- `riwth_ajax_feedback_sent_return` — modify AJAX response payload
-- `riwth_after_metabox_stats` action — append content to the stats metabox
+**Filters**
+
+| Filter | Args | Where | Purpose |
+|---|---|---|---|
+| `riwth_feedback_box_html` | `$html, $post_id` | `RIWTH_Box::feedback_box_code()` | Wrap, replace, or extend the box markup |
+| `riwth_should_display_box` | `$bool, $post_id` | `RIWTH_Functions::should_display_box()` | Override display logic (category, user role, etc.) |
+| `riwth_initial_settings` | `$settings` | `RIWTH_Settings::get_intial_settings()` | Override default option values |
+| `riwth_display_on_fields` | `$fields` | `RIWTH_Settings` | Add post types to "Display on" setting (used by PRO) |
+| `riwth_custom_columns_post_types` | `$types` | `RIWTH_Admin_Columns` | Extend feedback column to custom post types |
+| `riwth_get_positive_feedback_filter` | `$count, $table, $post_id` | `RIWTH_Functions` | Modify positive-feedback count (used by PRO) |
+| `riwth_get_total_feedback_filter` | `$count, $table, $post_id` | `RIWTH_Functions` | Modify total-feedback count (used by PRO) |
+| `riwth_ajax_feedback_sent_return` | `$response` | `RIWTH_Ajax` | Modify the AJAX JSON response after save |
+
+**Actions**
+
+| Action | Args | Where | Purpose |
+|---|---|---|---|
+| `riwth_before_save_feedback` | `$post_id, $helpful` | `RIWTH_Ajax::save_feedback()` | Logging, rate-limiting before DB insert |
+| `riwth_feedback_saved` | `$feedback_id, $post_id, $helpful` | `RIWTH_Ajax::save_feedback()` | Notifications, analytics after successful save |
+| `riwth_before_show_helpful_box_using_shortcode` | — | `RIWTH_Shortcode` | Side-effects before shortcode renders |
+| `riwth_after_metabox_stats` | `$post` | `RIWTH_Metabox_Stats` | Append content to the "Helpful Stats" metabox |
 
 ### Frontend JavaScript
 

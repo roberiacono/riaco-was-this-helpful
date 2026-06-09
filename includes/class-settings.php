@@ -598,7 +598,16 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 				'riwth_feedback_box_submitting_text'       => __( '⏳ Submitting...', 'riaco-was-this-helpful' ),
 				'riwth_feedback_box_thanks_text'           => __( '✅ Thank you for your feedback!', 'riaco-was-this-helpful' ),
 			);
-			return $initial_settings;
+			/**
+			 * Filter the plugin's default option values.
+			 *
+			 * These defaults are applied on first activation and are used as fallback
+			 * values in the settings UI. Changing them here affects both the activation
+			 * defaults and the color-picker reset targets.
+			 *
+			 * @param array $initial_settings Key-value map of option name → default value.
+			 */
+			return apply_filters( 'riwth_initial_settings', $initial_settings );
 		}
 	}
 }

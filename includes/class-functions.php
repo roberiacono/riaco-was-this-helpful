@@ -131,7 +131,16 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 				return false;
 			}
 
-			return self::could_display_box();
+			/**
+			 * Filter whether the feedback box should be displayed for the current post.
+			 *
+			 * Returning false suppresses the box even when all built-in conditions pass.
+			 * Returning true forces display regardless of post-meta or cookie state.
+			 *
+			 * @param bool $should_display Whether the box should be shown.
+			 * @param int  $post_id        The current post ID.
+			 */
+			return (bool) apply_filters( 'riwth_should_display_box', self::could_display_box(), $post->ID );
 		}
 
 		public static function could_display_box() {
