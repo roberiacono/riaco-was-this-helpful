@@ -62,11 +62,11 @@ if ( ! class_exists( 'RIWTH_Admin_Pages_Footer' ) ) {
 			global $current_screen;
 
 			if ( ! empty( $current_screen->id ) && $this->is_plugin_link_page() ) {
-				$url  = 'https://wordpress.org/support/plugin/riaco-was-this-helpful/reviews/?filter=5#new-post';
+				$url  = 'https://wordpress.org/support/plugin/riaco-was-this-helpful/reviews/';
 				$text = sprintf(
 					wp_kses(
 					/* translators: $1$s - WP.org review link; $2$s - WP.org review link. */
-						__( 'Enjoying <strong>Was This Helpful</strong>? Please rate <a href="%1$s" target="_blank" rel="noopener noreferrer">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on <a href="%2$s" target="_blank" rel="noopener">WordPress.org</a> to help us spread the word. Thank you! – Roberto Iacono', 'riaco-was-this-helpful' ),
+						__( 'Enjoying <strong>Was This Helpful</strong>? Please rate <a href="%1$s" target="_blank" rel="noopener noreferrer">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on WordPress.org to help us spread the word. Thank you! – Roberto Iacono', 'riaco-was-this-helpful' ),
 						array(
 							'a'      => array(
 								'href'   => array(),
@@ -77,7 +77,7 @@ if ( ! class_exists( 'RIWTH_Admin_Pages_Footer' ) ) {
 						)
 					),
 					$url,
-					$url
+			
 				);
 			}
 

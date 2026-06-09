@@ -65,7 +65,7 @@ The built assets (`build/`) are committed. Always run `npm run build` before com
 | `RIWTH_Reset_Stats` | `class-reset-stats.php` | Adds "Reset Helpful Stats" row action; sets `_riwth_reset_date` post meta so counts are computed from that date forward |
 | `RIWTH_User_Role` | `class-user-role.php` | `can_user_see_stats()` — checks current user roles against `riwth_display_by_user_role` option |
 | `RIWTH_SVG_Icons` | `class-svg-icons.php` | Static registry of SVG icon strings for positive/negative buttons |
-| `RIWTH_Admin_Pages_Footer` | `class-admin-pages-footer.php` | Renders the PRO upsell footer on plugin admin pages |
+| `RIWTH_Admin_Pages_Footer` | `class-admin-pages-footer.php` | Renders the "Made with ♥" pre-footer and the `admin_footer_text` rating line on plugin admin pages |
 | `RIWTH_Admin_Review_Notice` | `class-admin-review-notice.php` | Shows a wp.org review nudge (suppressed once `riwth_review_notice_done` option is set) |
 
 ### Display Logic
@@ -74,13 +74,13 @@ The built assets (`build/`) are committed. Always run `npm run build` before com
 1. A `$post` object exists
 2. `_riwth_disable_box` meta is not `'1'`
 3. The `riwth_feedback_given` cookie does not include this post ID
-4. `could_display_box()` is true
+4. `could_display_box()` is `true` (filterable via `riwth_should_display_box`)
 
 `RIWTH_Functions::could_display_box()` — used for admin UI visibility — returns `true` when the current post type is in the `riwth_display_on` option array and it's a singular front-end request (or the correct admin screen).
 
 ### Caching Pattern
 
-Feedback counts use a two-layer cache: `wp_cache_get/set` (object cache, group `riwth_feedback`) with a transient fallback. Both are invalidated together on every new submission (`RIWTH_Ajax::save_feedback`) and on stats reset. The HTML of the feedback box itself is cached in `riwth_feedback_box` transient; it is busted when settings are saved (in `feedback_box_border_button_rounded_callback`).
+Feedback counts use a two-layer cache: `wp_cache_get/set` (object cache, group `riwth_feedback`) with a transient fallback. Both are invalidated together on every new submission (`RIWTH_Ajax::save_feedback`) and on stats reset. The HTML of the feedback box itself is cached in the `riwth_feedback_box` transient (365-day TTL); it is busted via the `updated_option` hook in `RIWTH_Settings::maybe_clear_box_transient()` whenever any `riwth_feedback_box_*` option is saved.
 
 ### Developer Hooks
 

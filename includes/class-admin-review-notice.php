@@ -50,7 +50,7 @@ class RIWTH_Admin_Review_Notice {
 	 *
 	 * @var string
 	 */
-	private $review_url = 'https://wordpress.org/support/plugin/riaco-was-this-helpful/reviews/?filter=5#new-post';
+	private $review_url = 'https://wordpress.org/support/plugin/riaco-was-this-helpful/reviews/';
 
 	/**
 	 * Plugin admin pages where the notice should be shown
