@@ -15,6 +15,7 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 
 		public function __construct() {
 			add_action( 'admin_menu', array( $this, 'add_submenu_page' ) );
+			add_action( 'admin_init', array( $this, 'maybe_export_csv' ) );
 			add_action( 'admin_action_riwth_delete_feedback',     array( $this, 'handle_delete_single' ) );
 			add_action( 'admin_action_riwth_delete_all_feedback', array( $this, 'handle_delete_all' ) );
 			add_action( 'admin_notices', array( $this, 'show_action_notice' ) );
@@ -31,16 +32,21 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 			);
 		}
 
+		public function maybe_export_csv() {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( ! isset( $_GET['page'], $_GET['export'] ) ) {
+				return;
+			}
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( 'riwth-feedback-list' !== $_GET['page'] || 'csv' !== $_GET['export'] ) {
+				return;
+			}
+			$this->export_csv();
+		}
+
 		public function render_page() {
 			if ( ! current_user_can( 'manage_options' ) ) {
 				wp_die( esc_html__( 'You are not allowed to view this page.', 'riaco-was-this-helpful' ) );
-			}
-
-			// Handle CSV export before any HTML output.
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce is verified inside export_csv() via check_admin_referer().
-			if ( isset( $_GET['export'] ) && 'csv' === $_GET['export'] ) {
-				$this->export_csv();
-				return;
 			}
 
 			require_once RIWTH_PLUGIN_DIR . 'templates/page-feedback-list.php';
