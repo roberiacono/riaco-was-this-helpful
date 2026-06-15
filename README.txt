@@ -2,7 +2,7 @@
 Contributors: prototipo88
 Tags: was this helpful, article feedback, feedback, WordPress feedback plugin, helpful 
 Tested up to: 7.0
-Stable tag: 2.2.0
+Stable tag: 2.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,10 @@ Not directly. You can manually adjust the reset date in the post meta if necessa
 8. Frontend live
 
 == Changelog ==
+
+= 2.2.1 - 2026-06-15 =
+* Added: Colored dot indicator in the admin bar and feedback records list.
+* Fixed: Colored dot now displays correctly in admin columns (background-color was stripped by WordPress CSS sanitizer when using rgb() format).
 
 = 2.2.0 - 2026-06-09 =
 * Added: Feedback Records admin page with paginated table, single/bulk delete, and CSV export.
