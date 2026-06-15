@@ -82,6 +82,7 @@ $delete_all_url  = wp_nonce_url(
 							<?php endif; ?>
 						</td>
 						<td>
+							<span style="background-color:<?php echo esc_attr( $vote_color ); ?>; margin-right:5px; border-radius:50%; width:0.5rem; height:0.5rem; display:inline-block; vertical-align:middle;"></span>
 							<strong style="color:<?php echo esc_attr( $vote_color ); ?>">
 								<?php echo esc_html( $vote_label ); ?>
 							</strong>

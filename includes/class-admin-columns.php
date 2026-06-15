@@ -68,8 +68,8 @@ if ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {
 
 				if ( $total_feedback > 0 ) {
 					$percentage = ( $positive_feedback_count / $total_feedback ) * 100;
-					$rgb        = RIWTH_Functions::GreenYellowRed( round( $percentage ) );
-					$content    = '<span style="background-color: rgb(' . esc_attr( $rgb ) . '); margin-right: 5px; border-radius: 50%; width: 0.5rem; height: 0.5rem; display: inline-block;"></span>'
+					$color      = RIWTH_Functions::GreenYellowRed( round( $percentage ) );
+					$content    = '<span style="background-color: ' . esc_attr( $color ) . '; margin-right: 5px; border-radius: 50%; width: 0.5rem; height: 0.5rem; display: inline-block;"></span>'
 						/* translators: %1$d: positive percentage. %2$d Positive feedback. %3$d total feedback. */
 						. esc_html( sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'riaco-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback ) );
 				} else {

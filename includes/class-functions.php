@@ -189,7 +189,7 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 			}
 			$b = 0;
 
-			return "$r,$g,$b";
+			return sprintf( '#%02x%02x%02x', (int) $r, (int) $g, $b );
 		}
 
 		/**
