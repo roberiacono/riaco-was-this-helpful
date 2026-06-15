@@ -119,7 +119,6 @@ Not directly. You can manually adjust the reset date in the post meta if necessa
 == Changelog ==
 
 = 2.2.1 - 2026-06-15 =
-* Added: Colored dot indicator in the admin bar and feedback records list.
 * Fixed: Colored dot now displays correctly in admin columns (background-color was stripped by WordPress CSS sanitizer when using rgb() format).
 
 = 2.2.0 - 2026-06-09 =

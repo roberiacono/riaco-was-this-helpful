@@ -1,0 +1,18 @@
+# Development / IDE
+.git
+.gitignore
+.vscode
+.claude
+CLAUDE.md
+
+# Node build tooling (not needed at runtime; src/ is included for WP.org review)
+helpful-box-block/node_modules
+helpful-box-block/package-lock.json
+
+# Misc dev artifacts
+*.log
+.npm
+.eslintcache
+*.tgz
+*.zip
+.env
