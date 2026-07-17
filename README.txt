@@ -120,6 +120,7 @@ Not directly. You can manually adjust the reset date in the post meta if necessa
 
 = 2.2.2 - 2026-07-17 =
 * Added: Post URL/slug column in the Feedback Records admin table and CSV export, to help disambiguate pages with similar titles.
+* Added: Optional "Thank You Link URL" setting — when set, the Thank You text becomes a link to that URL; leave blank for plain text.
 
 = 2.2.1 - 2026-06-15 =
 * Fixed: Colored dot now displays correctly in admin columns (background-color was stripped by WordPress CSS sanitizer when using rgb() format).

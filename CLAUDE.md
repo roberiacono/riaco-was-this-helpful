@@ -158,6 +158,7 @@ All options are prefixed `riwth_`. Key ones:
 | `riwth_feedback_box_negative_button_text` | "No" | Falls back via `__()` if not customized |
 | `riwth_feedback_box_submitting_text` | "⏳ Submitting..." | Falls back via `__()` if not customized |
 | `riwth_feedback_box_thanks_text` | "✅ Thank you for your feedback!" | Falls back via `__()` if not customized |
+| `riwth_feedback_box_thanks_url` | `''` | Optional. When set, `RIWTH_Ajax::save_feedback()` wraps the thanks text in a link to this URL (same tab); blank leaves it as plain text |
 | `riwth_feedback_box_color_background` | `#f4f4f5` | |
 | `riwth_uninstall_remove_data` | `1` | Drop table on uninstall |
 | `riwth_db_version` | — | Tracks applied DB schema version; compared against `RIWTH_DB_VERSION` constant on every load |

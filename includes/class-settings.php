@@ -305,6 +305,19 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 					'type'              => 'string',
 					'sanitize_callback' => 'sanitize_text_field',
 				),
+				'riwth_feedback_box_thanks_url'            => array(
+					'title'             => __( 'Thank You Link URL', 'riaco-was-this-helpful' ),
+					'callback'          => array( $this, 'text_callback' ),
+					'tab'               => 'riwth-settings-tab-feedback-box',
+					'section'           => 'riwth-feedback-box-other-steps-settings-section',
+					'args'              => array(
+						'type'        => 'url',
+						'name'        => 'riwth_feedback_box_thanks_url',
+						'description' => __( 'Optional. Leave blank and the Thank You text stays plain. Set a URL and the Thank You text becomes a link to that URL.', 'riaco-was-this-helpful' ),
+					),
+					'type'              => 'string',
+					'sanitize_callback' => 'esc_url_raw',
+				),
 			);
 
 			return $settings_field;
@@ -461,8 +474,9 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 
 		public function text_callback( $args ) {
 			$option = get_option( $args['name'], '' );
+			$type   = isset( $args['type'] ) && 'url' === $args['type'] ? 'url' : 'text';
 
-			echo '<input type="text" name="' . esc_attr( $args['name'] ) . '" value="' . esc_attr( $option ) . '">';
+			echo '<input type="' . esc_attr( $type ) . '" name="' . esc_attr( $args['name'] ) . '" value="' . esc_attr( $option ) . '">';
 
 			if ( isset( $args['description'] ) && ! empty( $args['description'] ) ) {
 				echo '<p class="description">' . esc_html( $args['description'] ) . '</p>';
@@ -597,6 +611,7 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 				'riwth_uninstall_remove_data'              => 1,
 				'riwth_feedback_box_submitting_text'       => __( '⏳ Submitting...', 'riaco-was-this-helpful' ),
 				'riwth_feedback_box_thanks_text'           => __( '✅ Thank you for your feedback!', 'riaco-was-this-helpful' ),
+				'riwth_feedback_box_thanks_url'            => '',
 			);
 			/**
 			 * Filter the plugin's default option values.
