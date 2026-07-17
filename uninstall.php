@@ -80,9 +80,10 @@ wp_cache_flush();
 
 // delete table section.
 $riwth_table_name = $wpdb->prefix . 'riwth_helpful_feedback';
-// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 $wpdb->query(
 	$wpdb->prepare(
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange
 		'DROP TABLE IF EXISTS %i',
 		$riwth_table_name
 	)
