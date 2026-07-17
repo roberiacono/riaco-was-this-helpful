@@ -234,8 +234,12 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 					'stroke-linejoin' => array(),
 				),
 				'path'   => array(
-					'd'    => array(),
-					'fill' => array(),
+					'd'               => array(),
+					'fill'            => array(),
+					'stroke'          => array(),
+					'stroke-width'    => array(),
+					'stroke-linecap'  => array(),
+					'stroke-linejoin' => array(),
 				),
 				'circle' => array(
 					'cx' => array(),
@@ -247,6 +251,15 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 					'x2' => array(),
 					'y1' => array(),
 					'y2' => array(),
+				),
+				'rect'   => array(
+					'x'      => array(),
+					'y'      => array(),
+					'width'  => array(),
+					'height' => array(),
+					'rx'     => array(),
+					'ry'     => array(),
+					'fill'   => array(),
 				),
 			);
 

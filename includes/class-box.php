@@ -24,18 +24,21 @@ if ( ! class_exists( 'RIWTH_Box' ) ) {
 			$negative_button_text = self::get_feedback_box_button_text( 'negative' );
 
 			if ( false === ( $attr = get_transient( 'riwth_feedback_box' ) ) ) {
-				$attr = array(
+				$layout = self::get_feedback_box_layout();
+				$attr   = array(
+					'layout'                => $layout,
 					'feedback_box_style'    => self::get_feedback_box_style(),
 					'positive_button_icon'  => self::get_feedback_box_button_icon( 'positive' ),
-					'positive_button_style' => self::get_feedback_box_button_style( 'positive' ),
+					'positive_button_style' => self::get_feedback_box_button_style( 'positive', $layout ),
 					'negative_button_icon'  => self::get_feedback_box_button_icon( 'negative' ),
-					'negative_button_style' => self::get_feedback_box_button_style( 'negative' ),
+					'negative_button_style' => self::get_feedback_box_button_style( 'negative', $layout ),
 				);
 				set_transient( 'riwth_feedback_box', $attr, 365 * DAY_IN_SECONDS );
 			}
 
 			$attr = apply_filters( 'riwth_feedback_box_atts', $attr, get_the_ID() );
 
+			$layout             = isset( $attr['layout'] ) ? $attr['layout'] : 'default';
 			$feedback_box_style = $attr['feedback_box_style'];
 
 			$positive_button_icon  = $attr['positive_button_icon'];
@@ -44,7 +47,12 @@ if ( ! class_exists( 'RIWTH_Box' ) ) {
 			$negative_button_icon  = $attr['negative_button_icon'];
 			$negative_button_style = $attr['negative_button_style'];
 
-			$code  = '<div class="riwth-helpful-feedback wp-block-group" style="' . esc_attr( $feedback_box_style ) . '">';
+			$wrapper_class = 'riwth-helpful-feedback wp-block-group';
+			if ( 'one_line' === $layout ) {
+				$wrapper_class .= ' riwth-layout-one-line';
+			}
+
+			$code  = '<div class="' . esc_attr( $wrapper_class ) . '" style="' . esc_attr( $feedback_box_style ) . '">';
 			$code .= '<div class="riwth-text">' . esc_html( $feedback_box_text ) . '</div>';
 			$code .= '<div class="riwth-buttons-container">';
 			$code .= '<button class="riwth-helpful-yes" style="' . esc_attr( $positive_button_style ) . '" data-post_id="' . esc_attr( get_the_ID() ) . '" data-nonce="' . esc_attr( $nonce ) . '">';
@@ -69,6 +77,11 @@ if ( ! class_exists( 'RIWTH_Box' ) ) {
 
 		public static function get_feedback_box_nonce() {
 			return wp_create_nonce( 'riwth_was_this_helpful_nonce' );
+		}
+
+		public static function get_feedback_box_layout() {
+			$layout = get_option( 'riwth_feedback_box_layout', 'default' );
+			return in_array( $layout, array( 'default', 'one_line' ), true ) ? $layout : 'default';
 		}
 
 		public static function get_feedback_box_style() {
@@ -115,7 +128,7 @@ if ( ! class_exists( 'RIWTH_Box' ) ) {
 			return $button_text;
 		}
 
-		public static function get_feedback_box_button_style( $type ) {
+		public static function get_feedback_box_button_style( $type, $layout = 'default' ) {
 			if ( ! in_array( $type, array( 'positive', 'negative' ) ) ) {
 				return;
 			}
@@ -124,7 +137,11 @@ if ( ! class_exists( 'RIWTH_Box' ) ) {
 
 			$button_color = get_option( 'riwth_feedback_box_color_' . $type . '_button' );
 			if ( $button_color ) {
-				$return .= 'background-color: ' . esc_attr( $button_color ) . '; ';
+				if ( 'one_line' === $layout ) {
+					$return .= 'border-color: ' . esc_attr( $button_color ) . '; ';
+				} else {
+					$return .= 'background-color: ' . esc_attr( $button_color ) . '; ';
+				}
 			}
 
 			$text_color = get_option( 'riwth_feedback_box_color_' . $type . '_text' );

@@ -108,6 +108,19 @@ class Test_RIWTH_Settings_Sanitizers extends RIWTH_Test_Case {
 	}
 
 	// -----------------------------------------------------------------
+	// sanitize_feedback_box_layout()
+	// -----------------------------------------------------------------
+
+	public function test_sanitize_feedback_box_layout_valid_value() {
+		$this->assertSame( 'one_line', $this->settings->sanitize_feedback_box_layout( 'one_line' ) );
+		$this->assertSame( 'default', $this->settings->sanitize_feedback_box_layout( 'default' ) );
+	}
+
+	public function test_sanitize_feedback_box_layout_invalid_falls_back_to_default() {
+		$this->assertSame( 'default', $this->settings->sanitize_feedback_box_layout( 'not-a-real-layout' ) );
+	}
+
+	// -----------------------------------------------------------------
 	// sanitize_border_radius()
 	// -----------------------------------------------------------------
 
@@ -144,6 +157,7 @@ class Test_RIWTH_Settings_Sanitizers extends RIWTH_Test_Case {
 		$this->assertSame( 1, $defaults['riwth_load_styles'] );
 		$this->assertSame( 1, $defaults['riwth_load_scripts'] );
 		$this->assertSame( '#f4f4f5', $defaults['riwth_feedback_box_color_background'] );
+		$this->assertSame( 'default', $defaults['riwth_feedback_box_layout'] );
 		$this->assertSame( '8', $defaults['riwth_feedback_box_border_button_rounded'] );
 		$this->assertSame( '', $defaults['riwth_feedback_box_thanks_url'] );
 	}

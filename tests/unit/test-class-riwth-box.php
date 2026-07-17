@@ -142,6 +142,48 @@ class Test_RIWTH_Box extends RIWTH_Test_Case {
 		$this->assertStringContainsString( 'border-radius: 8%', $style );
 	}
 
+	public function test_get_feedback_box_button_style_one_line_layout_uses_border_color() {
+		update_option( 'riwth_feedback_box_color_positive_button', '#7c3aed' );
+		update_option( 'riwth_feedback_box_color_positive_text', '#7c3aed' );
+
+		$style = RIWTH_Box::get_feedback_box_button_style( 'positive', 'one_line' );
+
+		$this->assertStringContainsString( 'border-color: #7c3aed', $style );
+		$this->assertStringNotContainsString( 'background-color: #7c3aed', $style );
+		$this->assertStringContainsString( 'color: #7c3aed', $style );
+	}
+
+	public function test_get_feedback_box_layout_falls_back_to_default() {
+		delete_option( 'riwth_feedback_box_layout' );
+		$this->assertSame( 'default', RIWTH_Box::get_feedback_box_layout() );
+
+		update_option( 'riwth_feedback_box_layout', 'not-a-real-layout' );
+		$this->assertSame( 'default', RIWTH_Box::get_feedback_box_layout() );
+	}
+
+	public function test_get_feedback_box_layout_returns_configured_value() {
+		update_option( 'riwth_feedback_box_layout', 'one_line' );
+		$this->assertSame( 'one_line', RIWTH_Box::get_feedback_box_layout() );
+	}
+
+	public function test_feedback_box_code_adds_one_line_class_when_configured() {
+		update_option( 'riwth_feedback_box_layout', 'one_line' );
+		delete_transient( 'riwth_feedback_box' );
+
+		$html = RIWTH_Box::feedback_box_code();
+
+		$this->assertStringContainsString( 'riwth-layout-one-line', $html );
+	}
+
+	public function test_feedback_box_code_omits_one_line_class_by_default() {
+		update_option( 'riwth_feedback_box_layout', 'default' );
+		delete_transient( 'riwth_feedback_box' );
+
+		$html = RIWTH_Box::feedback_box_code();
+
+		$this->assertStringNotContainsString( 'riwth-layout-one-line', $html );
+	}
+
 	public function test_add_feedback_box_appends_when_should_display() {
 		update_option( 'riwth_display_on', array( 'post' ) );
 		$post_id = RIWTH_Test_Factory::create_published_post();

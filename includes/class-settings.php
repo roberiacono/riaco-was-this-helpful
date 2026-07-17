@@ -281,6 +281,15 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 					'type'              => 'string',
 					'sanitize_callback' => 'sanitize_hex_color',
 				),
+				'riwth_feedback_box_layout'                => array(
+					'title'             => __( 'Layout', 'riaco-was-this-helpful' ),
+					'callback'          => array( $this, 'feedback_box_layout_callback' ),
+					'tab'               => 'riwth-settings-tab-feedback-box',
+					'section'           => 'riwth-feedback-box-styles-settings-section',
+					'args'              => array( 'class' => 'radio' ),
+					'type'              => 'string',
+					'sanitize_callback' => 'sanitize_feedback_box_layout',
+				),
 				'riwth_feedback_box_border_button_rounded' => array(
 					'title'             => __( 'Button Border Radius', 'riaco-was-this-helpful' ),
 					'callback'          => array( $this, 'feedback_box_border_button_rounded_callback' ),
@@ -502,7 +511,7 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 			$option = get_option( $args['name'], '' );
 			$type   = isset( $args['type'] ) && 'url' === $args['type'] ? 'url' : 'text';
 
-			echo '<input type="' . esc_attr( $type ) . '" name="' . esc_attr( $args['name'] ) . '" value="' . esc_attr( $option ) . '">';
+			echo '<input type="' . esc_attr( $type ) . '" name="' . esc_attr( $args['name'] ) . '" value="' . esc_attr( $option ) . '" class="riwth-text-input">';
 
 			if ( isset( $args['description'] ) && ! empty( $args['description'] ) ) {
 				echo '<p class="description">' . esc_html( $args['description'] ) . '</p>';
@@ -593,6 +602,33 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 		}
 
 
+		public function feedback_box_layout_callback() {
+			$option           = get_option( 'riwth_feedback_box_layout', 'default' );
+			$svg_allowed_html = RIWTH_Functions::get_svg_allowed_html();
+			$layout_icons     = RIWTH_SVG_Icons::get_svg_layout_icons();
+			$layouts          = array(
+				'default'  => __( 'Default (stacked)', 'riaco-was-this-helpful' ),
+				'one_line' => __( 'One Line (inline, right-aligned)', 'riaco-was-this-helpful' ),
+			);
+
+			echo '<div class="riwth-layout-options">';
+			foreach ( $layouts as $key => $label ) {
+				?>
+				<label>
+					<input type="radio" name="riwth_feedback_box_layout" value="<?php echo esc_attr( $key ); ?>" <?php checked( $key, $option ); ?>>
+					<?php echo wp_kses( $layout_icons[ $key ], $svg_allowed_html ); ?>
+					<?php echo esc_html( $label ); ?>
+				</label>
+				<?php
+			}
+			echo '</div>';
+			echo '<p class="description">' . esc_html__( 'Tip: increase the Button Border Radius below for a pill/circle look in the One Line layout.', 'riaco-was-this-helpful' ) . '</p>';
+		}
+
+		public function sanitize_feedback_box_layout( $input ) {
+			return in_array( $input, array( 'default', 'one_line' ), true ) ? $input : 'default';
+		}
+
 		public function feedback_box_border_button_rounded_callback() {
 			$option           = get_option( 'riwth_feedback_box_border_button_rounded', 0 );
 			$initial_settings = self::get_intial_settings();
@@ -618,7 +654,7 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 				'riwth_load_styles'                        => 1,
 				'riwth_load_scripts'                       => 1,
 				'riwth_show_admin_bar_content'             => 1,
-				'riwth_feedback_box_template'              => 'default',
+				'riwth_feedback_box_layout'                => 'default',
 				'riwth_feedback_box_text'                  => __( 'Was This Helpful?', 'riaco-was-this-helpful' ),
 				'riwth_feedback_box_positive_button_text'  => __( 'Yes', 'riaco-was-this-helpful' ),
 				'riwth_feedback_box_positive_button_icon'  => 'thumbs-up',

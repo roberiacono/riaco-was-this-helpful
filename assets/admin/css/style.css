@@ -1,7 +1,20 @@
 .radio td {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 1rem;
+}
+
+.riwth-layout-options {
+    display: flex;
+    align-items: center;
+    flex: 1 0 100%;
+    gap: 1rem;
+}
+
+.riwth-layout-options label {
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .radio td label{
@@ -13,8 +26,19 @@
     width: 24px;
 }
 
+.radio svg.riwth-layout-icon {
+    width: 240px;
+    height: auto;
+}
+
 .radio svg:hover {
     cursor: pointer;
+}
+
+.riwth-text-input {
+    width: 100%;
+    max-width: 900px;
+    padding: 12px 16px;
 }
 
 #wpbody-content {
