@@ -24,14 +24,13 @@ if ( ! class_exists( 'RIWTH_Box' ) ) {
 			$negative_button_text = self::get_feedback_box_button_text( 'negative' );
 
 			if ( false === ( $attr = get_transient( 'riwth_feedback_box' ) ) ) {
-				$layout = self::get_feedback_box_layout();
-				$attr   = array(
-					'layout'                => $layout,
+				$attr = array(
+					'layout'                => self::get_feedback_box_layout(),
 					'feedback_box_style'    => self::get_feedback_box_style(),
 					'positive_button_icon'  => self::get_feedback_box_button_icon( 'positive' ),
-					'positive_button_style' => self::get_feedback_box_button_style( 'positive', $layout ),
+					'positive_button_style' => self::get_feedback_box_button_style( 'positive' ),
 					'negative_button_icon'  => self::get_feedback_box_button_icon( 'negative' ),
-					'negative_button_style' => self::get_feedback_box_button_style( 'negative', $layout ),
+					'negative_button_style' => self::get_feedback_box_button_style( 'negative' ),
 				);
 				set_transient( 'riwth_feedback_box', $attr, 365 * DAY_IN_SECONDS );
 			}
@@ -128,7 +127,7 @@ if ( ! class_exists( 'RIWTH_Box' ) ) {
 			return $button_text;
 		}
 
-		public static function get_feedback_box_button_style( $type, $layout = 'default' ) {
+		public static function get_feedback_box_button_style( $type ) {
 			if ( ! in_array( $type, array( 'positive', 'negative' ) ) ) {
 				return;
 			}
@@ -137,11 +136,7 @@ if ( ! class_exists( 'RIWTH_Box' ) ) {
 
 			$button_color = get_option( 'riwth_feedback_box_color_' . $type . '_button' );
 			if ( $button_color ) {
-				if ( 'one_line' === $layout ) {
-					$return .= 'border-color: ' . esc_attr( $button_color ) . '; ';
-				} else {
-					$return .= 'background-color: ' . esc_attr( $button_color ) . '; ';
-				}
+				$return .= 'background-color: ' . esc_attr( $button_color ) . '; ';
 			}
 
 			$text_color = get_option( 'riwth_feedback_box_color_' . $type . '_text' );

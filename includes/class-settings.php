@@ -10,6 +10,8 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'riwth_enqueue_color_picker' ) );
 			add_action( 'updated_option', array( $this, 'maybe_clear_box_transient' ), 10, 1 );
+			add_action( 'added_option', array( $this, 'maybe_clear_box_transient' ), 10, 1 );
+			add_action( 'deleted_option', array( $this, 'maybe_clear_box_transient' ), 10, 1 );
 		}
 
 		public function maybe_clear_box_transient( $option ) {
@@ -622,7 +624,6 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 				<?php
 			}
 			echo '</div>';
-			echo '<p class="description">' . esc_html__( 'Tip: increase the Button Border Radius below for a pill/circle look in the One Line layout.', 'riaco-was-this-helpful' ) . '</p>';
 		}
 
 		public function sanitize_feedback_box_layout( $input ) {
@@ -634,6 +635,7 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 			$initial_settings = self::get_intial_settings();
 
 			echo '<input type="number" min="0" max="100" id="riwth_feedback_box_border_button_rounded" name="riwth_feedback_box_border_button_rounded" value="' . esc_attr( $option ) . '" />%';
+			echo '<p class="description">' . esc_html__( 'Tip: increase this for a pill/circle look in the One Line layout.', 'riaco-was-this-helpful' ) . '</p>';
 		}
 
 		public function sanitize_border_radius( $input ) {

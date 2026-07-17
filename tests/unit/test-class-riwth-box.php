@@ -142,15 +142,15 @@ class Test_RIWTH_Box extends RIWTH_Test_Case {
 		$this->assertStringContainsString( 'border-radius: 8%', $style );
 	}
 
-	public function test_get_feedback_box_button_style_one_line_layout_uses_border_color() {
-		update_option( 'riwth_feedback_box_color_positive_button', '#7c3aed' );
-		update_option( 'riwth_feedback_box_color_positive_text', '#7c3aed' );
+	public function test_get_feedback_box_button_style_uses_background_color_regardless_of_layout() {
+		update_option( 'riwth_feedback_box_layout', 'one_line' );
+		update_option( 'riwth_feedback_box_color_positive_button', '#101010' );
+		update_option( 'riwth_feedback_box_color_positive_text', '#101010' );
 
-		$style = RIWTH_Box::get_feedback_box_button_style( 'positive', 'one_line' );
+		$style = RIWTH_Box::get_feedback_box_button_style( 'positive' );
 
-		$this->assertStringContainsString( 'border-color: #7c3aed', $style );
-		$this->assertStringNotContainsString( 'background-color: #7c3aed', $style );
-		$this->assertStringContainsString( 'color: #7c3aed', $style );
+		$this->assertStringContainsString( 'background-color: #101010', $style );
+		$this->assertStringContainsString( 'color: #101010', $style );
 	}
 
 	public function test_get_feedback_box_layout_falls_back_to_default() {

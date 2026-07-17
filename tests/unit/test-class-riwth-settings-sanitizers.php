@@ -196,4 +196,22 @@ class Test_RIWTH_Settings_Sanitizers extends RIWTH_Test_Case {
 
 		$this->assertSame( array( 'x' => 'y' ), get_transient( 'riwth_feedback_box' ) );
 	}
+
+	public function test_maybe_clear_box_transient_busts_on_deleted_feedback_box_option() {
+		update_option( 'riwth_feedback_box_color_positive_button', '#111111' );
+		set_transient( 'riwth_feedback_box', array( 'x' => 'y' ), DAY_IN_SECONDS );
+
+		delete_option( 'riwth_feedback_box_color_positive_button' );
+
+		$this->assertFalse( get_transient( 'riwth_feedback_box' ) );
+	}
+
+	public function test_maybe_clear_box_transient_busts_on_added_feedback_box_option() {
+		delete_option( 'riwth_feedback_box_color_positive_button' );
+		set_transient( 'riwth_feedback_box', array( 'x' => 'y' ), DAY_IN_SECONDS );
+
+		add_option( 'riwth_feedback_box_color_positive_button', '#222222' );
+
+		$this->assertFalse( get_transient( 'riwth_feedback_box' ) );
+	}
 }
