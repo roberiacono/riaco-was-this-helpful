@@ -3,7 +3,7 @@
  * Plugin Name: Was This Helpful? – Article Feedback
  * Plugin URI: https://wordpress.org/plugins/riaco-was-this-helpful/
  * Description: A lightweight plugin that adds a "Was this helpful?" thumbs up/down feedback box to your posts and pages — improve content quality through direct user feedback.
- * Version: 2.2.2
+ * Version: 2.3.0
  * Author: Roberto Iacono
  * Author URI: https://riacoplugins.com/
  * License: GPL v2 or later
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
 
 
 if ( ! defined( 'RIWTH_PLUGIN_VERSION' ) ) {
-	define( 'RIWTH_PLUGIN_VERSION', '2.2.2' );
+	define( 'RIWTH_PLUGIN_VERSION', '2.3.0' );
 }
 
 if ( ! defined( 'RIWTH_DB_VERSION' ) ) {

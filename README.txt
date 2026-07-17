@@ -4,7 +4,7 @@ Tags: was this helpful, article feedback, feedback, WordPress feedback plugin, h
 Requires at least: 6.2
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 2.2.2
+Stable tag: 2.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,7 +120,7 @@ Not directly. You can manually adjust the reset date in the post meta if necessa
 
 == Changelog ==
 
-= 2.2.2 - 2026-07-17 =
+= 2.3.0 - 2026-07-17 =
 * Added: Post URL/slug column in the Feedback Records admin table and CSV export, to help disambiguate pages with similar titles.
 * Added: Optional "Thank You Link URL" setting — when set, the Thank You text becomes a link to that URL; leave blank for plain text.
 * Fixed: PHP fatal error on PHP 7.4 sites whenever any option was saved, caused by a PHP 8-only function call.
