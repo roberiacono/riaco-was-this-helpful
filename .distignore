@@ -4,6 +4,7 @@
 .vscode
 .claude
 CLAUDE.md
+PRO-VERSION-PLAN.md
 
 # Node build tooling (not needed at runtime; src/ is included for WP.org review)
 helpful-box-block/node_modules
