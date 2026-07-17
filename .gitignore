@@ -31,3 +31,9 @@ node_modules/
 
 # dotenv environment variables file
 .env
+
+# Composer dependencies
+vendor/
+
+# PHPUnit
+.phpunit.result.cache

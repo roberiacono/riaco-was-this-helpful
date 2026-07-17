@@ -16,3 +16,12 @@ helpful-box-block/package-lock.json
 *.tgz
 *.zip
 .env
+
+# PHPUnit test suite (dev-only tooling, not part of the distributed plugin)
+tests
+bin
+vendor
+composer.json
+composer.lock
+phpunit.xml.dist
+.phpunit.result.cache
