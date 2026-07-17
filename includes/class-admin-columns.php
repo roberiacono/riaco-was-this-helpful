@@ -108,7 +108,6 @@ if ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {
 				$order = ( 'ASC' === strtoupper( $order ) ) ? 'ASC' : 'DESC';
 
 				// Modify the query to join with feedback table and calculate percentage.
-				$query->set( 'meta_query', array() );
 				$query->set( 'orderby', 'feedback_percentage' );
 				$query->set( 'order', $order );
 

@@ -80,7 +80,7 @@ if ( ! class_exists( 'RIWTH_Block' ) ) {
 		 * Render the feedback block.
 		 */
 		public function render_feedback_block() {
-			if ( ! RIWTH_Functions::feedback_given( get_the_ID() ) ) {
+			if ( RIWTH_Functions::could_display_box() && ! RIWTH_Functions::feedback_given( get_the_ID() ) ) {
 				return RIWTH_Box::feedback_box_code();
 			}
 			return false;

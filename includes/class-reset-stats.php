@@ -124,8 +124,6 @@ if ( ! class_exists( 'RIWTH_Reset_Stats' ) ) {
 		}
 
 		public function riwth_add_reset_button_to_meta_box( $post ) {
-			wp_nonce_field( 'riwth_reset_nonce', 'riwth_reset_nonce' );
-
 			$reset_date          = get_post_meta( $post->ID, '_riwth_reset_date', true );
 			$is_reset_date_valid = $reset_date && strtotime( $reset_date ) !== false;
 
@@ -136,23 +134,12 @@ if ( ! class_exists( 'RIWTH_Reset_Stats' ) ) {
 			$reset_date_display = $reset_date ? $reset_date : __( 'Never', 'riaco-was-this-helpful' );
 			?>
 			<div class="riwth-reset-container" style="margin-top: 15px;">
-		
 				<p class="riwth-reset-description">
 					<strong><?php esc_html_e( 'Last Reset Date:', 'riaco-was-this-helpful' ); ?></strong>
 					<span class="riwth-reset-description--date">
 						<?php echo esc_html( $reset_date_display ); ?>
 					</span>
 				</p>
-		
-				<!-- <p>
-					<input type="button" 
-							id="riwth-reset-button" 
-							class="button" 
-							value="<?php esc_attr_e( 'Reset Statistics', 'riaco-was-this-helpful' ); ?>">
-				</p> -->
-		
-				<!-- Message area for JS -->
-				<div class="riwth-reset-message" style="display:none; margin-top:5px;"></div>
 			</div>
 			<?php
 		}

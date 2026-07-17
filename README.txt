@@ -1,7 +1,9 @@
 === Was This Helpful? – Article Feedback ===
 Contributors: prototipo88
-Tags: was this helpful, article feedback, feedback, WordPress feedback plugin, helpful 
+Tags: was this helpful, article feedback, feedback, WordPress feedback plugin, helpful
+Requires at least: 6.2
 Tested up to: 7.0
+Requires PHP: 7.4
 Stable tag: 2.2.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -80,10 +82,10 @@ A simple thumbs up/down helps you see:
 == Frequently Asked Questions ==
 
 = Can I choose where the feedback box appears? =
-Yes. By default, the box appears after your content on posts and pages. You can also use the `[was_this_helpful]` shortcode to place it manually.
+Yes. By default, the box appears after your content on posts and pages. You can also use the `[riwth_helpful_box]` shortcode to place it manually.
 
 = Can I disable the feedback box on specific posts? =
-Absolutely. Just uncheck the display option in the editor sidebar on that post or page.
+Absolutely. Just check the "Disable automatic Helpful box" option in the editor sidebar on that post or page.
 
 = How do I see the feedback results? =  
 Each post and page in your WordPress admin will show a "Was This Helpful" column, with the number and percentage of positive votes.

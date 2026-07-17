@@ -130,4 +130,4 @@ $delete_all_url  = wp_nonce_url(
 
 	<?php endif; ?>
 </div>
-<?php // phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound ?>
+<?php // phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound

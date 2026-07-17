@@ -157,7 +157,7 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 			if ( function_exists( 'get_current_screen' ) ) {
 				$screen = get_current_screen();
 
-				if ( is_admin() && is_main_query() && in_array( $screen->base, $options ) && in_array( get_post_type(), $options ) ) {
+				if ( is_admin() && $screen instanceof WP_Screen && is_main_query() && in_array( $screen->base, $options ) && in_array( get_post_type(), $options ) ) {
 					return (bool) apply_filters( 'riwth_could_display_box', true, $post->ID );
 				}
 			}

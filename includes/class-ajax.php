@@ -48,14 +48,40 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 			// checking HTTP_X_FORWARDED_FOR is more accurate but that header is
 			// spoofable, so we keep this simple for the free tier.
 			$ip_raw   = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
-			$rate_key = 'riwth_rate_' . md5( $ip_raw . '|' . $post_id );
-
-			if ( false !== get_transient( $rate_key ) ) {
-				wp_send_json_error( array( 'message' => 'Too many requests. Please wait before voting again.' ), 429 );
-			}
-			set_transient( $rate_key, 1, 30 );
+			$rate_key = '_riwth_rl_' . md5( $ip_raw . '|' . $post_id );
+			$now      = time();
 
 			global $wpdb;
+
+			// Claim the rate-limit slot with INSERT IGNORE: the wp_options unique key
+			// on option_name makes this atomic across concurrent requests, unlike a
+			// get_transient()/set_transient() pair which leaves a check-then-write race.
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+			$claimed = $wpdb->query(
+				$wpdb->prepare(
+					'INSERT IGNORE INTO %i (option_name, option_value, autoload) VALUES (%s, %d, %s)',
+					$wpdb->options,
+					$rate_key,
+					$now + 30,
+					'no'
+				)
+			);
+
+			if ( ! $claimed ) {
+				// Slot already exists — see if the previous claim has expired.
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+				$expires_at = (int) $wpdb->get_var(
+					$wpdb->prepare( 'SELECT option_value FROM %i WHERE option_name = %s', $wpdb->options, $rate_key )
+				);
+
+				if ( $expires_at > $now ) {
+					wp_send_json_error( array( 'message' => 'Too many requests. Please wait before voting again.' ), 429 );
+				}
+
+				// Expired: reclaim it for this request.
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+				$wpdb->update( $wpdb->options, array( 'option_value' => $now + 30 ), array( 'option_name' => $rate_key ), array( '%d' ), array( '%s' ) );
+			}
 
 			$table_name = $wpdb->prefix . RIWTH_DB_NAME;
 

@@ -5,7 +5,7 @@
  * Description: A lightweight plugin that adds a "Was this helpful?" thumbs up/down feedback box to your posts and pages — improve content quality through direct user feedback.
  * Version: 2.2.2
  * Author: Roberto Iacono
- * Author URI: https://riacoplugins.com//
+ * Author URI: https://riacoplugins.com/
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Requires at least: 6.2

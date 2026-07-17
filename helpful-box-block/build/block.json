@@ -11,7 +11,7 @@
   "supports": {
     "html": false
   },
-  "textdomain": "helpful-box-block",
+  "textdomain": "riaco-was-this-helpful",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css"

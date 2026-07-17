@@ -2,7 +2,7 @@
 /**
  * Pre Footer Template.
  *
- * @package PrettyLinks
+ * @package RIWTH
  */
 
 defined( 'ABSPATH' ) || exit;

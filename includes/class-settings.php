@@ -13,7 +13,7 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 		}
 
 		public function maybe_clear_box_transient( $option ) {
-			if ( str_starts_with( $option, 'riwth_feedback_box_' ) ) {
+			if ( 0 === strpos( $option, 'riwth_feedback_box_' ) ) {
 				delete_transient( 'riwth_feedback_box' );
 			}
 		}
@@ -431,16 +431,13 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 		}
 
 		public function sanitize_user_roles( $input ) {
-			// Verifica che sia un array
 			if ( ! is_array( $input ) ) {
 				return array();
 			}
 
-			// Ottieni tutti i ruoli disponibili in WordPress
 			global $wp_roles;
 			$valid_roles = array_keys( $wp_roles->roles );
 
-			// Filtra l'input per mantenere solo ruoli validi
 			return array_intersect( $input, $valid_roles );
 		}
 
@@ -501,7 +498,7 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 
 		public function sanitize_positive_button_icon( $input ) {
 			$valid_icons          = RIWTH_SVG_Icons::get_svg_positive_icons();
-			$valid_icons['empty'] = esc_html__( 'Leave Empty', 'riaco-was-this-helpful' ); // Aggiungo 'empty'
+			$valid_icons['empty'] = esc_html__( 'Leave Empty', 'riaco-was-this-helpful' );
 
 			return array_key_exists( $input, $valid_icons ) ? $input : 'empty';
 		}
@@ -525,7 +522,7 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 
 		public function sanitize_negative_button_icon( $input ) {
 			$valid_icons          = RIWTH_SVG_Icons::get_svg_negative_icons();
-			$valid_icons['empty'] = esc_html__( 'Leave Empty', 'riaco-was-this-helpful' ); // Aggiungo 'empty'
+			$valid_icons['empty'] = esc_html__( 'Leave Empty', 'riaco-was-this-helpful' );
 
 			return array_key_exists( $input, $valid_icons ) ? $input : 'empty';
 		}
@@ -540,10 +537,6 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 			$option           = get_option( 'riwth_feedback_box_color_background', '' );
 			$initial_settings = self::get_intial_settings();
 			echo '<input type="text" id="riwth_feedback_box_color_background" name="riwth_feedback_box_color_background" value="' . esc_attr( $option ) . '" class="riwth-color-field" data-default-color="' . esc_attr( $initial_settings['riwth_feedback_box_color_background'] ) . '" />';
-		}
-
-		public function sanitize_hex_color( $color ) {
-			return sanitize_hex_color( $color ); // Restituisce un valore valido o un vuoto se non è un colore
 		}
 
 		public function feedback_box_color_positive_button_callback() {

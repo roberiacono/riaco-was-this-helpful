@@ -181,7 +181,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
             post_id bigint(20) NOT NULL,
             helpful tinyint(1) NOT NULL,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-            PRIMARY KEY (id),
+            PRIMARY KEY  (id),
             KEY post_id (post_id)
         ) $charset_collate;";
 
@@ -280,7 +280,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 		 * @param array $links Existing plugin action links.
 		 */
 		public function add_settings_link( $links ) {
-			$url           = get_admin_url() . 'admin.php?page=riwth-settings';
+			$url           = admin_url( 'admin.php?page=riwth-settings' );
 			$settings_link = array( '<a href="' . esc_url( $url ) . '">' . esc_html( __( 'Settings', 'riaco-was-this-helpful' ) ) . '</a>' );
 			return array_merge( $settings_link, $links );
 		}
