@@ -11,7 +11,7 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 
 			// Try to get the cached value
 			$cache_key         = 'riwth_positive_feedback_' . $post_id;
-			$positive_feedback = wp_cache_get( $cache_key );
+			$positive_feedback = wp_cache_get( $cache_key, 'riwth_feedback' );
 
 			if ( false === $positive_feedback ) {
 
@@ -59,7 +59,7 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 			$table_name = $wpdb->prefix . RIWTH_DB_NAME;
 
 			$cache_key      = 'riwth_total_feedback_' . $post_id;
-			$total_feedback = wp_cache_get( $cache_key );
+			$total_feedback = wp_cache_get( $cache_key, 'riwth_feedback' );
 
 			if ( false === $total_feedback ) {
 
