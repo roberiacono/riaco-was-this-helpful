@@ -114,6 +114,7 @@ if ( ! class_exists( 'RIWTH_Admin_Pages_Footer' ) ) {
 			$plugin_pages = array(
 				'riwth-settings',
 				'riwth-shortcode',
+				'riwth-feedback-list',
 			);
 			foreach ( $plugin_pages as $page ) {
 				if ( strpos( $hook, $page ) !== false ) {
