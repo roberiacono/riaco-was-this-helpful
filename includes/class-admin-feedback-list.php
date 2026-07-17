@@ -231,7 +231,7 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 			header( 'Content-Disposition: attachment; filename="feedback-export-' . gmdate( 'Y-m-d' ) . '.csv"' );
 
 			$output = fopen( 'php://output', 'w' );
-			fputcsv( $output, array( 'Post ID', 'Post Title', 'Vote', 'Date (UTC)' ) );
+			fputcsv( $output, array( 'Post ID', 'Post Title', 'Post URL', 'Vote', 'Date (UTC)' ) );
 
 			foreach ( $rows as $row ) {
 				$title = get_the_title( (int) $row['post_id'] );
@@ -240,8 +240,10 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 				if ( $title && in_array( $title[0], array( '=', '+', '-', '@', "\t", "\r" ), true ) ) {
 					$title = "'" . $title;
 				}
+				$url  = get_permalink( (int) $row['post_id'] );
+				$url  = $url ? $url : '';
 				$vote = '1' === $row['helpful'] ? 'Yes' : 'No';
-				fputcsv( $output, array( $row['post_id'], $title, $vote, $row['created_at'] ) );
+				fputcsv( $output, array( $row['post_id'], $title, $url, $vote, $row['created_at'] ) );
 			}
 
 			fclose( $output ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose

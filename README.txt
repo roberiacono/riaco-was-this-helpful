@@ -119,7 +119,7 @@ Not directly. You can manually adjust the reset date in the post meta if necessa
 == Changelog ==
 
 = 2.2.2 - 2026-07-17 =
-* Updated: Bumped websocket-driver (Gutenberg block build dependency) to 0.7.5 to resolve a Dependabot security alert. Dev tooling only, no runtime or user-facing change.
+* Added: Post URL/slug column in the Feedback Records admin table and CSV export, to help disambiguate pages with similar titles.
 
 = 2.2.1 - 2026-06-15 =
 * Fixed: Colored dot now displays correctly in admin columns (background-color was stripped by WordPress CSS sanitizer when using rgb() format).

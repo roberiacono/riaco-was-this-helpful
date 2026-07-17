@@ -47,10 +47,11 @@ $delete_all_url  = wp_nonce_url(
 		<table class="wp-list-table widefat fixed striped">
 			<thead>
 				<tr>
-					<th style="width:40%"><?php esc_html_e( 'Post', 'riaco-was-this-helpful' ); ?></th>
+					<th style="width:30%"><?php esc_html_e( 'Post', 'riaco-was-this-helpful' ); ?></th>
+					<th style="width:25%"><?php esc_html_e( 'Slug', 'riaco-was-this-helpful' ); ?></th>
 					<th style="width:15%"><?php esc_html_e( 'Vote', 'riaco-was-this-helpful' ); ?></th>
-					<th style="width:30%"><?php esc_html_e( 'Date', 'riaco-was-this-helpful' ); ?></th>
-					<th style="width:15%"><?php esc_html_e( 'Actions', 'riaco-was-this-helpful' ); ?></th>
+					<th style="width:20%"><?php esc_html_e( 'Date', 'riaco-was-this-helpful' ); ?></th>
+					<th style="width:10%"><?php esc_html_e( 'Actions', 'riaco-was-this-helpful' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -59,6 +60,7 @@ $delete_all_url  = wp_nonce_url(
 					$post_title = get_the_title( (int) $record->post_id );
 					$post_title = $post_title ? $post_title : __( '(Post deleted)', 'riaco-was-this-helpful' );
 					$edit_link  = get_edit_post_link( (int) $record->post_id );
+					$post_url   = get_permalink( (int) $record->post_id );
 					$vote_label = '1' === $record->helpful ? __( 'Yes', 'riaco-was-this-helpful' ) : __( 'No', 'riaco-was-this-helpful' );
 					$vote_color = '1' === $record->helpful ? '#1e8a1e' : '#c0392b';
 					$date       = get_date_from_gmt( $record->created_at, get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
@@ -79,6 +81,13 @@ $delete_all_url  = wp_nonce_url(
 								<a href="<?php echo esc_url( $edit_link ); ?>"><?php echo esc_html( $post_title ); ?></a>
 							<?php else : ?>
 								<?php echo esc_html( $post_title ); ?>
+							<?php endif; ?>
+						</td>
+						<td style="word-break:break-all;">
+							<?php if ( $post_url ) : ?>
+								<a href="<?php echo esc_url( $post_url ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( get_post_field( 'post_name', (int) $record->post_id ) ); ?></a>
+							<?php else : ?>
+								&#8212;
 							<?php endif; ?>
 						</td>
 						<td>
