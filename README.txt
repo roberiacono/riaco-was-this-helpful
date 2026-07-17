@@ -123,6 +123,10 @@ Not directly. You can manually adjust the reset date in the post meta if necessa
 = 2.2.2 - 2026-07-17 =
 * Added: Post URL/slug column in the Feedback Records admin table and CSV export, to help disambiguate pages with similar titles.
 * Added: Optional "Thank You Link URL" setting — when set, the Thank You text becomes a link to that URL; leave blank for plain text.
+* Fixed: PHP fatal error on PHP 7.4 sites whenever any option was saved, caused by a PHP 8-only function call.
+* Fixed: Feedback box block ignored the "Display on" post type setting.
+* Fixed: Feedback box block strings not being translated due to an incorrect text domain.
+* Fixed: Rate limiting could be bypassed by near-simultaneous requests, allowing duplicate votes.
 
 = 2.2.1 - 2026-06-15 =
 * Fixed: Colored dot now displays correctly in admin columns (background-color was stripped by WordPress CSS sanitizer when using rgb() format).
