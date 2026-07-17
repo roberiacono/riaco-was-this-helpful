@@ -32,7 +32,7 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 				__( 'Was This Helpful Settings', 'riaco-was-this-helpful' ),
 				__( 'Was This Helpful', 'riaco-was-this-helpful' ),
 				'manage_options',
-				'riwth-settings',
+				RIWTH_MENU_SLUG,
 				array( $this, 'render_settings_page' ),
 				'dashicons-thumbs-up'
 			);
@@ -40,7 +40,7 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 
 		public function add_submenu_pages() {
 			add_submenu_page(
-				'riwth-settings',
+				RIWTH_MENU_SLUG,
 				__( 'Shortcode', 'riaco-was-this-helpful' ),
 				__( 'Shortcode', 'riaco-was-this-helpful' ),
 				'manage_options',
@@ -102,7 +102,18 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 					'tab'      => 'riwth-settings-tab-feedback-box',
 				),
 			);
-			return $settings_section;
+
+			/**
+			 * Filter the registered settings sections.
+			 *
+			 * A section's 'tab' value must equal 'riwth-settings-' . $tab_key for one
+			 * of the tab keys registered via the 'riwth_settings_tabs' filter (see
+			 * templates/page-settings.php) — that's the page slug do_settings_sections()
+			 * renders against.
+			 *
+			 * @param array $settings_section Section-key => {title, callback, tab}.
+			 */
+			return apply_filters( 'riwth_settings_sections', $settings_section );
 		}
 
 		public function get_settings_field() {
@@ -320,7 +331,16 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 				),
 			);
 
-			return $settings_field;
+			/**
+			 * Filter the registered settings fields.
+			 *
+			 * A field's 'tab' value must match a registered tab's settings-page slug
+			 * ('riwth-settings-' . $tab_key) and 'section' must match a section key
+			 * from the 'riwth_settings_sections' filter.
+			 *
+			 * @param array $settings_field Field-key => {title, callback, tab, section, ...}.
+			 */
+			return apply_filters( 'riwth_settings_fields', $settings_field );
 		}
 
 

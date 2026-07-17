@@ -35,6 +35,15 @@ if ( ! class_exists( 'RIWTH_Admin_Pages_Footer' ) ) {
 				return;
 			}
 
+			/**
+			 * Filter whether the "Made with ♥" pre-footer branding is shown.
+			 *
+			 * @param bool $show Whether to show the branding. Default true.
+			 */
+			if ( ! apply_filters( 'riwth_show_admin_footer_branding', true ) ) {
+				return;
+			}
+
 			$links = array(
 				array(
 					'url'    => 'https://wordpress.org/support/plugin/riaco-was-this-helpful/',
@@ -61,7 +70,7 @@ if ( ! class_exists( 'RIWTH_Admin_Pages_Footer' ) ) {
 		public function admin_footer( $text ) {
 			global $current_screen;
 
-			if ( ! empty( $current_screen->id ) && $this->is_plugin_link_page() ) {
+			if ( ! empty( $current_screen->id ) && $this->is_plugin_link_page() && apply_filters( 'riwth_show_admin_footer_branding', true ) ) {
 				$url  = 'https://wordpress.org/support/plugin/riaco-was-this-helpful/reviews/';
 				$text = sprintf(
 					wp_kses(
@@ -112,10 +121,14 @@ if ( ! class_exists( 'RIWTH_Admin_Pages_Footer' ) ) {
 			$hook = $this->get_screen_id();
 			// List of pages to check.
 			$plugin_pages = array(
-				'riwth-settings',
+				RIWTH_MENU_SLUG,
 				'riwth-shortcode',
 				'riwth-feedback-list',
 			);
+
+			/** This filter is documented in includes/class-was-this-helpful.php */
+			$plugin_pages = apply_filters( 'riwth_admin_page_ids', $plugin_pages );
+
 			foreach ( $plugin_pages as $page ) {
 				if ( strpos( $hook, $page ) !== false ) {
 					return true;

@@ -24,7 +24,7 @@ if ( ! defined( 'RIWTH_PLUGIN_VERSION' ) ) {
 }
 
 if ( ! defined( 'RIWTH_DB_VERSION' ) ) {
-	define( 'RIWTH_DB_VERSION', '1.1' );
+	define( 'RIWTH_DB_VERSION', '1.2' );
 }
 
 if ( ! defined( 'RIWTH_PLUGIN_FILE' ) ) {

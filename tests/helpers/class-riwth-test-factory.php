@@ -78,14 +78,23 @@ class RIWTH_Test_Factory {
 
 	/**
 	 * Reproduces RIWTH_Ajax::save_feedback()'s rate-limit option name
-	 * formula, so tests can directly read/backdate the claim.
+	 * formula (via RIWTH_Functions::get_client_ip_hash()), so tests can
+	 * directly read/backdate the claim.
 	 *
 	 * @param int    $post_id Post ID.
 	 * @param string $ip      IP address.
 	 * @return string wp_options option_name.
 	 */
 	public static function rate_limit_option_name( $post_id, $ip = '127.0.0.1' ) {
-		return '_riwth_rl_' . md5( $ip . '|' . $post_id );
+		$previous_ip             = isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : null;
+		$_SERVER['REMOTE_ADDR']  = $ip;
+		$option_name             = '_riwth_rl_' . RIWTH_Functions::get_client_ip_hash( $post_id );
+		if ( null === $previous_ip ) {
+			unset( $_SERVER['REMOTE_ADDR'] );
+		} else {
+			$_SERVER['REMOTE_ADDR'] = $previous_ip;
+		}
+		return $option_name;
 	}
 
 	/**

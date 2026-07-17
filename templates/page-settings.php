@@ -12,6 +12,16 @@ defined( 'ABSPATH' ) || exit;
 		'tab-extra'        => __( 'Extra', 'riaco-was-this-helpful' ),
 	);
 
+	/**
+	 * Filter the settings page tabs. A tab added here becomes selectable
+	 * automatically; sections/fields targeting it are registered via the
+	 * 'riwth_settings_sections' / 'riwth_settings_fields' filters using
+	 * 'tab' => 'riwth-settings-' . $tab_key.
+	 *
+	 * @param array $tabs Tab-key => label.
+	 */
+	$tabs = apply_filters( 'riwth_settings_tabs', $tabs );
+
 	// Default to first tab
 	$current_tab = array_key_first( $tabs );
 

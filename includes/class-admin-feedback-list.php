@@ -23,7 +23,7 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 
 		public function add_submenu_page() {
 			add_submenu_page(
-				'riwth-settings',
+				RIWTH_MENU_SLUG,
 				__( 'Feedback Records', 'riaco-was-this-helpful' ),
 				__( 'Feedback Records', 'riaco-was-this-helpful' ),
 				'manage_options',
@@ -220,7 +220,7 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$rows = $wpdb->get_results(
 				$wpdb->prepare(
-					'SELECT post_id, helpful, created_at FROM %i ORDER BY created_at DESC',
+					'SELECT id, post_id, helpful, created_at FROM %i ORDER BY created_at DESC',
 					$wpdb->prefix . RIWTH_DB_NAME
 				),
 				ARRAY_A
@@ -231,7 +231,14 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 			header( 'Content-Disposition: attachment; filename="feedback-export-' . gmdate( 'Y-m-d' ) . '.csv"' );
 
 			$output = fopen( 'php://output', 'w' );
-			fputcsv( $output, array( 'Post ID', 'Post Title', 'Post URL', 'Post Slug', 'Vote', 'Date (UTC)' ) );
+
+			/**
+			 * Filter the CSV export column headers.
+			 *
+			 * @param array $columns Column header labels, in order.
+			 */
+			$columns = apply_filters( 'riwth_csv_export_columns', array( 'Post ID', 'Post Title', 'Post URL', 'Post Slug', 'Vote', 'Date (UTC)' ) );
+			fputcsv( $output, $columns );
 
 			foreach ( $rows as $row ) {
 				$title = get_the_title( (int) $row['post_id'] );
@@ -245,7 +252,15 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 				$slug = get_post_field( 'post_name', (int) $row['post_id'] );
 				$slug = $slug ? $slug : '';
 				$vote = '1' === $row['helpful'] ? 'Yes' : 'No';
-				fputcsv( $output, array( $row['post_id'], $title, $url, $slug, $vote, $row['created_at'] ) );
+
+				/**
+				 * Filter a single CSV export data row.
+				 *
+				 * @param array $columns Column values, in the same order as 'riwth_csv_export_columns'.
+				 * @param array $row     The raw feedback row (includes 'id' for looking up related data).
+				 */
+				$csv_row = apply_filters( 'riwth_csv_export_row', array( $row['post_id'], $title, $url, $slug, $vote, $row['created_at'] ), $row );
+				fputcsv( $output, $csv_row );
 			}
 
 			fclose( $output ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose

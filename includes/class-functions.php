@@ -104,6 +104,22 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 			return $total_feedback;
 		}
 
+		/**
+		 * Return a privacy-preserving, non-reversible identifier for the current
+		 * visitor's IP address. The raw IP is read internally and never returned —
+		 * callers that need a stable-but-anonymous per-visitor key (e.g. rate
+		 * limiting, duplicate-submission checks) should use this instead of
+		 * reading $_SERVER['REMOTE_ADDR'] directly, so a raw IP is never persisted.
+		 *
+		 * @param string $context Optional context mixed into the hash (e.g. a post ID)
+		 *                        so the same visitor produces a different key per context.
+		 * @return string A sha256 hash, salted with the site's secret auth salt.
+		 */
+		public static function get_client_ip_hash( $context = '' ) {
+			$ip_raw = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+			return hash( 'sha256', $ip_raw . '|' . $context . '|' . wp_salt() );
+		}
+
 		public static function feedback_given( $post_id ) {
 			$feedback_given = isset( $_COOKIE['riwth_feedback_given'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['riwth_feedback_given'] ) ) : '';
 			$feedback_array = explode( ',', $feedback_given );
@@ -133,8 +149,13 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 			/**
 			 * Filter whether the feedback box should be displayed for the current post.
 			 *
-			 * Returning false suppresses the box even when all built-in conditions pass.
-			 * Returning true forces display regardless of post-meta or cookie state.
+			 * Only reached once the '_riwth_disable_box' post meta and the
+			 * 'riwth_feedback_given' cookie have both allowed display — those are
+			 * hard, un-overridable checks (the site owner's explicit per-post
+			 * opt-out and duplicate-vote protection). This filter can only override
+			 * self::could_display_box()'s result (post-type/screen gate); use
+			 * 'riwth_could_display_box' for the same purpose if you need it to also
+			 * run in admin-UI visibility checks (metabox, shortcode).
 			 *
 			 * @param bool $should_display Whether the box should be shown.
 			 * @param int  $post_id        The current post ID.

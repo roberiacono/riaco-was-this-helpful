@@ -9,7 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - PHP package prefix: `RIWTH`
 - Text domain: `riaco-was-this-helpful`
 - Requires: WordPress 6.2+, PHP 7.4+
-- Custom DB table: `{prefix}riwth_helpful_feedback` (columns: `id`, `post_id`, `helpful`, `created_at`; index on `post_id`)
+- Custom DB table: `{prefix}riwth_helpful_feedback` (columns: `id`, `post_id`, `helpful`, `created_at`; indexes on `post_id` and `created_at`)
 
 ## Build Commands (Gutenberg Block)
 
@@ -43,21 +43,21 @@ The built assets (`build/`) are committed. Always run `npm run build` before com
 `riaco-was-this-helpful.php` defines `RIWTH_PLUGIN_VERSION`, `RIWTH_PLUGIN_FILE`, and `RIWTH_DB_VERSION`, loads `class-was-this-helpful.php`, and calls `riwth_was_this_helpful()` to get the singleton.
 
 `RIWTH_Was_This_Helpful` (singleton) wires everything together:
-- `define_constants()` — sets `RIWTH_DB_NAME`, `RIWTH_PLUGIN_DIR`, `RIWTH_PLUGIN_URL`, `RIWTH_PLUGIN_DIRNAME`
+- `define_constants()` — sets `RIWTH_DB_NAME`, `RIWTH_PLUGIN_DIR`, `RIWTH_PLUGIN_URL`, `RIWTH_PLUGIN_DIRNAME`, `RIWTH_MENU_SLUG` (top-level admin menu slug, `riwth-settings` — a companion add-on plugin should reuse this constant rather than the literal string when calling `add_submenu_page()`)
 - `includes()` — requires all class files
 - `init_hooks()` — registers activation hook, enqueue hooks, `plugins_loaded` (priority 9: `maybe_upgrade_db`; priority 10: `init`)
-- `maybe_upgrade_db()` (on `plugins_loaded`, priority 9) — compares `riwth_db_version` option against `RIWTH_DB_VERSION`; re-runs `dbDelta` when behind so existing installs pick up schema changes (e.g. the `post_id` index) without re-activation
+- `maybe_upgrade_db()` (on `plugins_loaded`, priority 9) — compares `riwth_db_version` option against `RIWTH_DB_VERSION`; re-runs `dbDelta` when behind so existing installs pick up schema changes (e.g. the `post_id` and `created_at` indexes) without re-activation
 - `init()` (on `plugins_loaded`) — instantiates all classes; admin-only classes are guarded by `is_admin()`; stats classes are gated by `RIWTH_User_Role::can_user_see_stats()`
 
 ### Class Responsibilities
 
 | Class | File | Role |
 |---|---|---|
-| `RIWTH_Functions` | `class-functions.php` | Static helpers: feedback counts (with object cache + transient), `should_display_box()`, `could_display_box()`, color utility |
-| `RIWTH_Settings` | `class-settings.php` | Admin menu/submenu, Settings API registration, all option callbacks and sanitizers, `get_intial_settings()` defaults |
+| `RIWTH_Functions` | `class-functions.php` | Static helpers: feedback counts (with object cache + transient), `should_display_box()`, `could_display_box()`, `get_client_ip_hash()` (salted, non-reversible per-visitor identifier — never exposes the raw IP), color utility |
+| `RIWTH_Settings` | `class-settings.php` | Admin menu/submenu, Settings API registration, all option callbacks and sanitizers, `get_intial_settings()` defaults; sections/fields/tabs are filterable (see Developer Hooks) so a companion add-on can add its own without editing this file |
 | `RIWTH_Box` | `class-box.php` | Hooks `the_content` filter to append the feedback HTML; `feedback_box_code()` builds the HTML (cached via `riwth_feedback_box` transient) |
-| `RIWTH_Ajax` | `class-ajax.php` | Handles `wp_ajax_riwth_save_feedback` (public + priv); validates post exists, is `publish`, and its type is in `riwth_display_on` before saving; enforces 30-second per-IP/post rate limit via `add_transient()` (atomic); inserts row, busts caches, returns JSON |
-| `RIWTH_Admin_Feedback_List` | `class-admin-feedback-list.php` | Admin "Feedback Records" submenu page — paginated table of raw feedback rows with single/bulk delete and CSV export; CSV export prefixes formula-injection characters (`=`, `+`, `-`, `@`) in post titles with `'` |
+| `RIWTH_Ajax` | `class-ajax.php` | Handles `wp_ajax_riwth_save_feedback` (public + priv); validates post exists, is `publish`, and its type is in `riwth_display_on` before saving; enforces 30-second per-IP/post rate limit via `add_transient()` (atomic), keyed by `RIWTH_Functions::get_client_ip_hash()` rather than a raw/plain IP; inserts row, busts caches, returns JSON |
+| `RIWTH_Admin_Feedback_List` | `class-admin-feedback-list.php` | Admin "Feedback Records" submenu page — paginated table of raw feedback rows with single/bulk delete and CSV export; CSV export prefixes formula-injection characters (`=`, `+`, `-`, `@`) in post titles with `'`; both the on-screen table and CSV columns are filterable (see Developer Hooks) |
 | `RIWTH_Block` | `class-block.php` | Registers the Gutenberg block (`riaco-was-this-helpful/helpful-box-block`) with a server-side render callback that reuses `RIWTH_Box::feedback_box_code()` |
 | `RIWTH_Shortcode` | `class-shortcode.php` | Registers `[riwth_helpful_box]` shortcode |
 | `RIWTH_Admin_Columns` | `class-admin-columns.php` | Adds "Was This Helpful?" column to post/page list tables; makes it sortable via custom JOIN/ORDER BY SQL |
@@ -116,6 +116,15 @@ Feedback counts use a two-layer cache: `wp_cache_get/set` (object cache, group `
 | `riwth_ajax_feedback_sent_return` | `$response` | `RIWTH_Ajax` | Modify the AJAX JSON response after save |
 | `riwth_localize_script_data` | `$data` | `RIWTH_Was_This_Helpful::maybe_enqueue_scripts()` | Add extra variables to the `riwth_scripts` JS object |
 | `riwth_can_user_see_stats` | `$bool, $user` | `RIWTH_User_Role::can_user_see_stats()` | Override role-based stats visibility |
+| `riwth_settings_sections` | `$sections` | `RIWTH_Settings::get_settings_section()` | Add settings sections; a section's `tab` must equal `'riwth-settings-' . $tab_key` |
+| `riwth_settings_fields` | `$fields` | `RIWTH_Settings::get_settings_field()` | Add settings fields; `tab`/`section` must match a registered tab/section |
+| `riwth_settings_tabs` | `$tabs` | `templates/page-settings.php` | Add a settings-page tab (tab key → label) |
+| `riwth_admin_page_ids` | `$page_ids` | `RIWTH_Was_This_Helpful::admin_enqueue_scripts()`, `RIWTH_Admin_Pages_Footer::is_plugin_link_page()` | Add admin screen-ID substrings so a companion add-on's screens get the shared plugin stylesheet and consistent footer scoping |
+| `riwth_show_admin_footer_branding` | `$show` | `RIWTH_Admin_Pages_Footer` | Return `false` to hide the "Made with ♥" pre-footer and review-ask text (e.g. for white-labeling) |
+| `riwth_csv_export_columns` | `$columns` | `RIWTH_Admin_Feedback_List::export_csv()` | Add CSV export column headers |
+| `riwth_csv_export_row` | `$columns, $row` | `RIWTH_Admin_Feedback_List::export_csv()` | Add CSV export column values per row; `$row` includes the feedback row `id` |
+| `riwth_feedback_list_columns` | `$columns` | `templates/page-feedback-list.php` | Add `<th>` column headers to the on-screen Feedback Records table |
+| `riwth_feedback_list_row_cells` | `$cells, $record` | `templates/page-feedback-list.php` | Add pre-escaped `<td>` HTML per row to the on-screen Feedback Records table |
 
 **Actions**
 
@@ -135,7 +144,8 @@ Feedback counts use a two-layer cache: `wp_cache_get/set` (object cache, group `
 
 `assets/public/js/script.js` (vanilla JS, no jQuery, loaded as `riwth-script`):
 - Listens for clicks on `.riwth-helpful-yes` / `.riwth-helpful-no`
-- POSTs to `admin-ajax.php` via `fetch` with `action=riwth_save_feedback`, `post_id`, `helpful` (1/0), and nonce
+- Before building the request, dispatches `riwthBeforeSubmit` with `detail: { postId, helpful, extraParams }`; listeners can add keys to `extraParams` (a plain object) to have them merged into the POST body — lets a companion add-on collect extra data (e.g. a reason field) in the same request instead of a second round-trip. The extra `$_POST` keys reach PHP via the existing `riwth_before_save_feedback`/`riwth_insert_feedback_data` hooks with no further change needed.
+- POSTs to `admin-ajax.php` via `fetch` with `action=riwth_save_feedback`, `post_id`, `helpful` (1/0), nonce, and any `extraParams`
 - On success, dispatches the `CustomEvent` named by `response.trigger` (normally `showThankYou`) and sets the `riwth_feedback_given` cookie (`SameSite=Lax`); event detail carries `{ feedbackId, content }`
 - Handles non-success responses (e.g. rate-limit 429) by dispatching `showError`
 - Localized data available as `riwth_scripts`: `ajax_url`, `submitting`, `postId`

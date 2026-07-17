@@ -73,6 +73,9 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 			$this->define( 'RIWTH_PLUGIN_DIR', plugin_dir_path( RIWTH_PLUGIN_FILE ) );
 			$this->define( 'RIWTH_PLUGIN_URL', plugin_dir_url( RIWTH_PLUGIN_FILE ) );
 			$this->define( 'RIWTH_PLUGIN_DIRNAME', dirname( RIWTH_PLUGIN_FILE ) . '/' );
+			// Top-level admin menu slug; a companion add-on can hang its own
+			// add_submenu_page() calls off this constant instead of a literal.
+			$this->define( 'RIWTH_MENU_SLUG', 'riwth-settings' );
 		}
 
 		/**
@@ -182,7 +185,8 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
             helpful tinyint(1) NOT NULL,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY  (id),
-            KEY post_id (post_id)
+            KEY post_id (post_id),
+            KEY created_at (created_at)
         ) $charset_collate;";
 
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -223,10 +227,19 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 			if ( $current_screen ) {
 				// List of page IDs where you want the CSS loaded.
 				$allowed_pages = array(
-					'riwth-settings',
+					RIWTH_MENU_SLUG,
 					'riwth-shortcode',
 					'riwth-feedback-list',
 				);
+
+				/**
+				 * Filter the admin screen ID substrings that get the shared plugin
+				 * stylesheet loaded (and, via RIWTH_Admin_Pages_Footer, the plugin
+				 * footer branding). A companion add-on can add its own screen IDs here.
+				 *
+				 * @param array $allowed_pages Screen ID substrings.
+				 */
+				$allowed_pages = apply_filters( 'riwth_admin_page_ids', $allowed_pages );
 
 				foreach ( $allowed_pages as $page_id ) {
 					if ( strpos( $current_screen->id, $page_id ) !== false ) {
@@ -280,7 +293,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 		 * @param array $links Existing plugin action links.
 		 */
 		public function add_settings_link( $links ) {
-			$url           = admin_url( 'admin.php?page=riwth-settings' );
+			$url           = admin_url( 'admin.php?page=' . RIWTH_MENU_SLUG );
 			$settings_link = array( '<a href="' . esc_url( $url ) . '">' . esc_html( __( 'Settings', 'riaco-was-this-helpful' ) ) . '</a>' );
 			return array_merge( $settings_link, $links );
 		}

@@ -12,12 +12,28 @@
 
           document.dispatchEvent(new CustomEvent("showSubmitting"));
 
-          var body = new URLSearchParams({
-            action: "riwth_save_feedback",
-            post_id: riwth_scripts.postId,
-            helpful: helpful,
-            nonce: nonce,
-          });
+          var extraParams = {};
+          document.dispatchEvent(
+            new CustomEvent("riwthBeforeSubmit", {
+              detail: {
+                postId: riwth_scripts.postId,
+                helpful: helpful,
+                extraParams: extraParams,
+              },
+            })
+          );
+
+          var body = new URLSearchParams(
+            Object.assign(
+              {
+                action: "riwth_save_feedback",
+                post_id: riwth_scripts.postId,
+                helpful: helpful,
+                nonce: nonce,
+              },
+              extraParams
+            )
+          );
 
           fetch(riwth_scripts.ajax_url, { method: "POST", body: body })
             .then(function (response) {

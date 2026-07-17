@@ -52,6 +52,16 @@ $delete_all_url  = wp_nonce_url(
 					<th style="width:15%"><?php esc_html_e( 'Vote', 'riaco-was-this-helpful' ); ?></th>
 					<th style="width:20%"><?php esc_html_e( 'Date', 'riaco-was-this-helpful' ); ?></th>
 					<th style="width:10%"><?php esc_html_e( 'Actions', 'riaco-was-this-helpful' ); ?></th>
+					<?php
+					/**
+					 * Filter extra column headers appended to the feedback list table.
+					 *
+					 * @param array $extra_columns Column header labels, in order.
+					 */
+					foreach ( apply_filters( 'riwth_feedback_list_columns', array() ) as $riwth_extra_column ) :
+						?>
+						<th><?php echo esc_html( $riwth_extra_column ); ?></th>
+					<?php endforeach; ?>
 				</tr>
 			</thead>
 			<tbody>
@@ -104,6 +114,17 @@ $delete_all_url  = wp_nonce_url(
 								<?php esc_html_e( 'Delete', 'riaco-was-this-helpful' ); ?>
 							</a>
 						</td>
+						<?php
+						/**
+						 * Filter extra cell HTML appended to each feedback list row.
+						 *
+						 * @param array  $extra_cells Pre-escaped HTML strings, in order.
+						 * @param object $record      The raw feedback row (id, post_id, helpful, created_at).
+						 */
+						foreach ( apply_filters( 'riwth_feedback_list_row_cells', array(), $record ) as $riwth_extra_cell ) :
+							?>
+							<td><?php echo wp_kses_post( $riwth_extra_cell ); ?></td>
+						<?php endforeach; ?>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>

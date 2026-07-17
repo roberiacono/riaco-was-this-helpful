@@ -47,8 +47,10 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 			// Note: on sites behind a reverse proxy REMOTE_ADDR is the proxy IP;
 			// checking HTTP_X_FORWARDED_FOR is more accurate but that header is
 			// spoofable, so we keep this simple for the free tier.
-			$ip_raw   = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
-			$rate_key = '_riwth_rl_' . md5( $ip_raw . '|' . $post_id );
+			// The IP itself is never stored: get_client_ip_hash() salts it with
+			// wp_salt() before it's used as an option-name key, so it can't be
+			// reversed even by someone with DB read access.
+			$rate_key = '_riwth_rl_' . RIWTH_Functions::get_client_ip_hash( $post_id );
 			$now      = time();
 
 			global $wpdb;

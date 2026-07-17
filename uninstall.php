@@ -14,7 +14,8 @@ if ( ! current_user_can( 'delete_plugins' ) ) {
 	exit;
 }
 
-// Don't delete any data if the PRO version is already active.
+// Don't delete shared data (options/table) while the PRO add-on is active and
+// may still depend on them — PRO runs alongside this plugin, not in place of it.
 if ( class_exists( 'RIWTH_Was_This_Helpful_Pro' ) ) {
 	return;
 }
