@@ -87,14 +87,14 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 					'callback' => array( $this, 'feedback_box_settings_section_callback' ),
 					'tab'      => 'riwth-settings-tab-feedback-box',
 				),
-				'riwth-feedback-box-colors-settings-section' => array(
-					'title'    => __( 'Colors', 'riaco-was-this-helpful' ),
-					'callback' => array( $this, 'feedback_box_colors_settings_section_callback' ),
+				'riwth-feedback-box-layout-settings-section' => array(
+					'title'    => __( 'Layout', 'riaco-was-this-helpful' ),
+					'callback' => array( $this, 'feedback_box_layout_settings_section_callback' ),
 					'tab'      => 'riwth-settings-tab-feedback-box',
 				),
-				'riwth-feedback-box-styles-settings-section' => array(
-					'title'    => __( 'Styles', 'riaco-was-this-helpful' ),
-					'callback' => null,
+				'riwth-feedback-box-colors-settings-section' => array(
+					'title'    => __( 'Appearance', 'riaco-was-this-helpful' ),
+					'callback' => array( $this, 'feedback_box_colors_settings_section_callback' ),
 					'tab'      => 'riwth-settings-tab-feedback-box',
 				),
 				'riwth-load-settings-section'         => array(
@@ -287,7 +287,7 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 					'title'             => __( 'Layout', 'riaco-was-this-helpful' ),
 					'callback'          => array( $this, 'feedback_box_layout_callback' ),
 					'tab'               => 'riwth-settings-tab-feedback-box',
-					'section'           => 'riwth-feedback-box-styles-settings-section',
+					'section'           => 'riwth-feedback-box-layout-settings-section',
 					'args'              => array( 'class' => 'radio' ),
 					'type'              => 'string',
 					'sanitize_callback' => 'sanitize_feedback_box_layout',
@@ -296,7 +296,7 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 					'title'             => __( 'Button Border Radius', 'riaco-was-this-helpful' ),
 					'callback'          => array( $this, 'feedback_box_border_button_rounded_callback' ),
 					'tab'               => 'riwth-settings-tab-feedback-box',
-					'section'           => 'riwth-feedback-box-styles-settings-section',
+					'section'           => 'riwth-feedback-box-colors-settings-section',
 					'type'              => 'integer',
 					'sanitize_callback' => 'sanitize_border_radius',
 				),
@@ -568,6 +568,10 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 		}
 
 
+
+		public function feedback_box_layout_settings_section_callback() {
+			echo esc_html__( 'Choose how the feedback box is displayed.', 'riaco-was-this-helpful' );
+		}
 
 		public function feedback_box_colors_settings_section_callback() {
 			echo esc_html__( 'Style your feedback box.', 'riaco-was-this-helpful' );
