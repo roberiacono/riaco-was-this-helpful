@@ -41,6 +41,15 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 		public function add_submenu_pages() {
 			add_submenu_page(
 				RIWTH_MENU_SLUG,
+				__( 'Was This Helpful Settings', 'riaco-was-this-helpful' ),
+				__( 'Settings', 'riaco-was-this-helpful' ),
+				'manage_options',
+				RIWTH_MENU_SLUG,
+				array( $this, 'render_settings_page' ),
+			);
+
+			add_submenu_page(
+				RIWTH_MENU_SLUG,
 				__( 'Shortcode', 'riaco-was-this-helpful' ),
 				__( 'Shortcode', 'riaco-was-this-helpful' ),
 				'manage_options',
