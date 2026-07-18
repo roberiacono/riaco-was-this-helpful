@@ -138,6 +138,14 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 					'type'              => 'array',
 					'sanitize_callback' => 'sanitize_display_on',
 				),
+				'riwth_auto_insert_disabled'               => array(
+					'title'             => __( 'Manual Placement Only', 'riaco-was-this-helpful' ),
+					'callback'          => array( $this, 'auto_insert_disabled_callback' ),
+					'tab'               => 'riwth-settings-tab-general',
+					'section'           => 'riwth-settings-section',
+					'type'              => 'array',
+					'sanitize_callback' => 'sanitize_auto_insert_disabled',
+				),
 				'riwth_display_by_user_role'               => array(
 					'title'             => __( 'Display Stats and Functionalities by User Role', 'riaco-was-this-helpful' ),
 					'callback'          => array( $this, 'display_by_user_role_callback' ),
@@ -452,6 +460,65 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 			return array_intersect( $input, $valid_values );
 		}
 
+		/**
+		 * Render one checkbox per post type currently enabled in "Display on"
+		 * — disabling auto-insert for a type that isn't enabled there at all
+		 * would be meaningless, since could_display_box() already blocks the
+		 * shortcode/block/metabox for it too.
+		 */
+		public function auto_insert_disabled_callback() {
+			$enabled_types = get_option( 'riwth_display_on', array() );
+			$enabled_types = is_array( $enabled_types ) ? $enabled_types : array();
+
+			$disabled_types = get_option( 'riwth_auto_insert_disabled', array() );
+			$disabled_types = is_array( $disabled_types ) ? $disabled_types : array();
+
+			$fields = apply_filters(
+				'riwth_display_on_fields',
+				array(
+					array(
+						'value' => 'post',
+						'label' => esc_html__( 'Posts', 'riaco-was-this-helpful' ),
+					),
+					array(
+						'value' => 'page',
+						'label' => esc_html__( 'Pages', 'riaco-was-this-helpful' ),
+					),
+				)
+			);
+
+			echo '<p class="description">' . esc_html__( "The box won't be automatically appended to the content for these post types. Use the shortcode, the block, or the per-page \"Disable automatic Helpful box\" checkbox to place it yourself.", 'riaco-was-this-helpful' ) . '</p>';
+
+			foreach ( $fields as $field ) {
+				if ( ! isset( $field['value'] ) || ! in_array( $field['value'], $enabled_types, true ) ) {
+					continue;
+				}
+				?>
+			<label>
+				<input type="checkbox" name="riwth_auto_insert_disabled[]" value="<?php echo esc_attr( $field['value'] ); ?>" <?php checked( in_array( $field['value'], $disabled_types, true ) ); ?>>
+				<?php echo esc_html( $field['label'] ); ?>
+			</label><br>
+				<?php
+			}
+		}
+
+		public function sanitize_auto_insert_disabled( $input ) {
+			if ( ! is_array( $input ) ) {
+				return array();
+			}
+
+			$valid_values = array( 'post', 'page' );
+			$fields       = apply_filters( 'riwth_display_on_fields', array() );
+
+			foreach ( $fields as $field ) {
+				if ( isset( $field['value'] ) ) {
+					$valid_values[] = $field['value'];
+				}
+			}
+
+			return array_intersect( $input, $valid_values );
+		}
+
 
 		public function display_by_user_role_callback() {
 			global $wp_roles;
@@ -656,6 +723,7 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 		public static function get_intial_settings() {
 			$initial_settings = array(
 				'riwth_display_on'                         => array( 'post' ),
+				'riwth_auto_insert_disabled'                => array(),
 				'riwth_display_by_user_role'               => array( 'administrator', 'editor' ),
 				'riwth_load_styles'                        => 1,
 				'riwth_load_scripts'                       => 1,

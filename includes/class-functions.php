@@ -142,6 +142,13 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 				return false;
 			}
 
+			// Check if automatic insertion is disabled for this post type (manual placement only)
+			$disabled_types = get_option( 'riwth_auto_insert_disabled', array() );
+			$disabled_types = is_array( $disabled_types ) ? $disabled_types : array();
+			if ( in_array( get_post_type( $post->ID ), $disabled_types, true ) ) {
+				return false;
+			}
+
 			if ( self::feedback_given( $post->ID ) ) {
 				return false;
 			}
