@@ -284,11 +284,13 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 			$output = fopen( 'php://output', 'w' );
 
 			/**
-			 * Filter the CSV export column headers.
+			 * Filter extra CSV export column headers, inserted after 'Vote' and before 'Date (UTC)'.
 			 *
-			 * @param array $columns Column header labels, in order.
+			 * @param array $extra_columns Column header labels, in order.
 			 */
-			$columns = apply_filters( 'riwth_csv_export_columns', array( 'Post ID', 'Post Title', 'Post URL', 'Post Slug', 'Vote', 'Date (UTC)' ) );
+			$base_columns  = array( 'Post ID', 'Post Title', 'Post URL', 'Post Slug', 'Vote' );
+			$extra_columns = apply_filters( 'riwth_csv_export_columns', array() );
+			$columns       = array_merge( $base_columns, $extra_columns, array( 'Date (UTC)' ) );
 			fputcsv( $output, $columns );
 
 			foreach ( $rows as $row ) {
@@ -305,12 +307,14 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 				$vote = '1' === $row['helpful'] ? 'Yes' : 'No';
 
 				/**
-				 * Filter a single CSV export data row.
+				 * Filter extra CSV export column values for a row, in the same order as 'riwth_csv_export_columns'.
 				 *
-				 * @param array $columns Column values, in the same order as 'riwth_csv_export_columns'.
-				 * @param array $row     The raw feedback row (includes 'id' for looking up related data).
+				 * @param array $extra_columns Extra column values, in order.
+				 * @param array $row           The raw feedback row (includes 'id' for looking up related data).
 				 */
-				$csv_row = apply_filters( 'riwth_csv_export_row', array( $row['post_id'], $title, $url, $slug, $vote, $row['created_at'] ), $row );
+				$base_row  = array( $row['post_id'], $title, $url, $slug, $vote );
+				$extra_row = apply_filters( 'riwth_csv_export_row', array(), $row );
+				$csv_row   = array_merge( $base_row, $extra_row, array( $row['created_at'] ) );
 				fputcsv( $output, $csv_row );
 			}
 
