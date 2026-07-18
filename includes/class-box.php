@@ -23,7 +23,8 @@ if ( ! class_exists( 'RIWTH_Box' ) ) {
 			$positive_button_text = self::get_feedback_box_button_text( 'positive' );
 			$negative_button_text = self::get_feedback_box_button_text( 'negative' );
 
-			if ( false === ( $attr = get_transient( 'riwth_feedback_box' ) ) ) {
+			$attr = get_transient( 'riwth_feedback_box' );
+			if ( false === $attr ) {
 				$attr = array(
 					'layout'                => self::get_feedback_box_layout(),
 					'feedback_box_style'    => self::get_feedback_box_style(),

@@ -129,7 +129,29 @@ if ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {
 				add_filter( 'posts_orderby', array( $this, 'feedback_posts_orderby' ) );
 				add_filter( 'posts_groupby', array( $this, 'feedback_posts_groupby' ) );
 
+				// Unhook once this query has resolved so these SQL-modifying filters
+				// don't leak into any other WP_Query run later in the same request
+				// (dashboard widgets, other plugins' admin queries, etc.).
+				add_filter( 'the_posts', array( $this, 'unhook_feedback_query_filters' ), 10, 2 );
 			}
+		}
+
+		/**
+		 * Remove the SQL-modifying filters added in order_by_feedback() right
+		 * after the query they were added for has resolved.
+		 *
+		 * @param array    $posts Query results, passed through unchanged.
+		 * @param WP_Query $query The query that just resolved.
+		 * @return array
+		 */
+		public function unhook_feedback_query_filters( $posts, $query ) {
+			remove_filter( 'posts_join', array( $this, 'feedback_posts_join' ) );
+			remove_filter( 'posts_fields', array( $this, 'feedback_posts_fields' ) );
+			remove_filter( 'posts_orderby', array( $this, 'feedback_posts_orderby' ) );
+			remove_filter( 'posts_groupby', array( $this, 'feedback_posts_groupby' ) );
+			remove_filter( 'the_posts', array( $this, 'unhook_feedback_query_filters' ), 10 );
+
+			return $posts;
 		}
 
 		/**

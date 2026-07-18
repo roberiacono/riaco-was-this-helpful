@@ -194,8 +194,6 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 		public function create_database() {
 			global $wpdb;
 
-			require_once plugin_dir_path( RIWTH_PLUGIN_FILE ) . 'includes/class-settings.php';
-
 			$table_name      = $wpdb->prefix . RIWTH_DB_NAME;
 			$charset_collate = $wpdb->get_charset_collate();
 

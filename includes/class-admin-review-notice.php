@@ -217,7 +217,7 @@ if ( ! class_exists( 'RIWTH_Admin_Review_Notice' ) ) {
 				wp_send_json_error( array( 'message' => __( 'Unauthorized', 'riaco-was-this-helpful' ) ) );
 			}
 
-			$action = isset( $_POST['action_type'] ) ? sanitize_key( $_POST['action_type'] ) : '';
+			$action = isset( $_POST['action_type'] ) ? sanitize_key( wp_unslash( $_POST['action_type'] ) ) : '';
 
 			switch ( $action ) {
 				case 'review':
