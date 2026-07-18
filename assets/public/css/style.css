@@ -42,6 +42,9 @@
 .riwth-thank-you {
   transition: opacity 0.5s ease-in-out;
 }
+.riwth-thank-you p {
+  margin: 0;
+}
 .riwth-consent{
   margin-bottom: 15px;
   font-size:12px;

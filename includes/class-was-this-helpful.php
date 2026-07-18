@@ -110,6 +110,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_scripts' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 			add_action( 'plugins_loaded', array( $this, 'maybe_upgrade_db' ), 9 );
+			add_action( 'plugins_loaded', array( $this, 'maybe_migrate_thanks_link' ), 9 );
 			add_action( 'plugins_loaded', array( $this, 'init' ) );
 
 			add_filter( 'plugin_action_links_' . plugin_basename( RIWTH_PLUGIN_FILE ), array( $this, 'add_settings_link' ) );
@@ -221,6 +222,14 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 				$this->create_database();
 				update_option( 'riwth_db_version', RIWTH_DB_VERSION );
 			}
+		}
+
+		/**
+		 * Fold the legacy "Thank You Link URL" option into the Thank You text
+		 * (now a rich-text field) so upgrading sites keep their configured link.
+		 */
+		public function maybe_migrate_thanks_link() {
+			RIWTH_Settings::maybe_migrate_thanks_link();
 		}
 
 		/**

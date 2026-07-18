@@ -126,7 +126,7 @@ Not directly. You can manually adjust the reset date in the post meta if necessa
 
 = 2.3.0 - 2026-07-18 =
 * Added: Post URL/slug column in the Feedback Records admin table and CSV export, to help disambiguate pages with similar titles.
-* Added: Optional "Thank You Link URL" setting — when set, the Thank You text becomes a link to that URL; leave blank for plain text.
+* Added: Thank You Text is now a rich-text field — insert a link anywhere in the message using the editor's link button (sites with an existing "Thank You Link URL" set are migrated automatically).
 * Added: "Manual Placement Only" setting — turn off automatic insertion into the content for a whole post type while still allowing the shortcode, block, or per-post override to place the box there.
 * Fixed: PHP fatal error on PHP 7.4 sites whenever any option was saved, caused by a PHP 8-only function call.
 * Fixed: Feedback box block ignored the "Display on" post type setting.

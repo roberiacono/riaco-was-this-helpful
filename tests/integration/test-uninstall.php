@@ -76,7 +76,7 @@ class Test_RIWTH_Uninstall extends RIWTH_Test_Case {
 			'riwth_feedback_box_color_negative_button',
 			'riwth_feedback_box_color_negative_text',
 			'riwth_feedback_box_border_button_rounded',
-			'riwth_feedback_box_thanks_url',
+			'riwth_thanks_link_migrated',
 			'riwth_review_notice_done',
 		);
 	}

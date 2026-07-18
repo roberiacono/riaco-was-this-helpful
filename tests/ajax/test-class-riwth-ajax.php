@@ -288,28 +288,43 @@ class Test_RIWTH_Ajax extends WP_Ajax_UnitTestCase {
 		$this->assertSame( '0', $row->helpful );
 	}
 
-	public function test_thanks_url_wraps_content_in_link() {
+	public function test_thanks_text_with_embedded_link_renders_link() {
 		update_option( 'riwth_display_on', array( 'post' ) );
-		update_option( 'riwth_feedback_box_thanks_url', 'https://example.com/thanks' );
+		update_option( 'riwth_feedback_box_thanks_text', 'Thanks! <a href="https://example.com/thanks">see more</a>' );
 		$post_id = RIWTH_Test_Factory::create_published_post();
 		$_POST   = $this->valid_post( $post_id );
 
 		$response = $this->handle();
 
-		$this->assertStringContainsString( '<a href="https://example.com/thanks">', $response['content'] );
+		$this->assertStringContainsString( '<a href="https://example.com/thanks">see more</a>', $response['content'] );
 
-		delete_option( 'riwth_feedback_box_thanks_url' );
+		delete_option( 'riwth_feedback_box_thanks_text' );
 	}
 
-	public function test_no_thanks_url_leaves_plain_text() {
-		delete_option( 'riwth_feedback_box_thanks_url' );
+	public function test_thanks_text_without_link_leaves_plain_text() {
 		update_option( 'riwth_display_on', array( 'post' ) );
+		update_option( 'riwth_feedback_box_thanks_text', 'Thanks!' );
 		$post_id = RIWTH_Test_Factory::create_published_post();
 		$_POST   = $this->valid_post( $post_id );
 
 		$response = $this->handle();
 
 		$this->assertStringNotContainsString( '<a href=', $response['content'] );
+
+		delete_option( 'riwth_feedback_box_thanks_text' );
+	}
+
+	public function test_thanks_text_strips_disallowed_tags() {
+		update_option( 'riwth_display_on', array( 'post' ) );
+		update_option( 'riwth_feedback_box_thanks_text', 'Thanks! <script>alert(1)</script>' );
+		$post_id = RIWTH_Test_Factory::create_published_post();
+		$_POST   = $this->valid_post( $post_id );
+
+		$response = $this->handle();
+
+		$this->assertStringNotContainsString( '<script>', $response['content'] );
+
+		delete_option( 'riwth_feedback_box_thanks_text' );
 	}
 
 	// -----------------------------------------------------------------

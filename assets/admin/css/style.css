@@ -41,6 +41,10 @@
     padding: 12px 16px;
 }
 
+#wp-riwth_feedback_box_thanks_text-wrap {
+    max-width: 900px;
+}
+
 #wpbody-content {
     padding-bottom: 200px;
 }

@@ -43,7 +43,7 @@ delete_option( 'riwth_feedback_box_color_positive_text' );
 delete_option( 'riwth_feedback_box_color_negative_button' );
 delete_option( 'riwth_feedback_box_color_negative_text' );
 delete_option( 'riwth_feedback_box_border_button_rounded' );
-delete_option( 'riwth_feedback_box_thanks_url' );
+delete_option( 'riwth_thanks_link_migrated' );
 delete_option( 'riwth_uninstall_remove_data' );
 delete_option( 'riwth_review_notice_done' );
 

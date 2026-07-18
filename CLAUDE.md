@@ -45,8 +45,9 @@ The built assets (`build/`) are committed. Always run `npm run build` before com
 `RIWTH_Was_This_Helpful` (singleton) wires everything together:
 - `define_constants()` — sets `RIWTH_DB_NAME`, `RIWTH_PLUGIN_DIR`, `RIWTH_PLUGIN_URL`, `RIWTH_PLUGIN_DIRNAME`, `RIWTH_MENU_SLUG` (top-level admin menu slug, `riwth-settings` — a companion add-on plugin should reuse this constant rather than the literal string when calling `add_submenu_page()`)
 - `includes()` — requires all class files
-- `init_hooks()` — registers activation hook, enqueue hooks, `plugins_loaded` (priority 9: `maybe_upgrade_db`; priority 10: `init`)
+- `init_hooks()` — registers activation hook, enqueue hooks, `plugins_loaded` (priority 9: `maybe_upgrade_db`, then `maybe_migrate_thanks_link`; priority 10: `init`)
 - `maybe_upgrade_db()` (on `plugins_loaded`, priority 9) — compares `riwth_db_version` option against `RIWTH_DB_VERSION`; re-runs `dbDelta` when behind so existing installs pick up schema changes (e.g. the `post_id` and `created_at` indexes) without re-activation
+- `maybe_migrate_thanks_link()` (on `plugins_loaded`, priority 9) — delegates to `RIWTH_Settings::maybe_migrate_thanks_link()`, a one-time migration (guarded by the `riwth_thanks_link_migrated` option) that folds a legacy `riwth_feedback_box_thanks_url` value into `riwth_feedback_box_thanks_text` as an embedded link
 - `init()` (on `plugins_loaded`) — instantiates all classes; admin-only classes are guarded by `is_admin()`; stats classes are gated by `RIWTH_User_Role::can_user_see_stats()`
 
 ### Class Responsibilities
@@ -167,8 +168,8 @@ All options are prefixed `riwth_`. Key ones:
 | `riwth_feedback_box_positive_button_text` | "Yes" | Falls back via `__()` if not customized |
 | `riwth_feedback_box_negative_button_text` | "No" | Falls back via `__()` if not customized |
 | `riwth_feedback_box_submitting_text` | "⏳ Submitting..." | Falls back via `__()` if not customized |
-| `riwth_feedback_box_thanks_text` | "✅ Thank you for your feedback!" | Falls back via `__()` if not customized |
-| `riwth_feedback_box_thanks_url` | `''` | Optional. When set, `RIWTH_Ajax::save_feedback()` wraps the thanks text in a link to this URL (same tab); blank leaves it as plain text |
+| `riwth_feedback_box_thanks_text` | "✅ Thank you for your feedback!" | Falls back via `__()` if not customized; rendered via `wp_editor()` (rich text) — admins add a link anywhere in the message using the editor's own link button; sanitized with `wp_kses_post` on save and output |
 | `riwth_feedback_box_color_background` | `#f4f4f5` | |
 | `riwth_uninstall_remove_data` | `1` | Drop table on uninstall |
 | `riwth_db_version` | — | Tracks applied DB schema version; compared against `RIWTH_DB_VERSION` constant on every load |
+| `riwth_thanks_link_migrated` | — | One-time flag; guards `RIWTH_Settings::maybe_migrate_thanks_link()`, which folds a legacy `riwth_feedback_box_thanks_url` value into `riwth_feedback_box_thanks_text` as an embedded link on upgrade |

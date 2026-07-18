@@ -334,28 +334,15 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 				),
 				'riwth_feedback_box_thanks_text'           => array(
 					'title'             => __( 'Thank You Text', 'riaco-was-this-helpful' ),
-					'callback'          => array( $this, 'text_callback' ),
+					'callback'          => array( $this, 'wysiwyg_callback' ),
 					'tab'               => 'riwth-settings-tab-feedback-box',
 					'section'           => 'riwth-feedback-box-other-steps-settings-section',
 					'args'              => array(
-						'type' => 'text',
-						'name' => 'riwth_feedback_box_thanks_text',
+						'name'        => 'riwth_feedback_box_thanks_text',
+						'description' => __( 'Use the link button in the toolbar to add a link anywhere in the message.', 'riaco-was-this-helpful' ),
 					),
 					'type'              => 'string',
-					'sanitize_callback' => 'sanitize_text_field',
-				),
-				'riwth_feedback_box_thanks_url'            => array(
-					'title'             => __( 'Thank You Link URL', 'riaco-was-this-helpful' ),
-					'callback'          => array( $this, 'text_callback' ),
-					'tab'               => 'riwth-settings-tab-feedback-box',
-					'section'           => 'riwth-feedback-box-other-steps-settings-section',
-					'args'              => array(
-						'type'        => 'url',
-						'name'        => 'riwth_feedback_box_thanks_url',
-						'description' => __( 'Optional. Leave blank and the Thank You text stays plain. Set a URL and the Thank You text becomes a link to that URL.', 'riaco-was-this-helpful' ),
-					),
-					'type'              => 'string',
-					'sanitize_callback' => 'esc_url_raw',
+					'sanitize_callback' => 'wp_kses_post',
 				),
 			);
 
@@ -587,6 +574,34 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 			}
 		}
 
+		public function wysiwyg_callback( $args ) {
+			$option = get_option( $args['name'], '' );
+
+			wp_editor(
+				$option,
+				$args['name'],
+				array(
+					'textarea_name' => $args['name'],
+					'textarea_rows' => 3,
+					'media_buttons' => false,
+					'teeny'         => true,
+					'wpautop'       => false,
+					'quicktags'     => array( 'buttons' => 'strong,em,link' ),
+					'tinymce'       => array(
+						'toolbar1'  => 'bold,italic,link,unlink,undo,redo',
+						'toolbar2'  => '',
+						'toolbar3'  => '',
+						'statusbar' => false,
+						'resize'    => false,
+					),
+				)
+			);
+
+			if ( isset( $args['description'] ) && ! empty( $args['description'] ) ) {
+				echo '<p class="description">' . esc_html( $args['description'] ) . '</p>';
+			}
+		}
+
 		public function feedback_box_positive_button_icon_callback() {
 			$option           = get_option( 'riwth_feedback_box_positive_button_icon', 'empty' );
 			$svg_allowed_html = RIWTH_Functions::get_svg_allowed_html();
@@ -743,7 +758,6 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 				'riwth_uninstall_remove_data'              => 1,
 				'riwth_feedback_box_submitting_text'       => __( '⏳ Submitting...', 'riaco-was-this-helpful' ),
 				'riwth_feedback_box_thanks_text'           => __( '✅ Thank you for your feedback!', 'riaco-was-this-helpful' ),
-				'riwth_feedback_box_thanks_url'            => '',
 			);
 			/**
 			 * Filter the plugin's default option values.
@@ -755,6 +769,36 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 			 * @param array $initial_settings Key-value map of option name → default value.
 			 */
 			return apply_filters( 'riwth_initial_settings', $initial_settings );
+		}
+
+		/**
+		 * One-time migration: the separate riwth_feedback_box_thanks_url option
+		 * (replaced by an embedded link in the WYSIWYG thanks text) always wrapped
+		 * the entire thanks message in a link. If it's set, fold it into
+		 * riwth_feedback_box_thanks_text as a matching <a> wrapper, then remove
+		 * the legacy option, so upgrading sites don't silently lose their link.
+		 */
+		public static function maybe_migrate_thanks_link() {
+			if ( get_option( 'riwth_thanks_link_migrated' ) ) {
+				return;
+			}
+
+			$legacy_url = get_option( 'riwth_feedback_box_thanks_url', '' );
+
+			if ( $legacy_url ) {
+				$thanks_text = get_option(
+					'riwth_feedback_box_thanks_text',
+					__( '✅ Thank you for your feedback!', 'riaco-was-this-helpful' )
+				);
+
+				update_option(
+					'riwth_feedback_box_thanks_text',
+					'<a href="' . esc_url( $legacy_url ) . '">' . esc_html( $thanks_text ) . '</a>'
+				);
+			}
+
+			delete_option( 'riwth_feedback_box_thanks_url' );
+			update_option( 'riwth_thanks_link_migrated', 1 );
 		}
 	}
 }

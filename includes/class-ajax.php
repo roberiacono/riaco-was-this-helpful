@@ -174,14 +174,8 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 			 */
 			do_action( 'riwth_feedback_saved', $feedback_id, $post_id, $helpful );
 
-			$thanks_text = get_option( 'riwth_feedback_box_thanks_text', __( '✅ Thank you for your feedback!', 'riaco-was-this-helpful' ) );
-			$thanks_url  = get_option( 'riwth_feedback_box_thanks_url', '' );
-
-			if ( $thanks_url ) {
-				$thanks_content = '<a href="' . esc_url( $thanks_url ) . '">' . esc_html( $thanks_text ) . '</a>';
-			} else {
-				$thanks_content = esc_html( $thanks_text );
-			}
+			$thanks_text    = get_option( 'riwth_feedback_box_thanks_text', __( '✅ Thank you for your feedback!', 'riaco-was-this-helpful' ) );
+			$thanks_content = wp_kses_post( $thanks_text );
 
 			$return = apply_filters(
 				'riwth_ajax_feedback_sent_return',

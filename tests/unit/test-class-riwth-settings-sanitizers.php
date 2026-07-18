@@ -159,7 +159,6 @@ class Test_RIWTH_Settings_Sanitizers extends RIWTH_Test_Case {
 		$this->assertSame( '#f4f4f5', $defaults['riwth_feedback_box_color_background'] );
 		$this->assertSame( 'default', $defaults['riwth_feedback_box_layout'] );
 		$this->assertSame( '8', $defaults['riwth_feedback_box_border_button_rounded'] );
-		$this->assertSame( '', $defaults['riwth_feedback_box_thanks_url'] );
 	}
 
 	public function test_get_intial_settings_filter_overrides_defaults() {
@@ -175,6 +174,48 @@ class Test_RIWTH_Settings_Sanitizers extends RIWTH_Test_Case {
 		$this->assertSame( array( 'post', 'page' ), $defaults['riwth_display_on'] );
 
 		remove_all_filters( 'riwth_initial_settings' );
+	}
+
+	// -----------------------------------------------------------------
+	// maybe_migrate_thanks_link()
+	// -----------------------------------------------------------------
+
+	public function test_maybe_migrate_thanks_link_folds_legacy_url_into_text_once() {
+		delete_option( 'riwth_thanks_link_migrated' );
+		update_option( 'riwth_feedback_box_thanks_text', 'Thanks!' );
+		update_option( 'riwth_feedback_box_thanks_url', 'https://example.com/thanks' );
+
+		RIWTH_Settings::maybe_migrate_thanks_link();
+
+		$this->assertSame(
+			'<a href="https://example.com/thanks">Thanks!</a>',
+			get_option( 'riwth_feedback_box_thanks_text' )
+		);
+		$this->assertFalse( get_option( 'riwth_feedback_box_thanks_url' ) );
+		$this->assertSame( 1, get_option( 'riwth_thanks_link_migrated' ) );
+
+		// Second run must be a no-op even if the legacy option reappears.
+		update_option( 'riwth_feedback_box_thanks_url', 'https://example.com/should-not-apply' );
+		RIWTH_Settings::maybe_migrate_thanks_link();
+		$this->assertSame( '<a href="https://example.com/thanks">Thanks!</a>', get_option( 'riwth_feedback_box_thanks_text' ) );
+
+		delete_option( 'riwth_feedback_box_thanks_text' );
+		delete_option( 'riwth_feedback_box_thanks_url' );
+		delete_option( 'riwth_thanks_link_migrated' );
+	}
+
+	public function test_maybe_migrate_thanks_link_no_op_without_legacy_url() {
+		delete_option( 'riwth_thanks_link_migrated' );
+		delete_option( 'riwth_feedback_box_thanks_url' );
+		update_option( 'riwth_feedback_box_thanks_text', 'Thanks!' );
+
+		RIWTH_Settings::maybe_migrate_thanks_link();
+
+		$this->assertSame( 'Thanks!', get_option( 'riwth_feedback_box_thanks_text' ) );
+		$this->assertSame( 1, get_option( 'riwth_thanks_link_migrated' ) );
+
+		delete_option( 'riwth_feedback_box_thanks_text' );
+		delete_option( 'riwth_thanks_link_migrated' );
 	}
 
 	// -----------------------------------------------------------------
