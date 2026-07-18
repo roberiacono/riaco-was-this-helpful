@@ -1,0 +1,23 @@
+{
+  "name": "helpful-box-block",
+  "version": "0.1.1",
+  "description": "Display Was this helpful? box",
+  "author": "Roberto Iacono",
+  "license": "GPL-2.0-or-later",
+  "main": "helpful-box-block/build/index.js",
+  "scripts": {
+    "build": "WP_SOURCE_PATH=helpful-box-block/src wp-scripts build",
+    "format": "wp-scripts format helpful-box-block/src",
+    "lint:css": "wp-scripts lint-style helpful-box-block/src",
+    "lint:js": "wp-scripts lint-js helpful-box-block/src",
+    "packages-update": "wp-scripts packages-update",
+    "plugin-zip": "wp-scripts plugin-zip",
+    "start": "WP_SOURCE_PATH=helpful-box-block/src wp-scripts start"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^32.4.0"
+  },
+  "overrides": {
+    "websocket-driver": ">=0.7.5"
+  }
+}

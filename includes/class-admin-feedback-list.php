@@ -315,7 +315,7 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 			$params[] = $per_page;
 			$params[] = $offset;
 
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $sql's dynamic fragments are the hardcoded $orderby_map whitelist and an ASC/DESC ternary above, never raw input; every actual value is bound via %i/%s/%d through $wpdb->prepare().
 			return $wpdb->get_results( $wpdb->prepare( $sql, $params ) );
 		}
 
@@ -357,7 +357,7 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 				$params = array_merge( $params, $where_params );
 			}
 
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $sql's dynamic fragments are hardcoded literals built above from $needs_join/$where_sql, never raw input; every actual value is bound via %i/%s through $wpdb->prepare().
 			return (int) $wpdb->get_var( $wpdb->prepare( $sql, $params ) );
 		}
 
@@ -454,7 +454,7 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 				)
 			);
 
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$deleted = $wpdb->delete( $wpdb->prefix . RIWTH_DB_NAME, array( 'id' => $feedback_id ), array( '%d' ) );
 
 			if ( false === $deleted || 0 === $deleted ) {
