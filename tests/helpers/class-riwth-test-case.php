@@ -28,8 +28,9 @@ abstract class RIWTH_Test_Case extends WP_UnitTestCase {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '\_riwth\_rl\_%'" );
 
-		$_GET  = array();
-		$_POST = array();
+		$_GET     = array();
+		$_POST    = array();
+		$_REQUEST = array();
 		unset( $_SERVER['REMOTE_ADDR'] );
 
 		parent::tear_down();

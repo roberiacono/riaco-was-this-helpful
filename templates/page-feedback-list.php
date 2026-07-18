@@ -5,11 +5,16 @@ defined( 'ABSPATH' ) || exit;
 // $this is the RIWTH_Admin_Feedback_List instance from render_page() (require_once runs in
 // the calling method's scope) — reuse it instead of constructing a second, throwaway instance.
 $feedback_list = $this;
-$per_page      = 20;
-$current_page  = isset( $_GET['paged'] ) ? max( 1, absint( $_GET['paged'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-$total_records = $feedback_list->get_total_records();
-$total_pages   = (int) ceil( $total_records / $per_page );
-$records       = $feedback_list->get_feedback_records( $current_page, $per_page );
+// Constructed on load-{hook} (setup_list_table()), not here — WP_Screen's own
+// screen-options rendering during admin-header.php needs the list table's
+// column filter registered before it runs; see setup_list_table()'s docblock.
+$list_table = $feedback_list->get_list_table();
+$list_table->prepare_items();
+
+// Unfiltered grand total — Delete All always targets every row regardless
+// of the current search/date filter, same contract CSV export already has.
+$total_records_all = $feedback_list->get_total_records();
+$filtered_total    = (int) $list_table->get_pagination_arg( 'total_items' );
 
 $export_url      = wp_nonce_url(
 	add_query_arg( array( 'page' => 'riwth-feedback-list', 'export' => 'csv' ), admin_url( 'admin.php' ) ),
@@ -27,7 +32,7 @@ $delete_all_url  = wp_nonce_url(
 		<a href="<?php echo esc_url( $export_url ); ?>" class="button">
 			<?php esc_html_e( 'Export CSV', 'riaco-was-this-helpful' ); ?>
 		</a>
-		<?php if ( $total_records > 0 ) : ?>
+		<?php if ( $total_records_all > 0 ) : ?>
 			<a href="<?php echo esc_url( $delete_all_url ); ?>"
 			   class="button"
 			   onclick="return confirm('<?php echo esc_js( __( 'Delete all feedback records? This cannot be undone.', 'riaco-was-this-helpful' ) ); ?>')">
@@ -37,120 +42,17 @@ $delete_all_url  = wp_nonce_url(
 		<span style="color:#555;">
 			<?php
 			/* translators: %d: number of records */
-			echo esc_html( sprintf( _n( '%d record', '%d records', $total_records, 'riaco-was-this-helpful' ), $total_records ) );
+			echo esc_html( sprintf( _n( '%d record', '%d records', $filtered_total, 'riaco-was-this-helpful' ), $filtered_total ) );
 			?>
 		</span>
 	</div>
 
-	<?php if ( empty( $records ) ) : ?>
-		<p><?php esc_html_e( 'No feedback records found.', 'riaco-was-this-helpful' ); ?></p>
-	<?php else : ?>
-
-		<table class="wp-list-table widefat fixed striped">
-			<thead>
-				<tr>
-					<th><?php esc_html_e( 'Post', 'riaco-was-this-helpful' ); ?></th>
-					<th><?php esc_html_e( 'Slug', 'riaco-was-this-helpful' ); ?></th>
-					<th><?php esc_html_e( 'Vote', 'riaco-was-this-helpful' ); ?></th>
-					<?php
-					/**
-					 * Filter extra column headers appended to the feedback list table.
-					 *
-					 * @param array $extra_columns Column header labels, in order.
-					 */
-					foreach ( apply_filters( 'riwth_feedback_list_columns', array() ) as $riwth_extra_column ) :
-						?>
-						<th><?php echo esc_html( $riwth_extra_column ); ?></th>
-					<?php endforeach; ?>
-					<th><?php esc_html_e( 'Date', 'riaco-was-this-helpful' ); ?></th>
-					<th><?php esc_html_e( 'Actions', 'riaco-was-this-helpful' ); ?></th>
-				</tr>
-			</thead>
-			<tbody>
-				<?php foreach ( $records as $record ) : ?>
-					<?php
-					$post_title = get_the_title( (int) $record->post_id );
-					$post_title = $post_title ? $post_title : __( '(Post deleted)', 'riaco-was-this-helpful' );
-					$edit_link  = get_edit_post_link( (int) $record->post_id );
-					$post_url   = get_permalink( (int) $record->post_id );
-					$vote_label = '1' === $record->helpful ? __( 'Yes', 'riaco-was-this-helpful' ) : __( 'No', 'riaco-was-this-helpful' );
-					$vote_color = '1' === $record->helpful ? '#1e8a1e' : '#c0392b';
-					$date       = get_date_from_gmt( $record->created_at, get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
-					$delete_url = wp_nonce_url(
-						add_query_arg(
-							array(
-								'action'      => 'riwth_delete_feedback',
-								'feedback_id' => $record->id,
-							),
-							admin_url( 'admin.php' )
-						),
-						'riwth_delete_feedback_' . $record->id
-					);
-					?>
-					<tr>
-						<td>
-							<?php if ( $edit_link ) : ?>
-								<a href="<?php echo esc_url( $edit_link ); ?>"><?php echo esc_html( $post_title ); ?></a>
-							<?php else : ?>
-								<?php echo esc_html( $post_title ); ?>
-							<?php endif; ?>
-						</td>
-						<td style="word-break:break-all;">
-							<?php if ( $post_url ) : ?>
-								<a href="<?php echo esc_url( $post_url ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( get_post_field( 'post_name', (int) $record->post_id ) ); ?></a>
-							<?php else : ?>
-								&#8212;
-							<?php endif; ?>
-						</td>
-						<td>
-							<span style="background-color:<?php echo esc_attr( $vote_color ); ?>; margin-right:5px; border-radius:50%; width:0.5rem; height:0.5rem; display:inline-block; vertical-align:middle;"></span>
-							<strong style="color:<?php echo esc_attr( $vote_color ); ?>">
-								<?php echo esc_html( $vote_label ); ?>
-							</strong>
-						</td>
-						<?php
-						/**
-						 * Filter extra cell HTML appended to each feedback list row.
-						 *
-						 * @param array  $extra_cells Pre-escaped HTML strings, in order.
-						 * @param object $record      The raw feedback row (id, post_id, helpful, created_at).
-						 */
-						foreach ( apply_filters( 'riwth_feedback_list_row_cells', array(), $record ) as $riwth_extra_cell ) :
-							?>
-							<td><?php echo wp_kses_post( $riwth_extra_cell ); ?></td>
-						<?php endforeach; ?>
-						<td><?php echo esc_html( $date ); ?></td>
-						<td>
-							<a href="<?php echo esc_url( $delete_url ); ?>"
-							   onclick="return confirm('<?php echo esc_js( __( 'Delete this record?', 'riaco-was-this-helpful' ) ); ?>')"
-							   style="color:#c0392b;">
-								<?php esc_html_e( 'Delete', 'riaco-was-this-helpful' ); ?>
-							</a>
-						</td>
-					</tr>
-				<?php endforeach; ?>
-			</tbody>
-		</table>
-
-		<?php if ( $total_pages > 1 ) : ?>
-			<div class="tablenav bottom">
-				<div class="tablenav-pages">
-					<?php
-					echo wp_kses_post(
-						paginate_links(
-							array(
-								'base'    => add_query_arg( 'paged', '%#%' ),
-								'format'  => '',
-								'current' => $current_page,
-								'total'   => $total_pages,
-							)
-						)
-					);
-					?>
-				</div>
-			</div>
-		<?php endif; ?>
-
-	<?php endif; ?>
+	<form method="get" id="riwth-feedback-list-form">
+		<input type="hidden" name="page" value="riwth-feedback-list" />
+		<?php
+		$list_table->search_box( __( 'Search Posts', 'riaco-was-this-helpful' ), 'riwth-feedback' );
+		$list_table->display();
+		?>
+	</form>
 </div>
 <?php // phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound

@@ -25,7 +25,7 @@ PRO ships as a **separate add-on plugin**, not a fork:
 ### Insight / reporting
 - Trend charts (positive vs. negative over time), most/least helpful content report.
 - Email digest or instant alert on negative feedback.
-- Richer Feedback Records filtering (date range, post type, vote type) beyond the free CSV export.
+- Richer Feedback Records filtering beyond what's now free — the free plugin's Feedback Records table (a `WP_List_Table` as of the pagination/sorting/filtering rewrite) already has a month/year date filter, title search, and Date/Vote/Post-title sorting. PRO could still differentiate with post-type/vote-type filters, saved filter presets, or a true date-range picker.
 
 ### Integrations
 - Webhook / Zapier / Slack notification on new feedback.
