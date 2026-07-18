@@ -33,12 +33,13 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 		}
 
 		public function maybe_export_csv() {
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			// phpcs:disable WordPress.Security.NonceVerification.Recommended -- values are sanitized via sanitize_text_field( wp_unslash() ) below; used only for page routing, not a form submission.
 			if ( ! isset( $_GET['page'], $_GET['export'] ) ) {
 				return;
 			}
 			$page   = sanitize_text_field( wp_unslash( $_GET['page'] ) );
 			$export = sanitize_text_field( wp_unslash( $_GET['export'] ) );
+			// phpcs:enable WordPress.Security.NonceVerification.Recommended
 			if ( 'riwth-feedback-list' !== $page || 'csv' !== $export ) {
 				return;
 			}
