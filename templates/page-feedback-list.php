@@ -11,18 +11,11 @@ $feedback_list = $this;
 $list_table = $feedback_list->get_list_table();
 $list_table->prepare_items();
 
-// Unfiltered grand total — Delete All always targets every row regardless
-// of the current search/date filter, same contract CSV export already has.
-$total_records_all = $feedback_list->get_total_records();
-$filtered_total    = (int) $list_table->get_pagination_arg( 'total_items' );
+$filtered_total = (int) $list_table->get_pagination_arg( 'total_items' );
 
-$export_url      = wp_nonce_url(
+$export_url = wp_nonce_url(
 	add_query_arg( array( 'page' => 'riwth-feedback-list', 'export' => 'csv' ), admin_url( 'admin.php' ) ),
 	'riwth_export_csv'
-);
-$delete_all_url  = wp_nonce_url(
-	add_query_arg( array( 'action' => 'riwth_delete_all_feedback' ), admin_url( 'admin.php' ) ),
-	'riwth_delete_all_feedback'
 );
 ?>
 <div class="wrap">
@@ -32,13 +25,6 @@ $delete_all_url  = wp_nonce_url(
 		<a href="<?php echo esc_url( $export_url ); ?>" class="button">
 			<?php esc_html_e( 'Export CSV', 'riaco-was-this-helpful' ); ?>
 		</a>
-		<?php if ( $total_records_all > 0 ) : ?>
-			<a href="<?php echo esc_url( $delete_all_url ); ?>"
-			   class="button"
-			   onclick="return confirm('<?php echo esc_js( __( 'Delete all feedback records? This cannot be undone.', 'riaco-was-this-helpful' ) ); ?>')">
-				<?php esc_html_e( 'Delete All', 'riaco-was-this-helpful' ); ?>
-			</a>
-		<?php endif; ?>
 		<span style="color:#555;">
 			<?php
 			/* translators: %d: number of records */
