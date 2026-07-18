@@ -132,7 +132,8 @@ Not directly. You can manually adjust the reset date in the post meta if necessa
 * Fixed: Feedback box block ignored the "Display on" post type setting.
 * Fixed: Feedback box block strings not being translated due to an incorrect text domain.
 * Fixed: Sorting the "Was This Helpful?" admin column could trigger a database error on newer MySQL/MariaDB servers, breaking the posts/pages list.
-* Fixed: A handful of untranslated admin-facing strings, plus general coding-standard and hardening cleanup ahead of a full plugin audit.
+* Fixed: A handful of untranslated admin-facing strings
+* Improved: Security and code quality improvements.
 * Improved: Rate-limiting data is now cleaned up automatically instead of accumulating in the database indefinitely.
 
 = 2.2.1 - 2026-06-15 =
