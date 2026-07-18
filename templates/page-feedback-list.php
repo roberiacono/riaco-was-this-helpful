@@ -49,11 +49,11 @@ $delete_all_url  = wp_nonce_url(
 		<table class="wp-list-table widefat fixed striped">
 			<thead>
 				<tr>
-					<th style="width:30%"><?php esc_html_e( 'Post', 'riaco-was-this-helpful' ); ?></th>
-					<th style="width:25%"><?php esc_html_e( 'Slug', 'riaco-was-this-helpful' ); ?></th>
-					<th style="width:15%"><?php esc_html_e( 'Vote', 'riaco-was-this-helpful' ); ?></th>
-					<th style="width:20%"><?php esc_html_e( 'Date', 'riaco-was-this-helpful' ); ?></th>
-					<th style="width:10%"><?php esc_html_e( 'Actions', 'riaco-was-this-helpful' ); ?></th>
+					<th><?php esc_html_e( 'Post', 'riaco-was-this-helpful' ); ?></th>
+					<th><?php esc_html_e( 'Slug', 'riaco-was-this-helpful' ); ?></th>
+					<th><?php esc_html_e( 'Vote', 'riaco-was-this-helpful' ); ?></th>
+					<th><?php esc_html_e( 'Date', 'riaco-was-this-helpful' ); ?></th>
+					<th><?php esc_html_e( 'Actions', 'riaco-was-this-helpful' ); ?></th>
 					<?php
 					/**
 					 * Filter extra column headers appended to the feedback list table.
