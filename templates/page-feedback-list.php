@@ -52,8 +52,6 @@ $delete_all_url  = wp_nonce_url(
 					<th><?php esc_html_e( 'Post', 'riaco-was-this-helpful' ); ?></th>
 					<th><?php esc_html_e( 'Slug', 'riaco-was-this-helpful' ); ?></th>
 					<th><?php esc_html_e( 'Vote', 'riaco-was-this-helpful' ); ?></th>
-					<th><?php esc_html_e( 'Date', 'riaco-was-this-helpful' ); ?></th>
-					<th><?php esc_html_e( 'Actions', 'riaco-was-this-helpful' ); ?></th>
 					<?php
 					/**
 					 * Filter extra column headers appended to the feedback list table.
@@ -64,6 +62,8 @@ $delete_all_url  = wp_nonce_url(
 						?>
 						<th><?php echo esc_html( $riwth_extra_column ); ?></th>
 					<?php endforeach; ?>
+					<th><?php esc_html_e( 'Date', 'riaco-was-this-helpful' ); ?></th>
+					<th><?php esc_html_e( 'Actions', 'riaco-was-this-helpful' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -108,14 +108,6 @@ $delete_all_url  = wp_nonce_url(
 								<?php echo esc_html( $vote_label ); ?>
 							</strong>
 						</td>
-						<td><?php echo esc_html( $date ); ?></td>
-						<td>
-							<a href="<?php echo esc_url( $delete_url ); ?>"
-							   onclick="return confirm('<?php echo esc_js( __( 'Delete this record?', 'riaco-was-this-helpful' ) ); ?>')"
-							   style="color:#c0392b;">
-								<?php esc_html_e( 'Delete', 'riaco-was-this-helpful' ); ?>
-							</a>
-						</td>
 						<?php
 						/**
 						 * Filter extra cell HTML appended to each feedback list row.
@@ -127,6 +119,14 @@ $delete_all_url  = wp_nonce_url(
 							?>
 							<td><?php echo wp_kses_post( $riwth_extra_cell ); ?></td>
 						<?php endforeach; ?>
+						<td><?php echo esc_html( $date ); ?></td>
+						<td>
+							<a href="<?php echo esc_url( $delete_url ); ?>"
+							   onclick="return confirm('<?php echo esc_js( __( 'Delete this record?', 'riaco-was-this-helpful' ) ); ?>')"
+							   style="color:#c0392b;">
+								<?php esc_html_e( 'Delete', 'riaco-was-this-helpful' ); ?>
+							</a>
+						</td>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
