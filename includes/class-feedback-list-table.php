@@ -265,10 +265,10 @@ if ( ! class_exists( 'RIWTH_Feedback_List_Table' ) ) {
 		 */
 		protected function process_bulk_action() {
 			$action = '';
-			if ( ! empty( $_REQUEST['action'] ) && '-1' !== $_REQUEST['action'] ) {
-				$action = $_REQUEST['action']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- compared only against a hardcoded constant below; the real nonce check happens inside process_bulk_delete_request().
-			} elseif ( ! empty( $_REQUEST['action2'] ) && '-1' !== $_REQUEST['action2'] ) {
-				$action = $_REQUEST['action2']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- compared only against a hardcoded constant below; the real nonce check happens inside process_bulk_delete_request().
+			if ( ! empty( $_REQUEST['action'] ) && '-1' !== $_REQUEST['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- compared only against a hardcoded constant below; the real nonce check happens inside process_bulk_delete_request().
+				$action = sanitize_text_field( wp_unslash( $_REQUEST['action'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- compared only against a hardcoded constant below; the real nonce check happens inside process_bulk_delete_request().
+			} elseif ( ! empty( $_REQUEST['action2'] ) && '-1' !== $_REQUEST['action2'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- compared only against a hardcoded constant below; the real nonce check happens inside process_bulk_delete_request().
+				$action = sanitize_text_field( wp_unslash( $_REQUEST['action2'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- compared only against a hardcoded constant below; the real nonce check happens inside process_bulk_delete_request().
 			}
 
 			if ( RIWTH_Admin_Feedback_List::BULK_DELETE_ACTION !== $action ) {
