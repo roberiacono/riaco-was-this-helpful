@@ -76,6 +76,16 @@ if ( ! empty( $riwth_transients ) ) {
 	}
 }
 
+// delete rate-limit rows written directly to wp_options by RIWTH_Ajax::save_feedback().
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+$wpdb->query(
+	$wpdb->prepare(
+		'DELETE FROM %i WHERE option_name LIKE %s',
+		$wpdb->options,
+		$wpdb->esc_like( '_riwth_rl_' ) . '%'
+	)
+);
+
 // delete cache.
 wp_cache_flush();
 

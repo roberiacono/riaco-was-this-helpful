@@ -110,9 +110,32 @@ class Test_RIWTH_Admin_Columns extends RIWTH_Test_Case {
 	// SQL-injection attempt via $_GET['order'] / $_GET['orderby']
 	// -----------------------------------------------------------------
 
-	public function test_orderby_whitelists_order_direction_against_injection() {
-		$_GET['order'] = "ASC; DROP TABLE wp_posts;--";
+	/**
+	 * Build a WP_Query stub that reports the given orderby/order without executing a real query.
+	 *
+	 * @param string $order Raw (possibly malicious) order value to simulate.
+	 */
+	private function mock_query_for_order( $order ) {
+		$query = $this->getMockBuilder( WP_Query::class )
+			->onlyMethods( array( 'is_main_query', 'get' ) )
+			->getMock();
+		$query->method( 'is_main_query' )->willReturn( true );
+		$query->method( 'get' )->willReturnCallback(
+			function ( $key, $default = '' ) use ( $order ) {
+				$map = array(
+					'orderby' => 'helpful_feedback',
+					'order'   => $order,
+				);
+				return isset( $map[ $key ] ) ? $map[ $key ] : $default;
+			}
+		);
+		return $query;
+	}
 
+	public function test_orderby_whitelists_order_direction_against_injection() {
+		set_current_screen( 'edit-post' );
+
+		$this->columns->order_by_feedback( $this->mock_query_for_order( "ASC; DROP TABLE wp_posts;--" ) );
 		$clause = $this->columns->feedback_posts_orderby( '' );
 
 		$this->assertStringNotContainsString( 'DROP TABLE', $clause );
@@ -121,8 +144,9 @@ class Test_RIWTH_Admin_Columns extends RIWTH_Test_Case {
 	}
 
 	public function test_orderby_accepts_valid_asc() {
-		$_GET['order'] = 'asc';
+		set_current_screen( 'edit-post' );
 
+		$this->columns->order_by_feedback( $this->mock_query_for_order( 'asc' ) );
 		$clause = $this->columns->feedback_posts_orderby( '' );
 
 		$this->assertStringContainsString( 'COALESCE(feedback_stats.feedback_percentage, 0) ASC,', $clause );

@@ -178,22 +178,28 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 			if ( function_exists( 'get_current_screen' ) ) {
 				$screen = get_current_screen();
 
-				if ( is_admin() && $screen instanceof WP_Screen && is_main_query() && in_array( $screen->base, $options ) && in_array( get_post_type(), $options ) ) {
+				if ( is_admin() && $screen instanceof WP_Screen && is_main_query() && in_array( $screen->base, $options, true ) && in_array( get_post_type(), $options, true ) ) {
 					return (bool) apply_filters( 'riwth_could_display_box', true, $post->ID );
 				}
 			}
 
-			if ( is_main_query() && is_singular() && in_array( get_post_type(), $options ) ) {
+			if ( is_main_query() && is_singular() && in_array( get_post_type(), $options, true ) ) {
 				return (bool) apply_filters( 'riwth_could_display_box', true, $post->ID );
 			}
 			return (bool) apply_filters( 'riwth_could_display_box', false, $post->ID );
 		}
 
+		/**
+		 * @deprecated Use green_yellow_red() instead. Kept as a thin alias since this
+		 * is a public static method a companion add-on could be calling directly.
+		 */
 		public static function GreenYellowRed( $number ) {
+			return self::green_yellow_red( $number );
+		}
+
+		public static function green_yellow_red( $number ) {
 			--$number; // working with 0-99 will be easier
-			if ( $number < 0 ) {
-				$number = 0;
-			}
+			$number = max( 0, min( 99, $number ) );
 
 			// invert color scale
 			$number = 99 - $number;

@@ -38,13 +38,13 @@ if ( ! class_exists( 'RIWTH_Box' ) ) {
 			$attr = apply_filters( 'riwth_feedback_box_atts', $attr, get_the_ID() );
 
 			$layout             = isset( $attr['layout'] ) ? $attr['layout'] : 'default';
-			$feedback_box_style = $attr['feedback_box_style'];
+			$feedback_box_style = isset( $attr['feedback_box_style'] ) ? $attr['feedback_box_style'] : '';
 
-			$positive_button_icon  = $attr['positive_button_icon'];
-			$positive_button_style = $attr['positive_button_style'];
+			$positive_button_icon  = isset( $attr['positive_button_icon'] ) ? $attr['positive_button_icon'] : '';
+			$positive_button_style = isset( $attr['positive_button_style'] ) ? $attr['positive_button_style'] : '';
 
-			$negative_button_icon  = $attr['negative_button_icon'];
-			$negative_button_style = $attr['negative_button_style'];
+			$negative_button_icon  = isset( $attr['negative_button_icon'] ) ? $attr['negative_button_icon'] : '';
+			$negative_button_style = isset( $attr['negative_button_style'] ) ? $attr['negative_button_style'] : '';
 
 			$wrapper_class = 'riwth-helpful-feedback wp-block-group';
 			if ( 'one_line' === $layout ) {
@@ -96,7 +96,7 @@ if ( ! class_exists( 'RIWTH_Box' ) ) {
 		}
 
 		public static function get_feedback_box_button_icon( $type ) {
-			if ( ! in_array( $type, array( 'positive', 'negative' ) ) ) {
+			if ( ! in_array( $type, array( 'positive', 'negative' ), true ) ) {
 				return;
 			}
 
@@ -112,7 +112,7 @@ if ( ! class_exists( 'RIWTH_Box' ) ) {
 		}
 
 		public static function get_feedback_box_button_text( $type ) {
-			if ( ! in_array( $type, array( 'positive', 'negative' ) ) ) {
+			if ( ! in_array( $type, array( 'positive', 'negative' ), true ) ) {
 				return;
 			}
 
@@ -128,7 +128,7 @@ if ( ! class_exists( 'RIWTH_Box' ) ) {
 		}
 
 		public static function get_feedback_box_button_style( $type ) {
-			if ( ! in_array( $type, array( 'positive', 'negative' ) ) ) {
+			if ( ! in_array( $type, array( 'positive', 'negative' ), true ) ) {
 				return;
 			}
 

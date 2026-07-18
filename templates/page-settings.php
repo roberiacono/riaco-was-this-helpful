@@ -50,7 +50,7 @@ defined( 'ABSPATH' ) || exit;
 				$tab_url = add_query_arg(
 					array(
 						'page'     => 'riwth-settings',
-						'tab'      => esc_attr( $tab_key ),
+						'tab'      => sanitize_key( $tab_key ),
 						'_wpnonce' => wp_create_nonce( $nonce_action ),
 					),
 					''
@@ -62,8 +62,8 @@ defined( 'ABSPATH' ) || exit;
 		</nav>
 
 		<?php
-		settings_fields( 'riwth-settings-' . esc_attr( $current_tab ) );
-		do_settings_sections( 'riwth-settings-' . esc_attr( $current_tab ) );
+		settings_fields( 'riwth-settings-' . sanitize_key( $current_tab ) );
+		do_settings_sections( 'riwth-settings-' . sanitize_key( $current_tab ) );
 		submit_button();
 		// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 		?>

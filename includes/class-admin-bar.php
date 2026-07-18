@@ -7,7 +7,7 @@ if ( ! class_exists( 'RIWTH_Admin_Bar' ) ) {
 		public function __construct() {
 			$show_admin_bar_content = get_option( 'riwth_show_admin_bar_content' );
 
-			if ( $show_admin_bar_content === '1' ) {
+			if ( '1' === $show_admin_bar_content ) {
 				add_action( 'admin_bar_menu', array( $this, 'add_feedback_count_to_admin_bar' ), 99 );
 			}
 		}
@@ -27,7 +27,7 @@ if ( ! class_exists( 'RIWTH_Admin_Bar' ) ) {
 				$percentage = ( $positive_feedback_count / $total_feedback_count ) * 100;
 				/* translators: %1$d: positive percentage. %2$d Positive feedback. %3$d total feedback. */
 				$title = sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'riaco-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback_count );
-				$color = RIWTH_Functions::GreenYellowRed( round( $percentage ) );
+				$color = RIWTH_Functions::green_yellow_red( round( $percentage ) );
 				$dot   = '<span style="background-color: ' . esc_attr( $color ) . '; margin-right: 5px; border-radius: 50%; width: 0.5rem; height: 0.5rem; display: inline-block; vertical-align: middle;"></span>';
 			} else {
 				$title = __( 'No feedback yet', 'riaco-was-this-helpful' );

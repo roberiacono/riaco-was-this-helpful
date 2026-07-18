@@ -33,7 +33,7 @@ if ( ! class_exists( 'RIWTH_Metabox_Stats' ) ) {
 
 			if ( $total_feedback_count > 0 ) {
 				$percentage = ( $positive_feedback_count / $total_feedback_count ) * 100;
-				$color      = RIWTH_Functions::GreenYellowRed( round( $percentage ) );
+				$color      = RIWTH_Functions::green_yellow_red( round( $percentage ) );
 				echo '<span style="background-color: ' . esc_attr( $color ) . '; margin-right: 5px; border-radius: 50%; width: 0.5rem; height: 0.5rem; display: inline-block;"></span>';
 				/* translators: %1$d: positive percentage. %2$d Positive feedback. %3$d total feedback. */
 				echo esc_html( sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'riaco-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback_count ) );

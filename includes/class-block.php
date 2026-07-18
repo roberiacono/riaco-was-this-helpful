@@ -38,14 +38,6 @@ if ( ! class_exists( 'RIWTH_Block' ) ) {
 				RIWTH_PLUGIN_DIR . 'helpful-box-block/build',
 				array(
 					'render_callback' => array( $this, 'render_feedback_block' ),
-
-					'attributes'      => array(
-
-						'helpfulBox' => array(
-							'default' => $this->get_feedback_block_for_editor(),
-							'type'    => 'string',
-						),
-					),
 				)
 			);
 		}
@@ -72,7 +64,7 @@ if ( ! class_exists( 'RIWTH_Block' ) ) {
 		 */
 		public function enqueue_editor_assets() {
 			if ( get_option( 'riwth_load_styles' ) ) {
-				wp_enqueue_style( 'riwth-style', RIWTH_PLUGIN_URL . 'assets/public/css/style.css', array(), RIWTH_PLUGIN_VERSION );
+				wp_enqueue_style( 'riwth-editor-style', RIWTH_PLUGIN_URL . 'assets/public/css/style.css', array(), RIWTH_PLUGIN_VERSION );
 			}
 		}
 

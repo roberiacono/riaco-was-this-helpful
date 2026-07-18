@@ -1,17 +1,19 @@
 /**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
-import { __ } from "@wordpress/i18n";
-
-/**
  * React hook that is used to mark the block wrapper element.
  * It provides all the necessary props like the class name.
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 import { useBlockProps } from "@wordpress/block-editor";
+
+/**
+ * Renders the block's PHP render_callback output live in the editor via the
+ * block-renderer REST endpoint, instead of baking a static HTML snapshot into
+ * an attribute that would get persisted into post_content and go stale.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-server-side-render/
+ */
+import ServerSideRender from "@wordpress/server-side-render";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -29,16 +31,14 @@ import "./editor.scss";
  *
  * @return {Element} Element to render.
  */
-
-import { RawHTML } from "@wordpress/element";
-
-export default function Edit({ attributes, setAttributes }) {
+export default function Edit({ attributes }) {
 
 	return (
-		<>
-			<div {...useBlockProps()}>
-				<RawHTML>{attributes.helpfulBox}</RawHTML>
-			</div>
-		</>
+		<div {...useBlockProps()}>
+			<ServerSideRender
+				block="riaco-was-this-helpful/helpful-box-block"
+				attributes={attributes}
+			/>
+		</div>
 	);
 }

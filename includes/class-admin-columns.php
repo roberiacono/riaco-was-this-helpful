@@ -23,6 +23,14 @@ if ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {
 		private $post_types;
 
 		/**
+		 * Sort direction validated in order_by_feedback(), consumed by feedback_posts_orderby()
+		 * so both stay in sync regardless of what triggered the query (URL sort click, REST, cron, etc.).
+		 *
+		 * @var string 'ASC'|'DESC'
+		 */
+		private $sort_order = 'DESC';
+
+		/**
 		 * Constructor for the RIWTH_Admin_Columns class.
 		 */
 		public function __construct() {
@@ -68,7 +76,7 @@ if ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {
 
 				if ( $total_feedback > 0 ) {
 					$percentage = ( $positive_feedback_count / $total_feedback ) * 100;
-					$color      = RIWTH_Functions::GreenYellowRed( round( $percentage ) );
+					$color      = RIWTH_Functions::green_yellow_red( round( $percentage ) );
 					$content    = '<span style="background-color: ' . esc_attr( $color ) . '; margin-right: 5px; border-radius: 50%; width: 0.5rem; height: 0.5rem; display: inline-block;"></span>'
 						/* translators: %1$d: positive percentage. %2$d Positive feedback. %3$d total feedback. */
 						. esc_html( sprintf( __( '%1$d%% positive (%2$d/%3$d)', 'riaco-was-this-helpful' ), round( $percentage ), $positive_feedback_count, $total_feedback ) );
@@ -104,8 +112,9 @@ if ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {
 
 			if ( 'helpful_feedback' === $orderby ) {
 				// Get the order direction (ASC or DESC).
-				$order = $query->get( 'order' );
-				$order = ( 'ASC' === strtoupper( $order ) ) ? 'ASC' : 'DESC';
+				$order            = $query->get( 'order' );
+				$order            = ( 'ASC' === strtoupper( $order ) ) ? 'ASC' : 'DESC';
+				$this->sort_order = $order;
 
 				// Modify the query to join with feedback table and calculate percentage.
 				$query->set( 'orderby', 'feedback_percentage' );
@@ -129,9 +138,6 @@ if ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {
 		public function feedback_posts_join( $join ) {
 			global $wpdb;
 			$table_name = $wpdb->prefix . RIWTH_DB_NAME;
-
-			// Left join with feedback table and post meta to consider reset date.
-			$join .= " LEFT JOIN {$wpdb->postmeta} pm_reset ON {$wpdb->posts}.ID = pm_reset.post_id AND pm_reset.meta_key = '_riwth_reset_date'";
 
 			$join .= " LEFT JOIN (
 				SELECT 
@@ -161,10 +167,10 @@ if ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {
 		 * @param string $fields The existing SELECT fields.
 		 */
 		public function feedback_posts_fields( $fields ) {
-			global $wpdb;
-
-			// Add the calculated fields to SELECT.
-			$fields .= ', feedback_stats.total_feedback, feedback_stats.positive_feedback, feedback_stats.feedback_percentage';
+			// Add the calculated fields to SELECT. MAX() satisfies ONLY_FULL_GROUP_BY (the
+			// default SQL mode on MySQL 5.7+/MariaDB 10.2.4+) since the subquery already
+			// guarantees at most one feedback_stats row per post_id.
+			$fields .= ', MAX(feedback_stats.total_feedback) AS total_feedback, MAX(feedback_stats.positive_feedback) AS positive_feedback, MAX(feedback_stats.feedback_percentage) AS feedback_percentage';
 
 			return $fields;
 		}
@@ -179,13 +185,10 @@ if ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {
 		public function feedback_posts_orderby( $orderby ) {
 			global $wpdb;
 
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Safe usage, sorting only, no data mutation.
-			$order = isset( $_GET['order'] ) ? strtoupper( sanitize_text_field( wp_unslash( $_GET['order'] ) ) ) : 'DESC';
-			$order = in_array( $order, array( 'ASC', 'DESC' ), true ) ? $order : 'DESC';
-			$order = ( 'ASC' === $order ) ? 'ASC' : 'DESC';
-
-			// Reverse order for total feedback count (more feedback = higher priority).
-			$feedback_count_order = ( 'ASC' === $order ) ? 'DESC' : 'ASC';
+			// Use the direction validated in order_by_feedback() rather than re-reading $_GET,
+			// so this stays correct for any query (REST, cron, programmatic WP_Query) that sets
+			// orderby=helpful_feedback without a matching $_GET['order'].
+			$order = $this->sort_order;
 
 			// Order by:
 			// 1. Posts with feedback first, then posts without feedback.

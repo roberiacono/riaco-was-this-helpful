@@ -37,8 +37,9 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 			if ( ! isset( $_GET['page'], $_GET['export'] ) ) {
 				return;
 			}
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			if ( 'riwth-feedback-list' !== $_GET['page'] || 'csv' !== $_GET['export'] ) {
+			$page   = sanitize_text_field( wp_unslash( $_GET['page'] ) );
+			$export = sanitize_text_field( wp_unslash( $_GET['export'] ) );
+			if ( 'riwth-feedback-list' !== $page || 'csv' !== $export ) {
 				return;
 			}
 			$this->export_csv();
@@ -103,6 +104,8 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 				wp_die( esc_html__( 'Nonce check failed.', 'riaco-was-this-helpful' ) );
 			}
 
+			$paged = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 0;
+
 			global $wpdb;
 
 			// Fetch post_id before deleting so we can bust its cache.
@@ -118,12 +121,15 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$deleted = $wpdb->delete( $wpdb->prefix . RIWTH_DB_NAME, array( 'id' => $feedback_id ), array( '%d' ) );
 
-			if ( false === $deleted ) {
+			if ( false === $deleted || 0 === $deleted ) {
 				wp_safe_redirect(
 					add_query_arg(
-						array(
-							'page'         => 'riwth-feedback-list',
-							'riwth_notice' => 'delete_failed',
+						array_filter(
+							array(
+								'page'         => 'riwth-feedback-list',
+								'riwth_notice' => 'delete_failed',
+								'paged'        => $paged,
+							)
 						),
 						admin_url( 'admin.php' )
 					)
@@ -137,12 +143,17 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 				wp_cache_delete( 'riwth_positive_feedback_' . $post_id, 'riwth_feedback' );
 				delete_transient( 'riwth_positive_feedback_' . $post_id );
 			}
+			wp_cache_delete( 'riwth_overall_total_feedback', 'riwth_feedback' );
+			delete_transient( 'riwth_overall_total_feedback' );
 
 			wp_safe_redirect(
 				add_query_arg(
-					array(
-						'page'         => 'riwth-feedback-list',
-						'riwth_notice' => 'deleted',
+					array_filter(
+						array(
+							'page'         => 'riwth-feedback-list',
+							'riwth_notice' => 'deleted',
+							'paged'        => $paged,
+						)
 					),
 					admin_url( 'admin.php' )
 				)
@@ -161,19 +172,58 @@ if ( ! class_exists( 'RIWTH_Admin_Feedback_List' ) ) {
 				wp_die( esc_html__( 'Nonce check failed.', 'riaco-was-this-helpful' ) );
 			}
 
+			$paged = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 0;
+
 			global $wpdb;
+			$table = $wpdb->prefix . RIWTH_DB_NAME;
+
+			// Fetch every distinct post_id before deleting so we can bust their per-post caches.
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			$wpdb->query(
-				$wpdb->prepare( 'DELETE FROM %i', $wpdb->prefix . RIWTH_DB_NAME )
+			$post_ids = $wpdb->get_col(
+				$wpdb->prepare( 'SELECT DISTINCT post_id FROM %i', $table )
 			);
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$result = $wpdb->query(
+				$wpdb->prepare( 'DELETE FROM %i', $table )
+			);
+
+			if ( false === $result ) {
+				wp_safe_redirect(
+					add_query_arg(
+						array_filter(
+							array(
+								'page'         => 'riwth-feedback-list',
+								'riwth_notice' => 'delete_failed',
+								'paged'        => $paged,
+							)
+						),
+						admin_url( 'admin.php' )
+					)
+				);
+				exit;
+			}
+
+			foreach ( $post_ids as $post_id ) {
+				$post_id = (int) $post_id;
+				wp_cache_delete( 'riwth_total_feedback_' . $post_id, 'riwth_feedback' );
+				delete_transient( 'riwth_total_feedback_' . $post_id );
+				wp_cache_delete( 'riwth_positive_feedback_' . $post_id, 'riwth_feedback' );
+				delete_transient( 'riwth_positive_feedback_' . $post_id );
+			}
+			wp_cache_delete( 'riwth_overall_total_feedback', 'riwth_feedback' );
+			delete_transient( 'riwth_overall_total_feedback' );
 
 			wp_cache_flush();
 
 			wp_safe_redirect(
 				add_query_arg(
-					array(
-						'page'         => 'riwth-feedback-list',
-						'riwth_notice' => 'deleted_all',
+					array_filter(
+						array(
+							'page'         => 'riwth-feedback-list',
+							'riwth_notice' => 'deleted_all',
+							'paged'        => $paged,
+						)
 					),
 					admin_url( 'admin.php' )
 				)

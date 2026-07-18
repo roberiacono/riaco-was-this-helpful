@@ -152,7 +152,7 @@ Feedback counts use a two-layer cache: `wp_cache_get/set` (object cache, group `
 
 ### Gutenberg Block
 
-`helpful-box-block/src/` contains the block source. The editor (`edit.js`) renders the feedback box HTML from the `helpfulBox` block attribute (populated server-side via `get_feedback_block_for_editor()`). The block has no save function — it is fully server-side rendered. Built output goes to `helpful-box-block/build/`.
+`helpful-box-block/src/` contains the block source. The editor (`edit.js`) renders a live preview via `@wordpress/server-side-render` (`wp-server-side-render`), which calls the block-renderer REST endpoint to run the block's `render_callback` (`RIWTH_Block::render_feedback_block()`) on demand — no attribute is persisted into `post_content`, so the editor preview can never go stale relative to current settings. The block has no save function — it is fully server-side rendered. Built output goes to `helpful-box-block/build/`.
 
 ## WordPress Options Reference
 

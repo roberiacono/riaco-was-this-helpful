@@ -2,7 +2,9 @@
 defined( 'ABSPATH' ) || exit;
 
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- template included inside a class method; variables are method-scoped, not global.
-$feedback_list = new RIWTH_Admin_Feedback_List();
+// $this is the RIWTH_Admin_Feedback_List instance from render_page() (require_once runs in
+// the calling method's scope) — reuse it instead of constructing a second, throwaway instance.
+$feedback_list = $this;
 $per_page      = 20;
 $current_page  = isset( $_GET['paged'] ) ? max( 1, absint( $_GET['paged'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $total_records = $feedback_list->get_total_records();

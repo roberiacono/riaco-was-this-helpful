@@ -8,6 +8,7 @@ PRO-VERSION-PLAN.md
 
 # Node build tooling (not needed at runtime; src/ is included for WP.org review)
 helpful-box-block/node_modules
+helpful-box-block/package.json
 helpful-box-block/package-lock.json
 
 # Misc dev artifacts

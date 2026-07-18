@@ -32,12 +32,24 @@ class Test_RIWTH_Block extends RIWTH_Test_Case {
 		);
 	}
 
-	public function test_editor_attribute_default_is_populated() {
+	public function test_block_has_no_persisted_html_attribute() {
+		// The editor preview is fetched live via ServerSideRender (block-renderer REST
+		// endpoint) rather than baked into a block attribute, so nothing stale ever
+		// gets written into post_content when a post is saved without touching the block.
 		$registry   = WP_Block_Type_Registry::get_instance();
 		$block_type = $registry->get_registered( 'riaco-was-this-helpful/helpful-box-block' );
 
-		$this->assertArrayHasKey( 'helpfulBox', $block_type->attributes );
-		$this->assertIsString( $block_type->attributes['helpfulBox']['default'] );
+		$this->assertArrayNotHasKey( 'helpfulBox', (array) $block_type->attributes );
+	}
+
+	public function test_get_feedback_block_for_editor_returns_box_html() {
+		update_option( 'riwth_display_on', array( 'post' ) );
+		$post_id = RIWTH_Test_Factory::create_published_post();
+		$this->go_to( get_permalink( $post_id ) );
+
+		$html = $this->block->get_feedback_block_for_editor();
+
+		$this->assertStringContainsString( 'riwth-helpful-feedback', $html );
 	}
 
 	public function test_enqueue_if_block_is_present_enqueues_script() {

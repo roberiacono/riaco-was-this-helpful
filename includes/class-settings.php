@@ -20,7 +20,7 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 			}
 		}
 
-		function riwth_enqueue_color_picker( $hook_suffix ) {
+		public function riwth_enqueue_color_picker( $hook_suffix ) {
 			if ( 'toplevel_page_riwth-settings' !== $hook_suffix ) {
 				return;
 			}
@@ -428,7 +428,7 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 			foreach ( $fields as $field ) {
 				?>
 			<label>
-				<input type="checkbox" name="riwth_display_on[]" value="<?php echo esc_attr( $field['value'] ); ?>" <?php checked( in_array( $field['value'], $options ) ); ?>>
+				<input type="checkbox" name="riwth_display_on[]" value="<?php echo esc_attr( $field['value'] ); ?>" <?php checked( in_array( $field['value'], $options, true ) ); ?>>
 				<?php echo esc_html( $field['label'] ); ?>
 			</label><br>
 				<?php
@@ -463,7 +463,7 @@ if ( ! class_exists( 'RIWTH_Settings' ) ) {
 			foreach ( $all_roles as $key => $value ) {
 				?>
 			<label>
-				<input type="checkbox" name="riwth_display_by_user_role[]" value="<?php echo esc_attr( $key ); ?>" <?php checked( in_array( $key, $options ) ); ?>>
+				<input type="checkbox" name="riwth_display_by_user_role[]" value="<?php echo esc_attr( $key ); ?>" <?php checked( in_array( $key, $options, true ) ); ?>>
 				<?php echo esc_html( $value['name'] ); ?>
 			</label><br>
 				<?php

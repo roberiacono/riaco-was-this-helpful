@@ -54,7 +54,7 @@ if ( ! class_exists( 'RIWTH_Admin_Pages_Footer' ) ) {
 
 			$title = __( 'Made with ♥ by Roberto Iacono', 'riaco-was-this-helpful' );
 
-			require_once RIWTH_PLUGIN_DIRNAME . 'templates/parts/pre-footer.php';
+			require RIWTH_PLUGIN_DIRNAME . 'templates/parts/pre-footer.php';
 		}
 
 		/**
@@ -74,7 +74,7 @@ if ( ! class_exists( 'RIWTH_Admin_Pages_Footer' ) ) {
 				$url  = 'https://wordpress.org/support/plugin/riaco-was-this-helpful/reviews/';
 				$text = sprintf(
 					wp_kses(
-					/* translators: $1$s - WP.org review link; $2$s - WP.org review link. */
+					/* translators: %1$s: WP.org review link. */
 						__( 'Enjoying <strong>Was This Helpful?</strong> Please rate <a href="%1$s" target="_blank" rel="noopener noreferrer">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on WordPress.org to help us spread the word. Thank you!', 'riaco-was-this-helpful' ),
 						array(
 							'a'      => array(

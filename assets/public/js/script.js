@@ -77,6 +77,10 @@
     });
 
     document.addEventListener("showThankYou", function (event) {
+      // params.content is server-escaped (esc_html/esc_url) in RIWTH_Ajax::save_feedback()
+      // before it ever reaches the browser — this client does no sanitization of its own,
+      // so that escaping must be preserved by any future change there or by a consumer of
+      // the riwth_ajax_feedback_sent_return filter.
       var params = event.detail || {};
       document
         .querySelectorAll(".riwth-helpful-feedback")
@@ -93,7 +97,10 @@
       date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
       expires = "; expires=" + date.toUTCString();
     }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
+    // Secure is only added when actually on HTTPS: browsers silently drop
+    // Secure cookies set over a plain HTTP connection, so it can't be unconditional.
+    var secure = location.protocol === "https:" ? "; Secure" : "";
+    document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax" + secure;
   }
 
   function getCookie(name) {

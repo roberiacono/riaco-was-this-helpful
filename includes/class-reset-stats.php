@@ -42,7 +42,7 @@ if ( ! class_exists( 'RIWTH_Reset_Stats' ) ) {
 				$options = get_option( 'riwth_display_on', array() );
 				$options = is_array( $options ) ? $options : array();
 
-				if ( ! in_array( get_post_type(), $options ) ) {
+				if ( ! in_array( get_post_type(), $options, true ) ) {
 					return $actions;
 				}
 
@@ -86,6 +86,10 @@ if ( ! class_exists( 'RIWTH_Reset_Stats' ) ) {
 				wp_die( esc_html__( 'You are not allowed to do this.', 'riaco-was-this-helpful' ) );
 			}
 
+			if ( ! get_post( $post_id ) ) {
+				wp_die( esc_html__( 'Invalid request.', 'riaco-was-this-helpful' ) );
+			}
+
 			do_action( 'riwth_before_reset_stats', $post_id );
 
 			// Reset logic: update meta and clear caches.
@@ -100,10 +104,18 @@ if ( ! class_exists( 'RIWTH_Reset_Stats' ) ) {
 			do_action( 'riwth_after_reset_stats', $post_id );
 
 			// Store a one-time notice in a transient instead of passing the nonce in the URL.
-			set_transient( 'riwth_reset_notice_' . get_current_user_id(), $post_id, 60 );
+			// Keyed by a random per-action token (not a security credential, just a display
+			// correlation id) rather than user ID alone, so two resets from the same admin in
+			// quick succession (e.g. two tabs) each get their own notice instead of racing to
+			// overwrite the same transient key.
+			$notice_token = wp_generate_password( 12, false );
+			set_transient( 'riwth_reset_notice_' . get_current_user_id() . '_' . $notice_token, $post_id, 60 );
 
 			wp_safe_redirect( add_query_arg(
-				array( 'post_type' => get_post_type( $post_id ) ),
+				array(
+					'post_type'          => get_post_type( $post_id ),
+					'riwth_reset_notice' => $notice_token,
+				),
 				admin_url( 'edit.php' )
 			) );
 			exit;
@@ -113,7 +125,13 @@ if ( ! class_exists( 'RIWTH_Reset_Stats' ) ) {
 		 * Show admin notice after resetting stats.
 		 */
 		public function show_reset_notice() {
-			$transient_key = 'riwth_reset_notice_' . get_current_user_id();
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only display token, not a security credential; see riwth_handle_reset_stats_action().
+			$token = isset( $_GET['riwth_reset_notice'] ) ? sanitize_text_field( wp_unslash( $_GET['riwth_reset_notice'] ) ) : '';
+			if ( ! $token ) {
+				return;
+			}
+
+			$transient_key = 'riwth_reset_notice_' . get_current_user_id() . '_' . $token;
 			$post_id       = (int) get_transient( $transient_key );
 			if ( $post_id ) {
 				delete_transient( $transient_key );

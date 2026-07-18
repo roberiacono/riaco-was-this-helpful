@@ -28,7 +28,7 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 			check_ajax_referer( 'riwth_was_this_helpful_nonce', 'nonce' );
 
 			if ( ! isset( $_POST['post_id'], $_POST['helpful'] ) ) {
-				wp_send_json_error( array( 'message' => 'Missing parameters.' ), 400 );
+				wp_send_json_error( array( 'message' => __( 'Missing parameters.', 'riaco-was-this-helpful' ) ), 400 );
 			}
 
 			$post_id = intval( sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) );
@@ -36,11 +36,11 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 
 			$post = get_post( $post_id );
 			if ( ! $post || 'publish' !== $post->post_status ) {
-				wp_send_json_error( array( 'message' => 'Invalid post.' ), 400 );
+				wp_send_json_error( array( 'message' => __( 'Invalid post.', 'riaco-was-this-helpful' ) ), 400 );
 			}
 			$allowed_types = get_option( 'riwth_display_on', array() );
 			if ( ! in_array( $post->post_type, (array) $allowed_types, true ) ) {
-				wp_send_json_error( array( 'message' => 'Feedback not enabled for this post.' ), 403 );
+				wp_send_json_error( array( 'message' => __( 'Feedback not enabled for this post.', 'riaco-was-this-helpful' ) ), 403 );
 			}
 
 			// Rate limiting: one vote per IP per post per 30 seconds.
@@ -70,19 +70,48 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 			);
 
 			if ( ! $claimed ) {
-				// Slot already exists — see if the previous claim has expired.
-				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-				$expires_at = (int) $wpdb->get_var(
-					$wpdb->prepare( 'SELECT option_value FROM %i WHERE option_name = %s', $wpdb->options, $rate_key )
-				);
-
-				if ( $expires_at > $now ) {
-					wp_send_json_error( array( 'message' => 'Too many requests. Please wait before voting again.' ), 429 );
+				// INSERT IGNORE returns a falsy result both when the row already exists
+				// (expected — someone already holds this slot) and on a genuine SQL error.
+				// Only treat it as "slot exists" when there's no actual DB error, so a real
+				// failure here surfaces instead of silently falling through to allow the vote.
+				if ( '' !== $wpdb->last_error ) {
+					wp_send_json_error( array( 'message' => __( 'Could not process request.', 'riaco-was-this-helpful' ) ), 500 );
 				}
 
-				// Expired: reclaim it for this request.
+				// Slot already exists — atomically reclaim it only if it has expired.
+				// The WHERE condition makes the reclaim itself race-free: if two requests
+				// hit this at the same moment, only one UPDATE can match the still-expired
+				// row (the other affects 0 rows and is correctly rate-limited below), unlike
+				// a separate SELECT-then-UPDATE which both requests could pass concurrently.
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-				$wpdb->update( $wpdb->options, array( 'option_value' => $now + 30 ), array( 'option_name' => $rate_key ), array( '%d' ), array( '%s' ) );
+				$reclaimed = $wpdb->query(
+					$wpdb->prepare(
+						'UPDATE %i SET option_value = %d WHERE option_name = %s AND option_value <= %d',
+						$wpdb->options,
+						$now + 30,
+						$rate_key,
+						$now
+					)
+				);
+
+				if ( ! $reclaimed ) {
+					wp_send_json_error( array( 'message' => __( 'Too many requests. Please wait before voting again.', 'riaco-was-this-helpful' ) ), 429 );
+				}
+			}
+
+			// Lazily sweep expired rate-limit rows so they don't accumulate in wp_options
+			// forever (there's no cron job for this — a small per-request chance keeps it
+			// bounded without adding scheduling overhead to every vote).
+			if ( 1 === wp_rand( 1, 200 ) ) {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+				$wpdb->query(
+					$wpdb->prepare(
+						'DELETE FROM %i WHERE option_name LIKE %s AND option_value < %d',
+						$wpdb->options,
+						$wpdb->esc_like( '_riwth_rl_' ) . '%',
+						$now
+					)
+				);
 			}
 
 			$table_name = $wpdb->prefix . RIWTH_DB_NAME;
@@ -119,7 +148,7 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 			$result = $wpdb->insert( $table_name, $feedback_data, $feedback_format );
 
 			if ( false === $result ) {
-				wp_send_json_error( array( 'message' => 'Could not save feedback.' ), 500 );
+				wp_send_json_error( array( 'message' => __( 'Could not save feedback.', 'riaco-was-this-helpful' ) ), 500 );
 			}
 
 			$feedback_id = $wpdb->insert_id;

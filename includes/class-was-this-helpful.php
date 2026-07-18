@@ -55,14 +55,14 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 		 * Cloning is forbidden.
 		 */
 		public function __clone() {
-			_doing_it_wrong( __FUNCTION__, esc_html( 'Cloning is forbidden.' ), '1.0.0' );
+			_doing_it_wrong( __FUNCTION__, esc_html__( 'Cloning is forbidden.', 'riaco-was-this-helpful' ), '1.0.0' );
 		}
 
 		/**
 		 * Unserializing instances of this class is forbidden.
 		 */
 		public function __wakeup() {
-			_doing_it_wrong( __FUNCTION__, esc_html( 'Unserializing instances of this class is forbidden.' ), '1.0.0' );
+			_doing_it_wrong( __FUNCTION__, esc_html__( 'Unserializing instances of this class is forbidden.', 'riaco-was-this-helpful' ), '1.0.0' );
 		}
 
 		/**
@@ -105,6 +105,7 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 		 */
 		private function init_hooks() {
 			register_activation_hook( RIWTH_PLUGIN_FILE, array( $this, 'activate_plugin' ) );
+			register_deactivation_hook( RIWTH_PLUGIN_FILE, array( $this, 'deactivate_plugin' ) );
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_scripts' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
@@ -166,6 +167,24 @@ if ( ! class_exists( 'RIWTH_Was_This_Helpful' ) ) {
 			$this->create_database();
 			$this->set_initial_settings();
 			update_option( 'riwth_db_version', RIWTH_DB_VERSION );
+		}
+
+		/**
+		 * Code to run during plugin deactivation. Data (options, table) is intentionally
+		 * left in place — only sweeps the rate-limit rows RIWTH_Ajax::save_feedback()
+		 * writes directly to wp_options, since those are ephemeral and would otherwise
+		 * sit unused in the DB for as long as the plugin stays deactivated.
+		 */
+		public function deactivate_plugin() {
+			global $wpdb;
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->query(
+				$wpdb->prepare(
+					'DELETE FROM %i WHERE option_name LIKE %s',
+					$wpdb->options,
+					$wpdb->esc_like( '_riwth_rl_' ) . '%'
+				)
+			);
 		}
 
 		/**
