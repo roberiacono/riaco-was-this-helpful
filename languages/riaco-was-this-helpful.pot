@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-07-17T22:08:28+00:00\n"
+"POT-Creation-Date: 2026-07-18T07:17:10+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: riaco-was-this-helpful\n"
@@ -41,19 +41,19 @@ msgstr ""
 
 #. translators: %1$d: positive percentage. %2$d Positive feedback. %3$d total feedback.
 #: includes/class-admin-bar.php:29
-#: includes/class-admin-columns.php:74
+#: includes/class-admin-columns.php:82
 #: includes/class-metabox-stats.php:39
 #, php-format
 msgid "%1$d%% positive (%2$d/%3$d)"
 msgstr ""
 
 #: includes/class-admin-bar.php:33
-#: includes/class-admin-columns.php:76
+#: includes/class-admin-columns.php:84
 #: includes/class-metabox-stats.php:41
 msgid "No feedback yet"
 msgstr ""
 
-#: includes/class-admin-columns.php:54
+#: includes/class-admin-columns.php:62
 msgid "Was this helpful?"
 msgstr ""
 
@@ -62,40 +62,41 @@ msgstr ""
 msgid "Feedback Records"
 msgstr ""
 
-#: includes/class-admin-feedback-list.php:49
+#: includes/class-admin-feedback-list.php:50
 msgid "You are not allowed to view this page."
 msgstr ""
 
-#: includes/class-admin-feedback-list.php:95
-#: includes/class-admin-feedback-list.php:158
-#: includes/class-admin-feedback-list.php:215
+#: includes/class-admin-feedback-list.php:96
+#: includes/class-admin-feedback-list.php:169
+#: includes/class-admin-feedback-list.php:265
 msgid "Not allowed."
 msgstr ""
 
-#: includes/class-admin-feedback-list.php:100
+#: includes/class-admin-feedback-list.php:101
 #: includes/class-reset-stats.php:79
+#: includes/class-reset-stats.php:90
 msgid "Invalid request."
 msgstr ""
 
-#: includes/class-admin-feedback-list.php:103
-#: includes/class-admin-feedback-list.php:161
+#: includes/class-admin-feedback-list.php:104
+#: includes/class-admin-feedback-list.php:172
 msgid "Nonce check failed."
 msgstr ""
 
-#: includes/class-admin-feedback-list.php:202
+#: includes/class-admin-feedback-list.php:252
 msgid "Feedback record deleted."
 msgstr ""
 
-#: includes/class-admin-feedback-list.php:204
+#: includes/class-admin-feedback-list.php:254
 msgid "All feedback records deleted."
 msgstr ""
 
-#: includes/class-admin-feedback-list.php:206
+#: includes/class-admin-feedback-list.php:256
 msgid "Could not delete feedback record."
 msgstr ""
 
-#: includes/class-admin-feedback-list.php:245
-#: templates/page-feedback-list.php:71
+#: includes/class-admin-feedback-list.php:295
+#: templates/page-feedback-list.php:73
 msgid "(Post deleted)"
 msgstr ""
 
@@ -107,31 +108,63 @@ msgstr ""
 msgid "Made with ♥ by Roberto Iacono"
 msgstr ""
 
-#. translators: $1$s - WP.org review link; $2$s - WP.org review link.
+#. translators: %1$s: WP.org review link.
 #: includes/class-admin-pages-footer.php:78
 #, php-format
 msgid "Enjoying <strong>Was This Helpful?</strong> Please rate <a href=\"%1$s\" target=\"_blank\" rel=\"noopener noreferrer\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on WordPress.org to help us spread the word. Thank you!"
 msgstr ""
 
 #. translators: %1$s: plugin name, %2$d: total feedback count
-#: includes/class-admin-review-notice.php:113
+#: includes/class-admin-review-notice.php:112
 #, php-format
 msgid "Thank you for using %1$s plugin! So far <strong> we have collected %2$s feedbacks </strong>. If it’s been helpful, please consider leaving a review. It helps us improve and <strong>support the project</strong>!"
 msgstr ""
 
-#: includes/class-admin-review-notice.php:122
+#: includes/class-admin-review-notice.php:121
 msgid "Leave a Review"
 msgstr ""
 
-#: includes/class-admin-review-notice.php:123
+#: includes/class-admin-review-notice.php:122
 msgid "Maybe Later"
 msgstr ""
 
-#: includes/class-admin-review-notice.php:124
+#: includes/class-admin-review-notice.php:123
 msgid "Never Show Again"
 msgstr ""
 
-#: includes/class-ajax.php:148
+#: includes/class-admin-review-notice.php:217
+msgid "Unauthorized"
+msgstr ""
+
+#: includes/class-admin-review-notice.php:233
+msgid "Invalid action"
+msgstr ""
+
+#: includes/class-ajax.php:31
+msgid "Missing parameters."
+msgstr ""
+
+#: includes/class-ajax.php:39
+msgid "Invalid post."
+msgstr ""
+
+#: includes/class-ajax.php:43
+msgid "Feedback not enabled for this post."
+msgstr ""
+
+#: includes/class-ajax.php:78
+msgid "Could not process request."
+msgstr ""
+
+#: includes/class-ajax.php:98
+msgid "Too many requests. Please wait before voting again."
+msgstr ""
+
+#: includes/class-ajax.php:151
+msgid "Could not save feedback."
+msgstr ""
+
+#: includes/class-ajax.php:177
 #: includes/class-settings.php:677
 msgid "✅ Thank you for your feedback!"
 msgstr ""
@@ -143,13 +176,13 @@ msgstr ""
 
 #: includes/class-box.php:120
 #: includes/class-settings.php:665
-#: templates/page-feedback-list.php:74
+#: templates/page-feedback-list.php:76
 msgid "Yes"
 msgstr ""
 
 #: includes/class-box.php:121
 #: includes/class-settings.php:667
-#: templates/page-feedback-list.php:74
+#: templates/page-feedback-list.php:76
 msgid "No"
 msgstr ""
 
@@ -173,15 +206,15 @@ msgstr ""
 msgid "You are not allowed to do this."
 msgstr ""
 
-#: includes/class-reset-stats.php:121
+#: includes/class-reset-stats.php:139
 msgid "Helpful stats reset successfully."
 msgstr ""
 
-#: includes/class-reset-stats.php:134
+#: includes/class-reset-stats.php:152
 msgid "Never"
 msgstr ""
 
-#: includes/class-reset-stats.php:138
+#: includes/class-reset-stats.php:156
 msgid "Last Reset Date:"
 msgstr ""
 
@@ -195,7 +228,7 @@ msgid "Was This Helpful"
 msgstr ""
 
 #: includes/class-settings.php:47
-#: includes/class-was-this-helpful.php:297
+#: includes/class-was-this-helpful.php:316
 msgid "Settings"
 msgstr ""
 
@@ -383,59 +416,67 @@ msgid "Deletes all data when plugin is removed."
 msgstr ""
 
 #: includes/class-settings.php:676
-#: includes/class-was-this-helpful.php:274
+#: includes/class-was-this-helpful.php:293
 msgid "⏳ Submitting..."
 msgstr ""
 
-#: templates/page-feedback-list.php:26
+#: includes/class-was-this-helpful.php:58
+msgid "Cloning is forbidden."
+msgstr ""
+
+#: includes/class-was-this-helpful.php:65
+msgid "Unserializing instances of this class is forbidden."
+msgstr ""
+
+#: templates/page-feedback-list.php:28
 msgid "Export CSV"
 msgstr ""
 
-#: templates/page-feedback-list.php:31
+#: templates/page-feedback-list.php:33
 msgid "Delete all feedback records? This cannot be undone."
 msgstr ""
 
-#: templates/page-feedback-list.php:32
+#: templates/page-feedback-list.php:34
 msgid "Delete All"
 msgstr ""
 
 #. translators: %d: number of records
-#: templates/page-feedback-list.php:38
+#: templates/page-feedback-list.php:40
 #, php-format
 msgid "%d record"
 msgid_plural "%d records"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/page-feedback-list.php:44
+#: templates/page-feedback-list.php:46
 msgid "No feedback records found."
 msgstr ""
 
-#: templates/page-feedback-list.php:50
+#: templates/page-feedback-list.php:52
 msgid "Post"
 msgstr ""
 
-#: templates/page-feedback-list.php:51
+#: templates/page-feedback-list.php:53
 msgid "Slug"
 msgstr ""
 
-#: templates/page-feedback-list.php:52
+#: templates/page-feedback-list.php:54
 msgid "Vote"
 msgstr ""
 
-#: templates/page-feedback-list.php:53
+#: templates/page-feedback-list.php:55
 msgid "Date"
 msgstr ""
 
-#: templates/page-feedback-list.php:54
+#: templates/page-feedback-list.php:56
 msgid "Actions"
 msgstr ""
 
-#: templates/page-feedback-list.php:112
+#: templates/page-feedback-list.php:114
 msgid "Delete this record?"
 msgstr ""
 
-#: templates/page-feedback-list.php:114
+#: templates/page-feedback-list.php:116
 msgid "Delete"
 msgstr ""
 

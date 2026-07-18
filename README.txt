@@ -2,7 +2,7 @@
 Contributors: prototipo88
 Tags: was this helpful, article feedback, feedback, WordPress feedback plugin, helpful
 Requires at least: 6.2
-Tested up to: 6.8
+Tested up to: 7.0
 Requires PHP: 7.4
 Stable tag: 2.3.0
 License: GPLv2 or later
@@ -70,7 +70,7 @@ A simple thumbs up/down helps you see:
 - See percentage of positive feedback directly in the admin post list.
 - Clean, minimal UI that adapts to your theme.
 - Lightweight with optional CSS/JS loading.
-- Includes shortcode to manually place the box.
+- Includes a shortcode and a Gutenberg block to manually place the box wherever you like.
 - Reset feedback statistics per post or page without deleting historical feedback.
 
 == Installation ==
@@ -82,7 +82,7 @@ A simple thumbs up/down helps you see:
 == Frequently Asked Questions ==
 
 = Can I choose where the feedback box appears? =
-Yes. By default, the box appears after your content on posts and pages. You can also use the `[riwth_helpful_box]` shortcode to place it manually.
+Yes. By default, the box appears after your content on posts and pages. You can also place it manually using the `[riwth_helpful_box]` shortcode or the "Helpful Box" Gutenberg block.
 
 = Can I disable the feedback box on specific posts? =
 Absolutely. Just check the "Disable automatic Helpful box" option in the editor sidebar on that post or page.
@@ -120,12 +120,15 @@ Not directly. You can manually adjust the reset date in the post meta if necessa
 
 == Changelog ==
 
-= 2.3.0 - 2026-07-17 =
+= 2.3.0 - 2026-07-18 =
 * Added: Post URL/slug column in the Feedback Records admin table and CSV export, to help disambiguate pages with similar titles.
 * Added: Optional "Thank You Link URL" setting — when set, the Thank You text becomes a link to that URL; leave blank for plain text.
 * Fixed: PHP fatal error on PHP 7.4 sites whenever any option was saved, caused by a PHP 8-only function call.
 * Fixed: Feedback box block ignored the "Display on" post type setting.
 * Fixed: Feedback box block strings not being translated due to an incorrect text domain.
+* Fixed: Sorting the "Was This Helpful?" admin column could trigger a database error on newer MySQL/MariaDB servers, breaking the posts/pages list.
+* Fixed: A handful of untranslated admin-facing strings, plus general coding-standard and hardening cleanup ahead of a full plugin audit.
+* Improved: Rate-limiting data is now cleaned up automatically instead of accumulating in the database indefinitely.
 
 = 2.2.1 - 2026-06-15 =
 * Fixed: Colored dot now displays correctly in admin columns (background-color was stripped by WordPress CSS sanitizer when using rgb() format).
