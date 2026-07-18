@@ -71,6 +71,7 @@ A simple thumbs up/down helps you see:
 - Clean, minimal UI that adapts to your theme.
 - Lightweight with optional CSS/JS loading.
 - Includes a shortcode and a Gutenberg block to manually place the box wherever you like.
+- "Manual Placement Only" setting to turn off automatic insertion for a whole post type while still allowing manual placement via shortcode, block, or per-post override.
 - Reset feedback statistics per post or page without deleting historical feedback.
 
 == Installation ==
@@ -86,6 +87,9 @@ Yes. By default, the box appears after your content on posts and pages. You can 
 
 = Can I disable the feedback box on specific posts? =
 Absolutely. Just check the "Disable automatic Helpful box" option in the editor sidebar on that post or page.
+
+= Can I turn off automatic placement for an entire post type? =
+Yes. Enable "Manual Placement Only" for a post type in the plugin settings, and the box will no longer be appended automatically to its content — you can still place it with the shortcode, the Gutenberg block, or the per-post override.
 
 = How do I see the feedback results? =  
 Each post and page in your WordPress admin will show a "Was This Helpful" column, with the number and percentage of positive votes.
@@ -123,6 +127,7 @@ Not directly. You can manually adjust the reset date in the post meta if necessa
 = 2.3.0 - 2026-07-18 =
 * Added: Post URL/slug column in the Feedback Records admin table and CSV export, to help disambiguate pages with similar titles.
 * Added: Optional "Thank You Link URL" setting — when set, the Thank You text becomes a link to that URL; leave blank for plain text.
+* Added: "Manual Placement Only" setting — turn off automatic insertion into the content for a whole post type while still allowing the shortcode, block, or per-post override to place the box there.
 * Fixed: PHP fatal error on PHP 7.4 sites whenever any option was saved, caused by a PHP 8-only function call.
 * Fixed: Feedback box block ignored the "Display on" post type setting.
 * Fixed: Feedback box block strings not being translated due to an incorrect text domain.
