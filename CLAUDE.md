@@ -13,11 +13,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Build Commands (Gutenberg Block)
 
-The Gutenberg block lives in `helpful-box-block/` and uses `@wordpress/scripts`.
+The Gutenberg block source lives in `helpful-box-block/src/`, but `package.json`/`package-lock.json` live at the plugin root (run these from there). Build tooling uses `@wordpress/scripts`; the root `webpack.config.js` and the `WP_SOURCE_PATH` env var in the `build`/`start` scripts point it at `helpful-box-block/src` and `helpful-box-block/build`.
 
 ```bash
-cd helpful-box-block
-
 # Development watch mode
 npm start
 
@@ -34,7 +32,7 @@ npm run lint:css
 npm run format
 ```
 
-The built assets (`build/`) are committed. Always run `npm run build` before committing block changes.
+The built assets (`helpful-box-block/build/`) are committed. Always run `npm run build` before committing block changes.
 
 ## Architecture
 
