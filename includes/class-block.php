@@ -70,9 +70,18 @@ if ( ! class_exists( 'RIWTH_Block' ) ) {
 
 		/**
 		 * Render the feedback block.
+		 *
+		 * Passes true to could_display_box() (unlike the shortcode/metabox/
+		 * admin-bar, which use the default) because this render_callback also
+		 * runs from the block editor's ServerSideRender preview via the
+		 * block-renderer REST endpoint, which populates $post but never
+		 * resolves a singular main query — the query-context checks could
+		 * never pass there. Once the block has been explicitly placed on a
+		 * post, the only check that still matters is the "Display on"
+		 * post-type setting.
 		 */
 		public function render_feedback_block() {
-			if ( RIWTH_Functions::could_display_box() && ! RIWTH_Functions::feedback_given( get_the_ID() ) ) {
+			if ( RIWTH_Functions::could_display_box( true ) && ! RIWTH_Functions::feedback_given( get_the_ID() ) ) {
 				return RIWTH_Box::feedback_box_code();
 			}
 			return false;

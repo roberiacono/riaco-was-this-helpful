@@ -170,7 +170,22 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 			return (bool) apply_filters( 'riwth_should_display_box', self::could_display_box(), $post->ID );
 		}
 
-		public static function could_display_box() {
+		/**
+		 * @param bool $ignore_query_context When true, skip the is_admin()/
+		 *                                   get_current_screen()/is_singular()/
+		 *                                   is_main_query() checks below and only
+		 *                                   check global $post's post type against
+		 *                                   'riwth_display_on'. Used by the block's
+		 *                                   render_callback, which is also invoked
+		 *                                   directly by WP_REST_Block_Renderer_Controller
+		 *                                   (the block editor's ServerSideRender
+		 *                                   preview) — that REST dispatch legitimately
+		 *                                   populates $post via setup_postdata(), but
+		 *                                   never resolves a singular main query, so
+		 *                                   is_singular()/is_main_query() would
+		 *                                   otherwise always be false there.
+		 */
+		public static function could_display_box( $ignore_query_context = false ) {
 			global $post;
 
 			// If we don't have a post object, return false
@@ -181,6 +196,10 @@ if ( ! class_exists( 'RIWTH_Functions' ) ) {
 
 			$options = get_option( 'riwth_display_on', array() );
 			$options = is_array( $options ) ? $options : array();
+
+			if ( $ignore_query_context ) {
+				return (bool) apply_filters( 'riwth_could_display_box', in_array( get_post_type(), $options, true ), $post->ID );
+			}
 
 			if ( function_exists( 'get_current_screen' ) ) {
 				$screen = get_current_screen();

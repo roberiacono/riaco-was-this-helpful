@@ -246,6 +246,41 @@ class Test_RIWTH_Functions extends RIWTH_Test_Case {
 		remove_filter( 'riwth_could_display_box', '__return_true' );
 	}
 
+	public function test_could_display_box_ignore_query_context_true_for_allowed_post_type_outside_singular_query() {
+		update_option( 'riwth_display_on', array( 'post' ) );
+		$post_id = RIWTH_Test_Factory::create_published_post();
+
+		// Simulate the block-renderer REST context: $post is populated via
+		// setup_postdata() (as WP_REST_Block_Renderer_Controller::get_item()
+		// does for a post_id param) but the main query never resolves to a
+		// singular view, so is_singular()/is_main_query() stay false.
+		$this->go_to( home_url( '/' ) );
+		global $post;
+		$post = get_post( $post_id );
+		setup_postdata( $post );
+
+		$this->assertTrue( RIWTH_Functions::could_display_box( true ) );
+	}
+
+	public function test_could_display_box_ignore_query_context_false_for_disallowed_post_type() {
+		update_option( 'riwth_display_on', array( 'page' ) );
+		$post_id = RIWTH_Test_Factory::create_published_post( array( 'post_type' => 'post' ) );
+
+		$this->go_to( home_url( '/' ) );
+		global $post;
+		$post = get_post( $post_id );
+		setup_postdata( $post );
+
+		$this->assertFalse( RIWTH_Functions::could_display_box( true ) );
+	}
+
+	public function test_could_display_box_ignore_query_context_still_false_without_global_post() {
+		global $post;
+		$post = null;
+
+		$this->assertFalse( RIWTH_Functions::could_display_box( true ) );
+	}
+
 	// -----------------------------------------------------------------
 	// GreenYellowRed()
 	// -----------------------------------------------------------------
