@@ -42,7 +42,10 @@ if ( ! class_exists( 'RIWTH_Admin_Columns' ) ) {
 		 */
 		public function add_filters_and_actions() {
 
-			$this->post_types = apply_filters( 'riwth_custom_columns_post_types', array( 'post', 'page' ) );
+			$post_types = apply_filters( 'riwth_custom_columns_post_types', array( 'post', 'page' ) );
+			$enabled    = get_option( 'riwth_display_on', array() );
+
+			$this->post_types = array_values( array_intersect( $post_types, $enabled ) );
 
 			foreach ( $this->post_types as $post_type ) {
 				add_filter( "manage_{$post_type}_posts_columns", array( $this, 'add_feedback_column' ) );

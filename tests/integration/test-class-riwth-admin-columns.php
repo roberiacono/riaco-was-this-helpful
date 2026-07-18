@@ -34,6 +34,8 @@ class Test_RIWTH_Admin_Columns extends RIWTH_Test_Case {
 	}
 
 	public function test_custom_columns_post_types_filter_extends_defaults() {
+		update_option( 'riwth_display_on', array( 'post', 'page', 'product' ) );
+
 		add_filter(
 			'riwth_custom_columns_post_types',
 			function ( $types ) {
@@ -47,6 +49,26 @@ class Test_RIWTH_Admin_Columns extends RIWTH_Test_Case {
 		$columns->add_filters_and_actions();
 
 		$this->assertTrue( has_filter( 'manage_product_posts_columns' ) !== false );
+
+		remove_all_filters( 'riwth_custom_columns_post_types' );
+	}
+
+	public function test_disabled_post_type_does_not_get_column() {
+		update_option( 'riwth_display_on', array( 'post' ) );
+
+		add_filter(
+			'riwth_custom_columns_post_types',
+			function ( $types ) {
+				$types[] = 'page';
+				return $types;
+			}
+		);
+
+		$columns = new RIWTH_Admin_Columns();
+		$columns->add_filters_and_actions();
+
+		$this->assertFalse( has_filter( 'manage_page_posts_columns' ) );
+		$this->assertTrue( has_filter( 'manage_post_posts_columns' ) !== false );
 
 		remove_all_filters( 'riwth_custom_columns_post_types' );
 	}
