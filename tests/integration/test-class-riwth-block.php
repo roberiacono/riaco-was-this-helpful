@@ -95,4 +95,36 @@ class Test_RIWTH_Block extends RIWTH_Test_Case {
 
 		$this->assertFalse( $this->block->render_feedback_block() );
 	}
+
+	public function test_render_feedback_block_returns_html_during_rest_style_request() {
+		update_option( 'riwth_display_on', array( 'post' ) );
+		$post_id = RIWTH_Test_Factory::create_published_post();
+
+		// Simulate the block-renderer REST context: the main query never
+		// resolves to a singular view (REST dispatch exits before
+		// WP::query_posts() runs, so is_singular()/is_main_query() stay
+		// false), but $post is populated via setup_postdata() exactly like
+		// WP_REST_Block_Renderer_Controller::get_item() does when
+		// ServerSideRender passes a post_id.
+		$this->go_to( home_url( '/' ) );
+		global $post;
+		$post = get_post( $post_id );
+		setup_postdata( $post );
+
+		$output = $this->block->render_feedback_block();
+
+		$this->assertStringContainsString( 'riwth-helpful-feedback', $output );
+	}
+
+	public function test_render_feedback_block_false_when_post_type_not_allowed_during_rest_style_request() {
+		update_option( 'riwth_display_on', array( 'post' ) );
+		$post_id = RIWTH_Test_Factory::create_published_post( array( 'post_type' => 'page' ) );
+
+		$this->go_to( home_url( '/' ) );
+		global $post;
+		$post = get_post( $post_id );
+		setup_postdata( $post );
+
+		$this->assertFalse( $this->block->render_feedback_block() );
+	}
 }
