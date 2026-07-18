@@ -79,16 +79,18 @@ class RIWTH_Test_Factory {
 	/**
 	 * Reproduces RIWTH_Ajax::save_feedback()'s rate-limit option name
 	 * formula (via RIWTH_Functions::get_client_ip_hash()), so tests can
-	 * directly read/backdate the claim.
+	 * directly read/backdate a claim. The limiter is global per-IP (shared
+	 * across posts) with $max_votes independent slots, so callers pick which
+	 * slot to target.
 	 *
-	 * @param int    $post_id Post ID.
-	 * @param string $ip      IP address.
+	 * @param string $ip   IP address.
+	 * @param int    $slot Slot index (0-based).
 	 * @return string wp_options option_name.
 	 */
-	public static function rate_limit_option_name( $post_id, $ip = '127.0.0.1' ) {
-		$previous_ip             = isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : null;
-		$_SERVER['REMOTE_ADDR']  = $ip;
-		$option_name             = '_riwth_rl_' . RIWTH_Functions::get_client_ip_hash( $post_id );
+	public static function rate_limit_option_name( $ip = '127.0.0.1', $slot = 0 ) {
+		$previous_ip            = isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : null;
+		$_SERVER['REMOTE_ADDR'] = $ip;
+		$option_name            = '_riwth_rl_' . RIWTH_Functions::get_client_ip_hash() . '_' . $slot;
 		if ( null === $previous_ip ) {
 			unset( $_SERVER['REMOTE_ADDR'] );
 		} else {
@@ -99,18 +101,18 @@ class RIWTH_Test_Factory {
 
 	/**
 	 * Force an existing rate-limit claim to look expired, without sleeping
-	 * 30 real seconds.
+	 * 6 real seconds.
 	 *
-	 * @param int    $post_id Post ID.
-	 * @param string $ip      IP address.
+	 * @param string $ip   IP address.
+	 * @param int    $slot Slot index (0-based).
 	 */
-	public static function expire_rate_limit_claim( $post_id, $ip = '127.0.0.1' ) {
+	public static function expire_rate_limit_claim( $ip = '127.0.0.1', $slot = 0 ) {
 		global $wpdb;
 
 		$wpdb->update(
 			$wpdb->options,
 			array( 'option_value' => time() - 1 ),
-			array( 'option_name' => self::rate_limit_option_name( $post_id, $ip ) ),
+			array( 'option_name' => self::rate_limit_option_name( $ip, $slot ) ),
 			array( '%d' ),
 			array( '%s' )
 		);

@@ -134,20 +134,22 @@ class Test_RIWTH_Ajax extends WP_Ajax_UnitTestCase {
 	// Rate limiting
 	// -----------------------------------------------------------------
 
-	public function test_rate_limit_blocks_immediate_second_vote_same_ip_and_post() {
+	public function test_rate_limit_allows_up_to_max_votes_then_blocks() {
 		update_option( 'riwth_display_on', array( 'post' ) );
 		$post_id = RIWTH_Test_Factory::create_published_post();
 		$_SERVER['REMOTE_ADDR'] = '203.0.113.5';
 
-		$_POST = $this->valid_post( $post_id );
-		$first = $this->handle();
-		$this->assertSame( 'showThankYou', $first['trigger'] );
+		for ( $i = 0; $i < 3; $i++ ) {
+			$_POST    = $this->valid_post( $post_id, array( 'nonce' => wp_create_nonce( 'riwth_was_this_helpful_nonce' ) ) );
+			$response = $this->handle();
+			$this->assertSame( 'showThankYou', $response['trigger'] );
+			$this->_last_response = '';
+		}
 
-		$this->_last_response = '';
-		$_POST                = $this->valid_post( $post_id, array( 'nonce' => wp_create_nonce( 'riwth_was_this_helpful_nonce' ) ) );
-		$second = $this->handle();
+		$_POST    = $this->valid_post( $post_id, array( 'nonce' => wp_create_nonce( 'riwth_was_this_helpful_nonce' ) ) );
+		$response = $this->handle();
 
-		$this->assertSame( 'Too many requests. Please wait before voting again.', $second['data']['message'] );
+		$this->assertSame( 'Too many requests. Please wait before voting again.', $response['data']['message'] );
 	}
 
 	public function test_rate_limit_reclaim_after_backdated_expiry() {
@@ -155,14 +157,17 @@ class Test_RIWTH_Ajax extends WP_Ajax_UnitTestCase {
 		$post_id = RIWTH_Test_Factory::create_published_post();
 		$_SERVER['REMOTE_ADDR'] = '203.0.113.6';
 
-		$_POST = $this->valid_post( $post_id );
-		$this->handle();
+		for ( $i = 0; $i < 3; $i++ ) {
+			$_POST = $this->valid_post( $post_id, array( 'nonce' => wp_create_nonce( 'riwth_was_this_helpful_nonce' ) ) );
+			$this->handle();
+			$this->_last_response = '';
+		}
 
-		RIWTH_Test_Factory::expire_rate_limit_claim( $post_id, '203.0.113.6' );
+		// All 3 slots are now held; backdate one so it looks expired.
+		RIWTH_Test_Factory::expire_rate_limit_claim( '203.0.113.6', 0 );
 
-		$this->_last_response = '';
-		$_POST                = $this->valid_post( $post_id, array( 'nonce' => wp_create_nonce( 'riwth_was_this_helpful_nonce' ) ) );
-		$response              = $this->handle();
+		$_POST    = $this->valid_post( $post_id, array( 'nonce' => wp_create_nonce( 'riwth_was_this_helpful_nonce' ) ) );
+		$response = $this->handle();
 
 		$this->assertSame( 'showThankYou', $response['trigger'] );
 	}
@@ -183,20 +188,29 @@ class Test_RIWTH_Ajax extends WP_Ajax_UnitTestCase {
 		$this->assertSame( 'showThankYou', $response['trigger'] );
 	}
 
-	public function test_rate_limit_independent_per_post() {
+	public function test_rate_limit_shared_across_posts_same_ip() {
 		update_option( 'riwth_display_on', array( 'post' ) );
-		$post_a = RIWTH_Test_Factory::create_published_post();
-		$post_b = RIWTH_Test_Factory::create_published_post();
+		$posts = array(
+			RIWTH_Test_Factory::create_published_post(),
+			RIWTH_Test_Factory::create_published_post(),
+			RIWTH_Test_Factory::create_published_post(),
+		);
+		$post_d                 = RIWTH_Test_Factory::create_published_post();
 		$_SERVER['REMOTE_ADDR'] = '203.0.113.20';
 
-		$_POST = $this->valid_post( $post_a );
-		$this->handle();
+		// Voting on 3 different posts from the same IP still shares one budget.
+		foreach ( $posts as $post_id ) {
+			$_POST    = $this->valid_post( $post_id, array( 'nonce' => wp_create_nonce( 'riwth_was_this_helpful_nonce' ) ) );
+			$response = $this->handle();
+			$this->assertSame( 'showThankYou', $response['trigger'] );
+			$this->_last_response = '';
+		}
 
-		$this->_last_response = '';
-		$_POST                = $this->valid_post( $post_b, array( 'nonce' => wp_create_nonce( 'riwth_was_this_helpful_nonce' ) ) );
-		$response              = $this->handle();
+		// A 4th vote, even on a brand-new post, is blocked by the same IP's budget.
+		$_POST    = $this->valid_post( $post_d, array( 'nonce' => wp_create_nonce( 'riwth_was_this_helpful_nonce' ) ) );
+		$response = $this->handle();
 
-		$this->assertSame( 'showThankYou', $response['trigger'] );
+		$this->assertSame( 'Too many requests. Please wait before voting again.', $response['data']['message'] );
 	}
 
 	public function test_rate_limit_works_with_empty_remote_addr() {

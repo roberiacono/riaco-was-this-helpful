@@ -43,60 +43,83 @@ if ( ! class_exists( 'RIWTH_Ajax' ) ) {
 				wp_send_json_error( array( 'message' => __( 'Feedback not enabled for this post.', 'riaco-was-this-helpful' ) ), 403 );
 			}
 
-			// Rate limiting: one vote per IP per post per 30 seconds.
-			// Note: on sites behind a reverse proxy REMOTE_ADDR is the proxy IP;
-			// checking HTTP_X_FORWARDED_FOR is more accurate but that header is
-			// spoofable, so we keep this simple for the free tier.
+			// Rate limiting: max 3 votes per IP per rolling 6-second window,
+			// shared across all posts (not scoped per post) — otherwise a
+			// visitor could vote on every post back-to-back with no overall
+			// throttle. Note: on sites behind a reverse proxy REMOTE_ADDR is
+			// the proxy IP; checking HTTP_X_FORWARDED_FOR is more accurate but
+			// that header is spoofable, so we keep this simple for the free tier.
 			// The IP itself is never stored: get_client_ip_hash() salts it with
 			// wp_salt() before it's used as an option-name key, so it can't be
 			// reversed even by someone with DB read access.
-			$rate_key = '_riwth_rl_' . RIWTH_Functions::get_client_ip_hash( $post_id );
-			$now      = time();
+			$ip_hash   = RIWTH_Functions::get_client_ip_hash();
+			$now       = time();
+			$max_votes = 3;
+			$window    = 6;
+			$allowed   = false;
 
 			global $wpdb;
 
-			// Claim the rate-limit slot with INSERT IGNORE: the wp_options unique key
-			// on option_name makes this atomic across concurrent requests, unlike a
-			// get_transient()/set_transient() pair which leaves a check-then-write race.
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
-			$claimed = $wpdb->query(
-				$wpdb->prepare(
-					'INSERT IGNORE INTO %i (option_name, option_value, autoload) VALUES (%s, %d, %s)',
-					$wpdb->options,
-					$rate_key,
-					$now + 30,
-					'no'
-				)
-			);
+			// Each IP gets $max_votes independent "slots", each holding a claim
+			// that expires after $window seconds. A vote succeeds as soon as it
+			// claims (or reclaims an expired) slot; once all slots are held by
+			// unexpired claims, further votes are rejected until the oldest slot's
+			// window elapses. This caps any IP at $max_votes votes per rolling
+			// $window-second span, regardless of which post(s) it votes on.
+			for ( $slot = 0; $slot < $max_votes; $slot++ ) {
+				$rate_key = '_riwth_rl_' . $ip_hash . '_' . $slot;
 
-			if ( ! $claimed ) {
-				// INSERT IGNORE returns a falsy result both when the row already exists
-				// (expected — someone already holds this slot) and on a genuine SQL error.
-				// Only treat it as "slot exists" when there's no actual DB error, so a real
-				// failure here surfaces instead of silently falling through to allow the vote.
+				// Claim the slot with INSERT IGNORE: the wp_options unique key
+				// on option_name makes this atomic across concurrent requests, unlike a
+				// get_transient()/set_transient() pair which leaves a check-then-write race.
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
+				$claimed = $wpdb->query(
+					$wpdb->prepare(
+						'INSERT IGNORE INTO %i (option_name, option_value, autoload) VALUES (%s, %d, %s)',
+						$wpdb->options,
+						$rate_key,
+						$now + $window,
+						'no'
+					)
+				);
+
+				if ( $claimed ) {
+					$allowed = true;
+					break;
+				}
+
+				// INSERT IGNORE returns a falsy result both when the slot is already held
+				// (expected) and on a genuine SQL error. Only treat it as "slot held" when
+				// there's no actual DB error, so a real failure here surfaces instead of
+				// silently falling through to allow the vote.
 				if ( '' !== $wpdb->last_error ) {
 					wp_send_json_error( array( 'message' => __( 'Could not process request.', 'riaco-was-this-helpful' ) ), 500 );
 				}
 
-				// Slot already exists — atomically reclaim it only if it has expired.
+				// Slot already held — atomically reclaim it only if it has expired.
 				// The WHERE condition makes the reclaim itself race-free: if two requests
 				// hit this at the same moment, only one UPDATE can match the still-expired
-				// row (the other affects 0 rows and is correctly rate-limited below), unlike
+				// row (the other affects 0 rows and moves on to try the next slot), unlike
 				// a separate SELECT-then-UPDATE which both requests could pass concurrently.
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$reclaimed = $wpdb->query(
 					$wpdb->prepare(
 						'UPDATE %i SET option_value = %d WHERE option_name = %s AND option_value <= %d',
 						$wpdb->options,
-						$now + 30,
+						$now + $window,
 						$rate_key,
 						$now
 					)
 				);
 
-				if ( ! $reclaimed ) {
-					wp_send_json_error( array( 'message' => __( 'Too many requests. Please wait before voting again.', 'riaco-was-this-helpful' ) ), 429 );
+				if ( $reclaimed ) {
+					$allowed = true;
+					break;
 				}
+			}
+
+			if ( ! $allowed ) {
+				wp_send_json_error( array( 'message' => __( 'Too many requests. Please wait before voting again.', 'riaco-was-this-helpful' ) ), 429 );
 			}
 
 			// Lazily sweep expired rate-limit rows so they don't accumulate in wp_options
