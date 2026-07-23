@@ -74,6 +74,15 @@ A simple thumbs up/down helps you see:
 - "Manual Placement Only" setting to turn off automatic insertion for a whole post type while still allowing manual placement via shortcode, block, or per-post override.
 - Reset feedback statistics per post or page without deleting historical feedback.
 
+== Pro Version ==
+
+Unlock additional features with **Was This Helpful? PRO**:
+
+- Support for custom post types
+- Follow-up Reasons - When visitors vote No, optionally ask them why.
+
+Learn more: [Pro](https://riacoplugins.com/product/riaco-was-this-helpful-pro/)
+
 == Installation ==
 
 1. Upload the plugin files to the `/wp-content/plugins/riaco-was-this-helpful` directory, or install the plugin through the WordPress plugins screen directly.

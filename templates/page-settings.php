@@ -25,16 +25,13 @@ defined( 'ABSPATH' ) || exit;
 	// Default to first tab
 	$current_tab = array_key_first( $tabs );
 
-	// Only process tab parameter if it's a valid tab and nonce is verified
-	if ( isset( $_GET['tab'] ) && isset( $_GET['_wpnonce'] ) ) {
-		$nonce_action = 'riaco_was_this_helpful_tab_switch';
+	// Only process tab parameter if it's a valid tab; this only selects which
+	// section to display, it doesn't process a submission, so no nonce is needed.
+	if ( isset( $_GET['tab'] ) ) {
+		$requested_tab = sanitize_text_field( wp_unslash( $_GET['tab'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only tab routing, validated against the $tabs allowlist below.
 
-		if ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), $nonce_action ) ) {
-			$requested_tab = sanitize_text_field( wp_unslash( $_GET['tab'] ) );
-
-			if ( array_key_exists( $requested_tab, $tabs ) ) {
-				$current_tab = $requested_tab;
-			}
+		if ( array_key_exists( $requested_tab, $tabs ) ) {
+			$current_tab = $requested_tab;
 		}
 	}
 
@@ -42,16 +39,14 @@ defined( 'ABSPATH' ) || exit;
 	<form method="post" action="options.php">
 		<nav class="nav-tab-wrapper">
 			<?php
-			$nonce_action = 'riaco_was_this_helpful_tab_switch';
 			foreach ( $tabs as $tab_key => $tab_label ) {
 				// CSS class for a current tab
 				$current = $tab_key === $current_tab ? ' nav-tab-active' : '';
 				// URL
 				$tab_url = add_query_arg(
 					array(
-						'page'     => 'riwth-settings',
-						'tab'      => sanitize_key( $tab_key ),
-						'_wpnonce' => wp_create_nonce( $nonce_action ),
+						'page' => 'riwth-settings',
+						'tab'  => sanitize_key( $tab_key ),
 					),
 					''
 				);
